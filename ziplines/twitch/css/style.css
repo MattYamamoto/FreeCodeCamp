@@ -1,0 +1,154 @@
+body {
+  background-color: gray;
+  min-width: 450px;
+  padding-top:10px;
+}
+#header {
+  background-color: #fff;
+  border-bottom: 1px solid #999;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+/*Header Bar */
+.logo_area{
+}
+.logo_image {
+  width: 100%;
+  padding: 15px;
+}
+
+#menu_bar{
+  background-color: #fff;
+  margin: 0px;
+  //position: fixed;
+}
+.btn_all {
+  margin-top:100px;
+}
+.menu{
+  font-size: 2em;
+  text-align: center;
+}
+
+#channelAdd ul{
+  background-color: #fff;
+  list-style-type: none;
+}
+
+#suggestion {
+  display: none;
+  position: absolute;
+  top: 34px;
+  background-color: #fff;
+  list-style-type: none;
+  padding: 5px 10px;
+  border-right: 1px solid #999;
+  border-bottom: 1px solid #999;
+  border-left: 1px solid #999;
+  border-radius: 0px 0px 5px 5px;
+  width: 80%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+#suggestion li {
+  cursor: pointer;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#searchArea {
+  background: #fff;
+  margin: 0px;
+  padding: 10px 0;
+}
+.clearSearch{
+  display: none;
+}
+
+/*Channel List Area*/
+.list{
+  background-color: white;
+}
+.list ul {
+  list-style-type: none;
+  margin-left: -40px;
+}
+.listing {
+  border-bottom: 1px solid #999;
+  height: 100px;
+  padding: 0 0 0 10px;
+}
+.listing a {
+  text-decoration: none;
+  color: #000;
+  display: block;
+}
+.listing img {
+  display: inline-block;
+  margin: 15px 15px 0 15px;
+  float: left;
+  vertical-align:middle;
+}
+.channel {
+  display: inline-block;
+  float: left;
+  width: 80%;
+  overflow: hidden;
+}
+.channelText {
+  padding-top: 20px;
+  overflow: hidden;
+}
+.status {
+  display: inline-block;
+  white-space: nowrap;                  
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+  margin: 0;
+  width: 100%;
+}
+
+.streamIndicator {
+  display: inline-block;
+  float: left;
+  margin: 43px 0px 0 10px;
+}
+.channel-delete {
+  display: inline-block;
+  float: right;
+  margin: 25px 15px 0 0px;
+  font-size: 2em;
+  display: none;
+}
+.off {
+  color: red;
+}
+.on {
+  color: green;
+}
+
+/*error message*/
+.error_container {
+  background-color: orange;
+  display: none;
+  font-size: 1.5em;
+}
+.error {
+  padding: 5px 5px 5px 25px;
+}
+.error_message {
+  display: inline-block;
+  height: 100%;
+  width: 80%;
+}
+.error_message_close {
+  display: inline-block;
+  float: right;
+  padding: 5px 15px;
+}

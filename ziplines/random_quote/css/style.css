@@ -1,0 +1,56 @@
+body {
+  background-color: #000;
+  color: #fff;
+  
+}
+.background {
+  position: relative;
+}
+.dos { 
+  width: 100%; 
+  height: 400px;
+  background: transparent;
+  margin: 10px auto;
+  padding:30px;  
+  font-family: fixedsys, LucidaTerminal, monospace;
+  font-weight: bold;
+  color: #008000; 
+  text-align: left; 
+  overflow: auto; 
+  border-top: 30px solid #909090;
+  border-right: 5px solid #909090; 
+  border-bottom: 5px solid #909090; 
+  border-left: 5px solid #909090; 
+  box-shadow: 0px 1px 1px 2px #555,
+              inset 0px -1px 0px 1px #222;
+  border-radius: 1px;
+}
+.userEntry {
+  background-color: #000;
+  background: transparent;
+  border: none;
+  margin: 0px;
+  
+}
+.line {
+  background: rgba(0, 0, 0, 0.6);
+}
+.background {
+  position: absolute;
+  z-index: -500;
+  width: 100%;
+  height: 100%;
+  left: 0;
+}
+.eye {
+  background-color: yellow;
+  width: 240px;
+  height: 240px;
+  margin: 80px auto;
+  border-radius: 50%;
+  box-shadow: inset 0 0 3px 2px #000,
+              inset 0 0 5px 10px #666,
+              inset 0 0 0 20px #111,
+              inset 0 0 45px 60px #000,
+              inset 0 0 20px 100px #ff0000;              
+}

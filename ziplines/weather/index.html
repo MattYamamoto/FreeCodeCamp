@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>FCC: Weather </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    
+    
+    <link rel='stylesheet prefetch' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+<link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css'>
+<link rel='stylesheet prefetch' href='http://openlayers.org/en/v3.8.2/css/ol.css'>
+
+        <link rel="stylesheet" href="css/style.css">
+
+    
+    
+    
+  </head>
+
+  <body>
+
+    <div class="container">
+  <div class="row loading">
+    <div class="col-md-12">
+      Loading Location <span class="dot1">.</span><span class="dot2">.</span><span class="dot3">.</span>
+    </div>
+  </div>
+  <div class="row main">
+    <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+
+      <div class="row today-container">
+        <div class="today">
+          <div class="today-face today-front">
+
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="change-location">
+                  <span class="search-btn"><i class="fa fa-search"></i> Change Location</span>
+                </div>
+                <div class="switch">
+                  <div class="switch-input">
+                    <div class="switch-label switch-label-F">&deg;F</div>
+                  </div>
+                  <div class="switch-input">
+                    <div class="switch-label switch-label-C">&deg;C</div>
+                  </div>
+                  <span class="switch-selection"></span>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div id="city">
+                  <h1></h1>
+                </div>
+                <div class="input-group search">
+                  <input type="text" class="form-control" id="locationSearch" placeholder="Enter a new location">
+                  
+                  <ul id="searchAutoComplete">
+                  </ul>
+                  <span class="btn input-group-addon clearSearch" id="search-addon2">
+                    <i class="fa fa-times"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6 col-sm-push-6 current">
+                <span class="current-icon"></span>
+                <div class="current-temp temperature"></div>
+                <div class="current-condition"></div>
+                <div class="current-high-lo"></div>
+              </div>
+
+              <div class="col-sm-6 col-sm-pull-6 day-meter">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="125 150 150 100" enable-background="new 125 150 150 100" xml:space="preserve">
+                  <g id="meter">
+                    <circle class="meter-background" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="200.1" cy="200" r="28.2" stroke-dasharray="177.19" />
+                    <circle class="meter-progress" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="199.8" cy="200.3" r="28.2" stroke-dasharray="177.19" />
+                  </g>
+                  <g id="sunset_marker">
+                    <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="223" y1="200" x2="233" y2="200" />
+                  </g>
+                  <g id="sunrise_marker">
+                    <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="166.9" y1="200" x2="176.8" y2="200" />
+                  </g>
+                  <g id="time-markers">
+                    <text transform="matrix(1 0 0 1 188 245)" font-size="16">Midnight</text>
+                    <text transform="matrix(1 0 0 1 190 160)" font-size="16">Noon</text>
+                    <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="200.5" y1="223.5" x2="200.5" y2="233" />
+                    <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="200.1" y1="177" x2="200.1" y2="166.5" />
+                  </g>
+                </svg>
+                <div class="meter-text-container">
+                  <div class="sunrise-text-container">
+                    <div class="sunrise-text">Sunrise
+                      <br><span class="sunrise-time"></span>
+                    </div>
+                  </div>
+                  <div class="sunset-text-container">
+                    <div class="sunset-text">Sunset
+                      <br><span class="sunset-time"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="details details-toggle">Details</div>
+
+          </div>
+
+          <div class="today-face today-back">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="switch">
+                  <div class="switch-input">
+                    <div class="switch-label switch-label-F">&deg;F</div>
+                  </div>
+                  <div class="switch-input">
+                    <div class="switch-label switch-label-C">&deg;C</div>
+                  </div>
+                  <span class="switch-selection"></span>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-sm-6 details">
+                <div class="details-location">
+                  <h3 class="details-location-city"></h3>
+                </div>
+                <div class="details-current">
+                  <h3>Current Conditions</h3>
+                  <h4 class="details-current-time"></h4>
+                  <div class="row">
+                    <div class="col-xs-6">
+                      <span class="details-label">Temperature</span>
+                      <span class="details-current-temp temperature"></span>
+                      <span class="details-label">Pressure</span>
+                      <span class="details-current-pressure"></span>
+                      <span class="details-label">Humidity</span>
+                      <span class="details-current-humidity"></span>
+                    </div>
+                    <div class="col-xs-6">
+                      <span class="details-label">Cloud Cover</span>
+                      <span class="details-current-clouds"></span>
+                      <span class="details-label">Wind</span>
+                      <span class="details-current-wind"></span>
+                    </div>
+                  </div>
+
+
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <div class="map-container">
+                  <p>Precipitation</p>
+                  <div id="map" class="map"></div>
+                </div>
+
+              </div>
+            </div>
+            <div class="details details-toggle">Go Back</div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row forecast-container">
+        <div class="col-sm-4 forecast-perspective">
+          <div class="forecast forecast-1">
+            <div class="date date-1">
+              <span class="icon icon-1"></span>
+            </div>
+            <div class="forecast-hi forecast-hi-1 temperature"></div>
+            <div class="forecast-low forecast-low-1 temperature"></div>
+          </div>
+        </div>
+        <div class="col-sm-4 forecast-perspective">
+          <div class="forecast forecast-2">
+            <div class="date date-2">
+              <span class="icon icon-2"></span>
+            </div>
+            <div class="forecast-hi forecast-hi-2 temperature"></div>
+            <div class="forecast-low forecast-low-2 temperature"></div>
+          </div>
+        </div>
+        <div class="col-sm-4 forecast-perspective">
+          <div class="forecast forecast-3">
+            <div class="date date-3">
+              <span class="icon icon-3"></span>
+            </div>
+            <div class="forecast-hi forecast-hi-3 temperature"></div>
+            <div class="forecast-low forecast-low-3 temperature"></div>
+          </div>
+        </div>
+      </div>
+     <div class="background-attribution"></div>
+    </div>
+  </div>
+</div>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='http://openlayers.org/en/v3.8.2/build/ol.js'></script>
+
+        <script src="js/index.js"></script>
+
+    
+    
+    
+  </body>
+</html>
