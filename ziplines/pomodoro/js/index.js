@@ -3,8 +3,8 @@ $(document).ready(function() {
   var $light = $('.light'),
       $light2 = document.getElementsByClassName('light'),
       //not all characters are 5x7
-      $pomoTime = $('.pomo-time'),
-      $breakTime = $('.break-time'),
+      $pomoTime = $('.pomo-time .number'),
+      $breakTime = $('.break-time .number'),
       $progressFill = $('.progress-fill'),
       $action = $('.action'),
       characters = {
@@ -1488,7 +1488,7 @@ $(document).ready(function() {
     else if(clockStateObj.type === 'break'){
       breakTimer(clockStateObj.time);
     }
-    
+
   }
 
   //button assignments
@@ -1515,7 +1515,7 @@ $(document).ready(function() {
     });
 
     function changeNum(elem, amount) {
-      var $el = $('.' + elem),
+      var $el = $('.' + elem + ' .number'),
         original = parseInt($el.html()),
         newVal = original + amount;
       if (newVal >= 0) {
@@ -1526,16 +1526,16 @@ $(document).ready(function() {
     $('.pomo-dec').click(function() {
       changeNum('pomo-time', -1);
       if (running === false) {
-        displayString(pomoTimeString());
-        drawDisplay();
+        displayString(timeString(getPomoTime('work')));
+        //drawDisplay();
       }
     });
 
     $('.pomo-inc').click(function() {
       changeNum('pomo-time', 1);
       if (running === false) {
-        displayString(pomoTimeString());
-        drawDisplay();
+        displayString(timeString(getPomoTime('work')));
+        //drawDisplay();
       }
      });
 
