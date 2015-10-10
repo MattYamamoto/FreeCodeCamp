@@ -6,7 +6,7 @@ $(document).ready(function() {
       $pomoTime = $('.pomo-time'),
       $breakTime = $('.break-time'),
       $progressFill = $('.progress-fill'),
-      $start = $('.start'),
+      $action = $('.action'),
       characters = {
         " ": [
           [0, 0, 0],
@@ -850,10 +850,14 @@ $(document).ready(function() {
       colOffset = 0,
       scrollSpeed = 50,
       scrollTimer,
+      clockTimer,
+      clockState = {time: '', totalDur: '', type: '', progress: ''},
       effectSpeed = 50,
       effectTimer,
+      pauseTimer,
       wipeInterval,
       running = false,
+      paused = false,
       wrapHoriz = false,
       wrapVert = false;
 
@@ -867,7 +871,7 @@ $(document).ready(function() {
 
   function clearLED() {
     var elements = $light2;
-    
+
     for(var i = 0; i < elements.length; i++) {
       elements[i].className = elements[i].className.replace('on', 'off');
     }
@@ -1006,7 +1010,7 @@ $(document).ready(function() {
       mins,
       secs;
 
-    //convert time from milliseconds to seconds 
+    //convert time from milliseconds to seconds
     time = time / 1000;
 
     secs = time % 60;
@@ -1029,6 +1033,8 @@ $(document).ready(function() {
     return [hours, mins, secs];
   }
 
+  //takes a time in milliseconds and returns a time string
+  //in the format of hh:mm:ss
   function timeString(time) {
     var timeArr = toHoursMinsSecs(time);
 
@@ -1038,24 +1044,27 @@ $(document).ready(function() {
   function countDownTimer(startTime, endCallback, progressColor) {
     var refTime = new Date().getTime() - 1000,
       currTime = startTime,
+      totalTime = clockState.totalDur || currTime,
       err;
 
     $progressFill.css('background-color', progressColor);
 
     (function stepTime() {
-      var percent = 1 - currTime / startTime;
+      var percent = 1 - currTime / totalTime;
+      clockState.time = currTime;
 
       if (currTime >= 0) {
         running = true;
-        displayString(timeString(currTime));
+        displayString(timeString(clockState.time));
 
+        //progress(percent, progressColor);
         $progressFill.css('transform', 'scaleY(' + percent + ')');
 
         currTime -= 1000;
         //keep timing honest by using system clock to check against starting reference time
         err = ((new Date().getTime() - refTime) - (startTime - currTime));
 
-        window.setTimeout(stepTime, (1000 - err));
+        clockTimer = window.setTimeout(stepTime, (1000 - err));
       } else if (currTime < 0) {
         running = false;
         endCallback();
@@ -1063,9 +1072,7 @@ $(document).ready(function() {
     })();
   }
 
-  function progress(curr, total, color) {
-    var percent = curr / total;
-
+  function progress(percent, color) {
     $progressFill.css({
       'transform': 'scaleY(' + percent + ')',
       'background-color': color
@@ -1073,36 +1080,44 @@ $(document).ready(function() {
 
   }
 
-  function pomoTimeString() {
-    var sessionTimeMs = parseInt($pomoTime.html()) * 60 * 1000,
-      breakTimeMS = parseInt($breakTime.html()) * 60 * 1000,
-      str = timeString(sessionTimeMs);
-    
-    return str;
+  function getPomoTime(type) {
+    var pomoTimes = {
+      work : parseInt($pomoTime.html()) * 60 * 1000,
+      break : parseInt($breakTime.html()) * 60 * 1000,
+    };
+
+    return pomoTimes[type];
   }
- 
+
   //start pomo clock sequence (session, break, session, break, etc)
   //pass in scroll dir and repeat time if desired.
   function startPomo(scrollDir, repeatTime) {
     var scrollParams = {dir: scrollDir, pauseTime: repeatTime, initialDelay: repeatTime, wrap: true};
-    
-    $start.css('visibility', 'hidden');
-    center(pomoTimeString());
-    clearEffects();
-    pomoTimer();
-    
-    scroll(scrollParams);
-    
-  }
-  
-  function pomoTimer() {
-    var pomoTime = parseInt($pomoTime.html());
-    countDownTimer(pomoTime * 60 * 1000, function() {
-      
+
+    if(!paused) {
+      clockState.totalDur = getPomoTime('work');
+      center(timeString(getPomoTime('work')));
       clearEffects();
-      center(pomoTimeString());
+      pomoTimer( getPomoTime('work') );
+    } else {
+      paused = false;
+      center(timeString(clockState.time));
+      clearEffects();
+      pomoTimer(clockState.time);
+    }
+
+    scroll(scrollParams);
+
+  }
+
+  function pomoTimer(pomoTime) {
+    clockState.type = 'work';
+
+    countDownTimer(pomoTime, function() {
+      clearEffects();
+      center(timeString(getPomoTime('break')));
       chime.play();
-      breakTimer();
+      breakTimer(getPomoTime('break'));
     }, pomoColor);
   }
 
@@ -1110,14 +1125,15 @@ $(document).ready(function() {
       window.clearTimeout(scrollTimer);
       window.clearTimeout(effectTimer);
   }
-  
-  function breakTimer() {
-    var breakTime = parseInt($breakTime.html());
-    countDownTimer(breakTime * 60 * 1000, function() {
+
+  function breakTimer(breakTime) {
+    clockState.type = 'break';
+
+    countDownTimer(breakTime, function() {
         clearEffects();
-        center(pomoTimeString());
+        center(timeString(getPomoTime('break')));
         chime.play();
-        pomoTimer();
+        pomoTimer( getPomoTime('work') );
       }, breakColor);
   }
 
@@ -1159,7 +1175,7 @@ $(document).ready(function() {
     dir:  up, down, left, right
     repetitions: enter a number for number of times scroll, -1 causes infinite scroll
     wrap: true or false.  When set to false all text clears screen before wrapping
-    paustTime: Time to pause, in milliseconds, after text has returned to 
+    paustTime: Time to pause, in milliseconds, after text has returned to
               start position.  Enter 0 for continuous scroll effect
     initialDelay: time, in millisceonds, to wait before first scroll
   */
@@ -1246,7 +1262,7 @@ $(document).ready(function() {
 
     //Repeated actions to peform scroll
     function doScroll() {
-      //Prevents scrolling after repetitions limit reached. 
+      //Prevents scrolling after repetitions limit reached.
       //Negative numbers allow inifinte scroll
       if (counter >= repetitions && repetitions > 0) {
         return window.setTimeout(function() {
@@ -1283,7 +1299,7 @@ $(document).ready(function() {
     }
 
     scrollTimer = window.setTimeout(doScroll, initialDelay);
-    
+
     return deferred;
   }
 
@@ -1375,7 +1391,7 @@ $(document).ready(function() {
     if (scrollSpeed > effectSpeed) {
       effectLength = lengthLED;
     } else {
-      //Determine what part of the buffer will be visible during effect, 
+      //Determine what part of the buffer will be visible during effect,
       //LED display length is fine if not scrolling, but if scrolling need
       //to take into account the scroll speed.  10% is added for good measure.
       effectLength = Math.min(lengthLED,
@@ -1401,20 +1417,20 @@ $(document).ready(function() {
         masker = 0;
         break;
     }
-    
+
     (function wiper(maskFunc, stepAmount) {
       maskFunc(step, masker);
       changeStep(stepAmount);
 
       drawDisplay(buffer);
-      
+
       if (((dir === 'left' || dir === 'up') && step < 0) ||
         ((dir === 'right' || dir === 'down') && step > effectLength)) {
         return deferred.resolve();
       }
-      
+
       effectTimer = window.setTimeout(wiper, effectSpeed, maskFunc, stepAmount);
-    
+
     }(wipeInfo[dir].maskFunc, wipeInfo[dir].stepAmount));
 
     return deferred;
@@ -1444,15 +1460,58 @@ $(document).ready(function() {
     return str;
   }
 
+  //
+  function clearTimers() {
+    window.clearTimeout(scrollTimer);
+    window.clearTimeout(effectTimer);
+    window.clearTimeout(clockTimer);
+    window.clearTimeout(pauseTimer);
+  }
+
+  //
+  function pause(timeStr) {
+    displayString(center('Paused'));
+    pauseTimer = window.setTimeout(function() {
+      displayString(center(timeStr));
+      pauseTimer = window.setTimeout(pause, 2000, timeStr)
+    }, 2000);
+
+  }
+
+  function resume(clockStateObj) {
+    paused = false;
+    clearTimers();
+
+    if(clockStateObj.type === 'work'){
+      pomoTimer(clockStateObj.time);
+    }
+    else if(clockStateObj.type === 'break'){
+      breakTimer(clockStateObj.time);
+    }
+    
+  }
+
   //button assignments
   function buttons() {
     var $sessionTime = $pomoTime,
       $breakTime = $breakTime;
 
-    $start.click(function() {
-      clearTimeout('scrollTimer');
-      clearTimeout('effectTimer');
-      startPomo('left', 5000);
+    $action.click(function() {
+      if(running === false && paused === false){
+        clearTimers();
+        $action.html('Click to Pause');
+        startPomo('left', 5000);
+      } else if (running === true && paused === false) {
+        paused = true;
+        clearTimers();
+        $action.html('Click to Resume');
+        pause(timeString(clockState.time));
+        running = false;
+      } else {
+        $action.html('Click to Pause');
+        resume(clockState);
+      }
+
     });
 
     function changeNum(elem, amount) {
@@ -1492,14 +1551,13 @@ $(document).ready(function() {
   function waitToStart() {
     var el = $('.clock'),
         displayQueue = [];
-    
+
     function dq() {
       el.dequeue('anim');
     }
-    
+
     displayQueue = [
       [function(){
-        running = true;
         setString(center('Pomodoro'));
         dq();
       }, 2000],
@@ -1516,7 +1574,7 @@ $(document).ready(function() {
       }],
       [function(){
         clearTimeout(scrollTimer);
-        displayString(center(pomoTimeString()));
+        displayString(center(timeString(getPomoTime('work'))));
         wipe('left', 'in').then(function() {
           running = false;
           dq();
@@ -1524,21 +1582,21 @@ $(document).ready(function() {
 
       }]
     ];
-    
+
     function doQueue(queue) {
       queue.forEach(function(block) {
         el.queue('anim', block[0]).delay(block[1] || 0);
       });
       el.dequeue('anim');
     }
-    
+
     doQueue(displayQueue);
     /*
     el.queue('anim', function(){
       running = true;
       setString('Pomodoro');
       dq();
-      
+
     }).delay(2000, 'anim');
     el.queue('anim', function(){
       wipe('up', 'in').then(dq);
@@ -1557,11 +1615,11 @@ $(document).ready(function() {
         running = false;
         dq();
       });
-      
+
     });
     */
-    
-        
+
+
   }
 
   function initialize() {
@@ -1569,7 +1627,7 @@ $(document).ready(function() {
     //create buffer and mask array structure
     buffer = subArrays(totRows);
     mask = subArrays(totRows);
-    
+
     if( $(window).width() <= 350){
       $light.css({
         'width': '2px',
