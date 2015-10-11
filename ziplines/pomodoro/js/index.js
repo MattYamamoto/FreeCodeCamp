@@ -1,13 +1,18 @@
 $(document).ready(function() {
   "use strict";
   var $action = $('.action'),
+      $breakDec = $('.break-dec'),
+      $breakInc = $('.break-inc'),
       $breakTime = $('.break-time .number'),
-      $light = $('.light'),
-      $light2 = document.getElementsByClassName('light'),
+      $clock = $('.clock'),
+      $light = document.getElementsByClassName('light'),
+      $pomoDec = $('.pomo-dec'),
+      $pomoInc = $('.pomo-inc'),
       $pomoTime = $('.pomo-time .number'),
       $progressFill = $('.progress-fill'),
       breakColor = '#A00',
       buffer = [],
+      //not all characters are 5x7
       characters = {
         " ": [
           [0, 0, 0],
@@ -859,8 +864,7 @@ $(document).ready(function() {
       wrapHoriz = false,
       wrapVert = false;
 
-
-  //Return index number of light for $light2 array/object
+  //Return index number of light for $light array/object
   function rowColLookup(row, col) {
     var ind = (row * totCols) + col;
 
@@ -868,7 +872,7 @@ $(document).ready(function() {
   }
 
   function clearLED() {
-    var elements = $light2;
+    var elements = $light;
 
     for(var i = 0; i < elements.length; i++) {
       elements[i].className = elements[i].className.replace('on', 'off');
@@ -986,7 +990,7 @@ $(document).ready(function() {
 
         if (!(screenRow >= totRows || screenRow < 0 ||
             screenCol >= totCols || screenCol < 0)) {
-          $currLight = $light2.item(rowColLookup(screenRow,screenCol));
+          $currLight = $light.item(rowColLookup(screenRow,screenCol));
           if (arr[rowInd][colInd] && mask[rowInd][colInd]) {
             $currLight.className = $currLight.className.replace('off', 'on');
           } else {
@@ -1491,9 +1495,6 @@ $(document).ready(function() {
 
   //button assignments
   function buttons() {
-    var $sessionTime = $pomoTime,
-      $breakTime = $breakTime;
-
     $action.click(function() {
       if(running === false && paused === false){
         clearTimers();
@@ -1513,41 +1514,41 @@ $(document).ready(function() {
     });
 
     function changeNum(elem, amount) {
-      var $el = $('.' + elem + ' .number'),
-        original = parseInt($el.html()),
-        newVal = original + amount;
+      var $el = elem,
+          original = parseInt($el.html()),
+          newVal = original + amount;
+
       if (newVal >= 0) {
         $el.html(newVal);
       }
+
     }
 
-    $('.pomo-dec').click(function() {
-      changeNum('pomo-time', -1);
+    $pomoDec.click(function() {
+      changeNum($pomoTime, -1);
       if (running === false) {
         displayString(timeString(getPomoTime('work')));
-        //drawDisplay();
       }
     });
 
-    $('.pomo-inc').click(function() {
-      changeNum('pomo-time', 1);
+    $pomoInc.click(function() {
+      changeNum($pomoTime, 1);
       if (running === false) {
         displayString(timeString(getPomoTime('work')));
-        //drawDisplay();
       }
      });
 
-    $('.break-dec').click(function() {
-      changeNum('break-time', -1);
+    $breakDec.click(function() {
+      changeNum($breakTime, -1);
     });
 
-    $('.break-inc').click(function() {
-      changeNum('break-time', 1);
+    $breakInc.click(function() {
+      changeNum($breakTime, 1);
     });
   }
 
   function waitToStart() {
-    var el = $('.clock'),
+    var el = $clock,
         displayQueue = [];
 
     function dq() {
@@ -1627,7 +1628,7 @@ $(document).ready(function() {
     mask = subArrays(totRows);
 
     if( $(window).width() <= 350){
-      $light.css({
+      $('.light').css({
         'width': '2px',
         'height': '2px'
       });
