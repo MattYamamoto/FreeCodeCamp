@@ -1,12 +1,13 @@
 $(document).ready(function() {
   "use strict";
-  var $light = $('.light'),
-      $light2 = document.getElementsByClassName('light'),
-      //not all characters are 5x7
-      $pomoTime = $('.pomo-time .number'),
+  var $action = $('.action'),
       $breakTime = $('.break-time .number'),
+      $light = $('.light'),
+      $light2 = document.getElementsByClassName('light'),
+      $pomoTime = $('.pomo-time .number'),
       $progressFill = $('.progress-fill'),
-      $action = $('.action'),
+      breakColor = '#A00',
+      buffer = [],
       characters = {
         " ": [
           [0, 0, 0],
@@ -837,27 +838,24 @@ $(document).ready(function() {
           [0, 0, 0]
         ]
       },
-      ledString = "",
-      buffer = [],
-      mask = [],
-      pomoColor = '#0A0',
-      breakColor = '#A00',
       chimeURL = 'https://dl.dropbox.com/s/fru6bojfqtewixt/Music_Box.mp3',
-      chime = new Audio(chimeURL),
-      totRows = $('.light-row').length,
-      totCols = $('.light-row-0').children().length,
-      rowOffset = 0,
-      colOffset = 0,
-      scrollSpeed = 50,
-      scrollTimer,
+      chime = new Audio(chimeURL),ledString = "",
       clockTimer,
       clockState = {time: '', totalDur: '', type: '', progress: ''},
+      colOffset = 0,
       effectSpeed = 50,
       effectTimer,
-      pauseTimer,
-      wipeInterval,
-      running = false,
+      mask = [],
       paused = false,
+      pauseTimer,
+      pomoColor = '#0A0',
+      rowOffset = 0,
+      running = false,
+      scrollSpeed = 50,
+      scrollTimer,
+      totCols = $('.light-row-0').children().length,
+      totRows = $('.light-row').length,
+      wipeInterval,
       wrapHoriz = false,
       wrapVert = false;
 
