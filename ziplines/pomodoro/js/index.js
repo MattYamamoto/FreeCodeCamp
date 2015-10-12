@@ -844,7 +844,7 @@ $(document).ready(function() {
         ]
       },
       chimeURL = 'https://dl.dropbox.com/s/fru6bojfqtewixt/Music_Box.mp3',
-      chime = new Audio(chimeURL),ledString = "",
+      chime = new Audio(chimeURL),
       clockTimer,
       clockState = {time: '', totalDur: '', type: '', progress: ''},
       colOffset = 0,
@@ -860,13 +860,12 @@ $(document).ready(function() {
       scrollTimer,
       totCols = $('.light-row-0').children().length,
       totRows = $('.light-row').length,
-      wipeInterval,
       wrapHoriz = false,
       wrapVert = false;
 
   //creates an array with 'num' number of empty sub-Arrays
   function subArrays(num) {
-    return Array.apply(null, Array(num))
+    return Array.apply(null, new Array(num))
       .map(function() {
         return [];
       });
@@ -885,7 +884,7 @@ $(document).ready(function() {
     var rowLength = arr[0].length;
 
     if (arr.length < size && rowLength !== undefined) {
-      arr.push(Array.apply(null, Array(rowLength)).map(function() {
+      arr.push(Array.apply(null, new Array(rowLength)).map(function() {
         return padChar;
       }));
       padRows(arr, size, padChar);
@@ -978,19 +977,21 @@ $(document).ready(function() {
 
   //Map input array, 'arr', to the screen display through the mask array
   function drawDisplay(arr) {
-    var ledRow,
-      $currLight,
-      rowInd,
-      colInd,
-      screenRow,
-      screenCol,
-      wrapMin,
-      strLength = arr[0].length + 5,
-      strHeight = arr.length + 2;
+    var $currLight,
+        screenRow,
+        screenCol,
+        wrapMin,
+        strLength = arr[0].length + 5,
+        strHeight = arr.length + 2;
 
     clearLED();
 
-    strLength > totCols ? wrapMin = strLength : wrapMin = totCols;
+    if (strLength > totCols) {
+      wrapMin = strLength;
+    } else {
+      wrapMin = totCols;
+    }
+
     //map applicable portion of the array to screen lights class
     arr.forEach(function(row, rowInd) {
       row.forEach(function(col, colInd) {
@@ -1038,8 +1039,7 @@ $(document).ready(function() {
   //Pad buffer to center string
   //Only applies if string is smaller than LED length
   function center(str) {
-    var chars = str.split(""),
-      padding = 0;
+    var padding = 0;
 
     padding = Math.floor((totCols - stringDisplayLength(str)) / 2);
     if (padding > 0) {
@@ -1103,12 +1103,12 @@ $(document).ready(function() {
 
   //Countdown timer. ProgressColor gives visual representation in background
   //of clock face
-  function countDownTimer(startTime, endCallback, progressColor) {
+  function countDownTimer(startTime, endCallback, progColor) {
     var refTime = new Date().getTime() - 1000,
-      currTime = startTime,
-      totalTime = clockState.totalDur || currTime,
-      err,
-      progressColor = progressColor || '#0A0';
+        currTime = startTime,
+        totalTime = clockState.totalDur || currTime,
+        err,
+        progressColor = progColor || pomoColor;
 
     $progressFill.css('background-color', progressColor);
 
@@ -1120,8 +1120,7 @@ $(document).ready(function() {
         running = true;
         displayString(timeString(clockState.time));
 
-        //progress(percent, progressColor);
-        $progressFill.css('transform', 'scaleY(' + percent + ')');
+        progress(percent, progressColor);
 
         currTime -= 1000;
         //keep timing honest by using system clock to check against starting reference time
@@ -1198,7 +1197,7 @@ $(document).ready(function() {
     displayString(center('Paused'));
     pauseTimer = window.setTimeout(function() {
       displayString(center(timeStr));
-      pauseTimer = window.setTimeout(pause, 2000, timeStr)
+      pauseTimer = window.setTimeout(pause, 2000, timeStr);
     }, 2000);
 
   }
@@ -1221,8 +1220,13 @@ $(document).ready(function() {
 
 
   //Effect functionality
+
   function changeRowOffset(delta) {
     return rowOffset += delta;
+  }
+
+  function changeColOffset(delta) {
+    return colOffset += delta;
   }
 
   //Set global wrap variables
@@ -1267,7 +1271,6 @@ $(document).ready(function() {
       delay,
       end,
       wrapAroundCoord,
-      scrollInc,
       positions = {
         'left': {
           'wrap': {
@@ -1320,7 +1323,6 @@ $(document).ready(function() {
       case true:
         condition = 'wrap';
         break;
-      case false:
       default:
         condition = 'none';
         break;
@@ -1389,7 +1391,7 @@ $(document).ready(function() {
   }
 
   function setMaskCol(colIndex, state) {
-    mask = mask.map(function(row, rowInd) {
+    mask = mask.map(function(row) {
       return row.map(function(currState, ind) {
         if (ind === colIndex) {
           return state;
@@ -1424,7 +1426,6 @@ $(document).ready(function() {
         effectLength,
         totRowCol,
         lengthLED,
-        tempBuffer,
         startPos,
         step,
         masker,
