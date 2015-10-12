@@ -39,6 +39,13 @@ body {
   overflow: hidden;
   }
 
+  .timer-message {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin-top: -35px;
+  }
+
 .progress-background {
   background-color: #111;
   position: absolute;

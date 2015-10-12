@@ -10,6 +10,7 @@ $(document).ready(function() {
       $pomoInc = $('.pomo-inc'),
       $pomoTime = $('.pomo-time .number'),
       $progressFill = $('.progress-fill'),
+      $timerMessage = $('.timer-message'),
       breakColor = '#A00',
       buffer = [],
       //not all characters are 5x7
@@ -532,6 +533,8 @@ $(document).ready(function() {
   function pomoTimer(pomoTime) {
     clockState.type = 'session';
 
+    $timerMessage.html('Keep working!');
+
     countDownTimer(pomoTime, function() {
       clearEffects();
       center(timeString(getPomoTime('break')));
@@ -545,6 +548,8 @@ $(document).ready(function() {
   function breakTimer(breakTime) {
     clockState.type = 'break';
 
+    $timerMessage.html('Take a break. . .');
+
     countDownTimer(breakTime, function() {
         clearEffects();
         center(timeString(getPomoTime('break')));
@@ -556,6 +561,7 @@ $(document).ready(function() {
   //Stops(pauses) clcok.  Pass in current time for display purposes
   function pause(timeStr) {
     displayString(center('Paused'));
+    $timerMessage.html('Paused!? I don\'t think you get this.');
     pauseTimer = window.setTimeout(function() {
       displayString(center(timeStr));
       pauseTimer = window.setTimeout(pause, 2000, timeStr);
