@@ -1590,35 +1590,6 @@ $(document).ready(function() {
     }
 
     doQueue(displayQueue);
-    /*
-    el.queue('anim', function(){
-      running = true;
-      setString('Pomodoro');
-      dq();
-
-    }).delay(2000, 'anim');
-    el.queue('anim', function(){
-      wipe('up', 'in').then(dq);
-    });
-    el.queue('anim', function(){
-      scroll({
-          'dir': 'left',
-          'repetitions': 1,
-          'wrap': true
-        }).then(dq);
-    });
-    el.queue('anim', function(){
-      clearTimeout(scrollTimer);
-      displayString(center(pomoTimeString()));
-      wipe('left', 'in').then(function() {
-        running = false;
-        dq();
-      });
-
-    });
-    */
-
-
   }
 
   function initialize() {
