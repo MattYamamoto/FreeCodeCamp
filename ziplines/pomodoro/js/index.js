@@ -864,6 +864,37 @@ $(document).ready(function() {
       wrapHoriz = false,
       wrapVert = false;
 
+  //creates an array with 'num' number of empty sub-Arrays
+  function subArrays(num) {
+    return Array.apply(null, Array(num))
+      .map(function() {
+        return [];
+      });
+  }
+
+  //For an array of sub-arrays, find the greatest sub-array length
+  function getMaxRows(arr) {
+    return arr.reduce(function(prev, curr) {
+      return prev.length > curr.length ? prev : curr;
+    }).length;
+  }
+
+  //checks array against size value, if array is smaller then pad rows
+  //to the bottom using padChar
+  function padRows(arr, size, padChar) {
+    var rowLength = arr[0].length;
+
+    if (arr.length < size && rowLength !== undefined) {
+      arr.push(Array.apply(null, Array(rowLength)).map(function() {
+        return padChar;
+      }));
+      padRows(arr, size, padChar);
+    }
+
+    return arr;
+
+  }
+
   //Return index number of light for $light array/object
   function rowColLookup(row, col) {
     var ind = (row * totCols) + col;
@@ -879,15 +910,31 @@ $(document).ready(function() {
     }
   }
 
+  //Stop all effects
+  function clearEffects() {
+      window.clearTimeout(scrollTimer);
+      window.clearTimeout(effectTimer);
+  }
+
+  //Stop all timers (effects and clocks)
+  function clearTimers() {
+    window.clearTimeout(scrollTimer);
+    window.clearTimeout(effectTimer);
+    window.clearTimeout(clockTimer);
+    window.clearTimeout(pauseTimer);
+  }
+
   //gets character led matrix for given character.
   function getCharMatrix(char) {
     return characters[char];
   }
 
+  //LED matrix height (number of rows) for a character
   function getCharHeight(char) {
     return characters[char].length;
   }
 
+  //LED matrix width (number of cols) for a character
   function getCharWidth(char) {
     return characters[char][0].length;
   }
@@ -907,6 +954,7 @@ $(document).ready(function() {
     return results;
   }
 
+  //Sets input string to the buffer
   function setString(str) {
     var stringArray = mergeChars(str.split("").map(getCharMatrix));
 
@@ -923,43 +971,12 @@ $(document).ready(function() {
     return buffer;
   }
 
-  //For an array of sub-arrays, find the greatest sub-array length
-  function getMaxRows(arr) {
-    return arr.reduce(function(prev, curr) {
-      return prev.length > curr.length ? prev : curr;
-    }).length;
-  }
-
-  //creates an array with num number of empty sub-Arrays
-  function subArrays(num) {
-    return Array.apply(null, Array(num))
-      .map(function() {
-        return [];
-      });
-  }
-
-  //checks array against size value, if array is smaller then pad rows
-  //to the bottom using padChar
-  function padRows(arr, size, padChar) {
-    var rowLength = arr[0].length;
-
-    if (arr.length < size && rowLength !== undefined) {
-      arr.push(Array.apply(null, Array(rowLength)).map(function() {
-        return padChar;
-      }));
-      padRows(arr, size, padChar);
-    }
-
-    return arr;
-
-  }
-
   //fix for negative number mods:  x%y = ((x%y)+y)%y
   function fixMod(x, y) {
     return ((x%y)+y)%y;
   }
 
-  //Take an array of LED characters and map it to the screen display through a mask array
+  //Map input array, 'arr', to the screen display through the mask array
   function drawDisplay(arr) {
     var ledRow,
       $currLight,
@@ -1002,11 +1019,43 @@ $(document).ready(function() {
     });
   }
 
+  //Display input string to the screen
   function displayString(str) {
     drawDisplay(setString(str));
   }
 
-  //return array of strings representing 2 digit minutes, and seconds
+  //Returns length/width (in number of LEDs) of a given string
+  function stringDisplayLength(str) {
+    var chars = str.split("");
+
+    return chars
+      .map(getCharWidth)
+      .reduce(function(prev, curr) {
+        return prev + curr + 1;
+      });
+  }
+
+  //Pad buffer to center string
+  //Only applies if string is smaller than LED length
+  function center(str) {
+    var chars = str.split(""),
+      padding = 0;
+
+    padding = Math.floor((totCols - stringDisplayLength(str)) / 2);
+    if (padding > 0) {
+      colOffset = padding;
+    }
+    return str;
+  }
+
+
+
+
+
+  //Clock/Timer functions
+
+  //Input time in milliseconds returns array of strings representing
+  // 2 digit hours, minutes, and seconds
   function toHoursMinsSecs(time) {
     var hours,
       mins,
@@ -1043,11 +1092,23 @@ $(document).ready(function() {
     return timeArr[0] + ":" + timeArr[1] + ":" + timeArr[2];
   }
 
+  //fill the clock background to the precent (from bottom) specified.
+  function progress(percent, color) {
+    $progressFill.css({
+      'transform': 'scaleY(' + percent + ')',
+      'background-color': color
+    });
+
+  }
+
+  //Countdown timer. ProgressColor gives visual representation in background
+  //of clock face
   function countDownTimer(startTime, endCallback, progressColor) {
     var refTime = new Date().getTime() - 1000,
       currTime = startTime,
       totalTime = clockState.totalDur || currTime,
-      err;
+      err,
+      progressColor = progressColor || '#0A0';
 
     $progressFill.css('background-color', progressColor);
 
@@ -1074,33 +1135,27 @@ $(document).ready(function() {
     })();
   }
 
-  function progress(percent, color) {
-    $progressFill.css({
-      'transform': 'scaleY(' + percent + ')',
-      'background-color': color
-    });
-
-  }
-
+  //Return 'session' or 'break' time, in milliseconds, from from the DOM
   function getPomoTime(type) {
     var pomoTimes = {
-      work : parseInt($pomoTime.html()) * 60 * 1000,
+      session : parseInt($pomoTime.html()) * 60 * 1000,
       break : parseInt($breakTime.html()) * 60 * 1000,
     };
 
     return pomoTimes[type];
   }
 
-  //start pomo clock sequence (session, break, session, break, etc)
-  //pass in scroll dir and repeat time if desired.
+  //Start pomo clock sequence.  If called from paused state, then retrieve
+  //time & status info from the 'ClockState' object
+  //Pass in scroll dir and repeat time if desired.
   function startPomo(scrollDir, repeatTime) {
     var scrollParams = {dir: scrollDir, pauseTime: repeatTime, initialDelay: repeatTime, wrap: true};
 
     if(!paused) {
-      clockState.totalDur = getPomoTime('work');
-      center(timeString(getPomoTime('work')));
+      clockState.totalDur = getPomoTime('session');
+      center(timeString(getPomoTime('session')));
       clearEffects();
-      pomoTimer( getPomoTime('work') );
+      pomoTimer( getPomoTime('session') );
     } else {
       paused = false;
       center(timeString(clockState.time));
@@ -1112,8 +1167,10 @@ $(document).ready(function() {
 
   }
 
+  //Starts the 'seesion' time sequence and sets the 'break' timer
+  //to run on session completinon.
   function pomoTimer(pomoTime) {
-    clockState.type = 'work';
+    clockState.type = 'session';
 
     countDownTimer(pomoTime, function() {
       clearEffects();
@@ -1123,11 +1180,8 @@ $(document).ready(function() {
     }, pomoColor);
   }
 
-  function clearEffects() {
-      window.clearTimeout(scrollTimer);
-      window.clearTimeout(effectTimer);
-  }
-
+  //Starts the 'break' time sequence and sets the 'session' timer
+  //to run on session completinon.
   function breakTimer(breakTime) {
     clockState.type = 'break';
 
@@ -1135,26 +1189,43 @@ $(document).ready(function() {
         clearEffects();
         center(timeString(getPomoTime('break')));
         chime.play();
-        pomoTimer( getPomoTime('work') );
+        pomoTimer( getPomoTime('session') );
       }, breakColor);
   }
 
-  function allOn() {
-    $light.removeClass('off').addClass('on');
+  //Stops(pauses) clcok.  Pass in current time for display purposes
+  function pause(timeStr) {
+    displayString(center('Paused'));
+    pauseTimer = window.setTimeout(function() {
+      displayString(center(timeStr));
+      pauseTimer = window.setTimeout(pause, 2000, timeStr)
+    }, 2000);
+
   }
 
-  function allOff() {
-    $light.removeClass('on').addClass('off');
+  //Resums countdown clock using 'ClockState' object to retrieve
+  //current time, progress, and type of countdown (session or break')
+  function resume(clockStateObj) {
+    paused = false;
+    clearTimers();
+
+    if(clockStateObj.type === 'session'){
+      pomoTimer(clockStateObj.time);
+    }
+    else if(clockStateObj.type === 'break'){
+      breakTimer(clockStateObj.time);
+    }
+
   }
 
-  function changeColOffset(delta) {
-    return colOffset += delta;
-  }
 
+
+  //Effect functionality
   function changeRowOffset(delta) {
     return rowOffset += delta;
   }
 
+  //Set global wrap variables
   function setWrapGlobal(dir, wrap) {
     if (dir === 'left' || dir === 'right') {
       if (wrap === true) {
@@ -1300,11 +1371,15 @@ $(document).ready(function() {
       scrollTimer = window.setTimeout(doScroll, delay);
     }
 
+    //start scrolling after initial delay
     scrollTimer = window.setTimeout(doScroll, initialDelay);
 
     return deferred;
   }
 
+  //The 'mask' array is used for wipe effects. The following functions are
+  //used for setting rows, cols, a range of cols, or the entire mask.
+  //The state can be 1 or 0.  1 is transparent.
   function setMaskRow(rowIndex, state) {
     if (mask[rowIndex]) {
       mask[rowIndex] = mask[rowIndex].map(function() {
@@ -1341,6 +1416,9 @@ $(document).ready(function() {
     setMaskRangeByCols(0, mask[0].length - 1, state);
   }
 
+
+  //Wipe effect can be 'left', 'right', 'up', or 'down', and you can
+  //wipe 'in' or 'out'.  Speed is set by global 'effectSpeed'
   function wipe(dir, inOrOut) {
     var deferred = $.Deferred(),
         effectLength,
@@ -1351,27 +1429,27 @@ $(document).ready(function() {
         step,
         masker,
         wipeInfo = {
-        'left': {
-          'startRef': buffer[0].length - 1,
-          'maskFunc': setMaskCol,
-          'stepAmount': -1
-        },
-        'right': {
-          'startRef': 0,
-          'maskFunc': setMaskCol,
-          'stepAmount': 1
-        },
-        'up': {
-          'startRef': totRows - 1,
-          'maskFunc': setMaskRow,
-          'stepAmount': -1
-        },
-        'down': {
-          'startRef': 0,
-          'maskFunc': setMaskRow,
-          'stepAmount': 1
-        }
-      };
+          'left': {
+            'startRef': buffer[0].length - 1,
+            'maskFunc': setMaskCol,
+            'stepAmount': -1
+          },
+          'right': {
+            'startRef': 0,
+            'maskFunc': setMaskCol,
+            'stepAmount': 1
+          },
+          'up': {
+            'startRef': totRows - 1,
+            'maskFunc': setMaskRow,
+            'stepAmount': -1
+          },
+          'down': {
+            'startRef': 0,
+            'maskFunc': setMaskRow,
+            'stepAmount': 1
+          }
+        };
 
     function changeStep(delta) {
       return step += delta;
@@ -1438,63 +1516,9 @@ $(document).ready(function() {
     return deferred;
   }
 
-  //Returns length (in number of LEDs) of a given string
-  function stringDisplayLength(str) {
-    var chars = str.split("");
-
-    return chars
-      .map(getCharWidth)
-      .reduce(function(prev, curr) {
-        return prev + curr + 1;
-      });
-  }
-
-  //Pad buffer to center string
-  //Only applies if string is smaller than LED length
-  function center(str) {
-    var chars = str.split(""),
-      padding = 0;
-
-    padding = Math.floor((totCols - stringDisplayLength(str)) / 2);
-    if (padding > 0) {
-      colOffset = padding;
-    }
-    return str;
-  }
-
-  //
-  function clearTimers() {
-    window.clearTimeout(scrollTimer);
-    window.clearTimeout(effectTimer);
-    window.clearTimeout(clockTimer);
-    window.clearTimeout(pauseTimer);
-  }
-
-  //
-  function pause(timeStr) {
-    displayString(center('Paused'));
-    pauseTimer = window.setTimeout(function() {
-      displayString(center(timeStr));
-      pauseTimer = window.setTimeout(pause, 2000, timeStr)
-    }, 2000);
-
-  }
-
-  function resume(clockStateObj) {
-    paused = false;
-    clearTimers();
-
-    if(clockStateObj.type === 'work'){
-      pomoTimer(clockStateObj.time);
-    }
-    else if(clockStateObj.type === 'break'){
-      breakTimer(clockStateObj.time);
-    }
-
-  }
-
   //button assignments
   function buttons() {
+    //clock face
     $action.click(function() {
       if(running === false && paused === false){
         clearTimers();
@@ -1527,14 +1551,14 @@ $(document).ready(function() {
     $pomoDec.click(function() {
       changeNum($pomoTime, -1);
       if (running === false) {
-        displayString(timeString(getPomoTime('work')));
+        displayString(timeString(getPomoTime('session')));
       }
     });
 
     $pomoInc.click(function() {
       changeNum($pomoTime, 1);
       if (running === false) {
-        displayString(timeString(getPomoTime('work')));
+        displayString(timeString(getPomoTime('session')));
       }
      });
 
@@ -1547,6 +1571,7 @@ $(document).ready(function() {
     });
   }
 
+  //Initial sequence of events
   function waitToStart() {
     var el = $clock,
         displayQueue = [];
@@ -1573,7 +1598,7 @@ $(document).ready(function() {
       }],
       [function(){
         clearTimeout(scrollTimer);
-        displayString(center(timeString(getPomoTime('work'))));
+        displayString(center(timeString(getPomoTime('session'))));
         wipe('left', 'in').then(function() {
           running = false;
           dq();
@@ -1607,5 +1632,6 @@ $(document).ready(function() {
     waitToStart();
   }
 
+  //Let's Do This!
   initialize();
 });
