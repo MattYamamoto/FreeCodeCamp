@@ -472,7 +472,7 @@ $(document).ready(function() {
         totalTime = clockState.totalDur || currTime,
         err;
 
-    progressColor = progressColor || progressColor;
+    progressColor = progressColor || pomoColor;
 
     $progressFill.css('background-color', progressColor);
 
