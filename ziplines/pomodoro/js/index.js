@@ -10,6 +10,7 @@ $(document).ready(function() {
       $pomoInc = $('.pomo-inc'),
       $pomoTime = $('.pomo-time .number'),
       $progressFill = $('.progress-fill'),
+      $reset = $('.reset'),
       $timerMessage = $('.timer-message'),
       breakColor = '#A00',
       buffer = [],
@@ -895,60 +896,8 @@ $(document).ready(function() {
     return deferred;
   }
 
-  //button assignments
-  function buttons() {
-    //clock face
-    $action.click(function() {
-      if(running === false && paused === false){
-        clearTimers();
-        $action.html('Click to Pause');
-        startPomo('left', 5000);
-      } else if (running === true && paused === false) {
-        paused = true;
-        clearTimers();
-        $action.html('Click to Resume');
-        pause(timeString(clockState.time));
-        running = false;
-      } else {
-        $action.html('Click to Pause');
-        resume(clockState);
-      }
 
-    });
 
-    function changeNum(elem, amount) {
-      var $el = elem,
-          original = parseInt($el.html()),
-          newVal = original + amount;
-
-      if (newVal >= 0) {
-        $el.html(newVal);
-      }
-
-    }
-
-    $pomoDec.click(function() {
-      changeNum($pomoTime, -1);
-      if (running === false) {
-        displayString(timeString(getPomoTime('session')));
-      }
-    });
-
-    $pomoInc.click(function() {
-      changeNum($pomoTime, 1);
-      if (running === false) {
-        displayString(timeString(getPomoTime('session')));
-      }
-     });
-
-    $breakDec.click(function() {
-      changeNum($breakTime, -1);
-    });
-
-    $breakInc.click(function() {
-      changeNum($breakTime, 1);
-    });
-  }
 
   //Initial sequence of events
   function waitToStart() {
@@ -994,6 +943,73 @@ $(document).ready(function() {
     }
 
     doQueue(displayQueue);
+  }
+
+  //button assignments
+  function buttons() {
+    //clock face
+    $action.click(function() {
+      if(running === false && paused === false){
+        clearTimers();
+        $action.html('Click to Pause');
+        startPomo('left', 5000);
+        $reset.addClass('show').removeClass('hide');
+      } else if (running === true && paused === false) {
+        paused = true;
+        clearTimers();
+        $action.html('Click to Resume');
+        pause(timeString(clockState.time));
+        running = false;
+      } else {
+        $action.html('Click to Pause');
+        resume(clockState);
+      }
+
+    });
+
+    function changeNum(elem, amount) {
+      var $el = elem,
+          original = parseInt($el.html()),
+          newVal = original + amount;
+
+      if (newVal >= 0) {
+        $el.html(newVal);
+      }
+
+    }
+
+    $pomoDec.click(function() {
+      changeNum($pomoTime, -1);
+      if (running === false) {
+        displayString(timeString(getPomoTime('session')));
+      }
+    });
+
+    $pomoInc.click(function() {
+      changeNum($pomoTime, 1);
+      if (running === false) {
+        displayString(timeString(getPomoTime('session')));
+      }
+     });
+
+    $breakDec.click(function() {
+      changeNum($breakTime, -1);
+    });
+
+    $breakInc.click(function() {
+      changeNum($breakTime, 1);
+    });
+
+    $reset.click(function() {
+      running = false;
+      paused = false;
+      clearTimers();
+      $action.html('Click to Start');
+      $timerMessage.html('');
+      waitToStart();
+      $reset.addClass('hide').removeClass('show');
+    });
+
   }
 
   function initialize() {
