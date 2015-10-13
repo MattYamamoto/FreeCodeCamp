@@ -210,7 +210,7 @@ $(document).ready(function() {
       clockTimer,
       clockState = {time: '', totalDur: '', type: '', progress: ''},
       colOffset = 0,
-      effectSpeed = 50,
+      effectSpeed = 100,
       effectTimer,
       mask = [],
       paused = false,
@@ -787,8 +787,10 @@ $(document).ready(function() {
 
 
   //Wipe effect can be 'left', 'right', 'up', or 'down', and you can
-  //wipe 'in' or 'out'.  Speed is set by global 'effectSpeed'
-  function wipe(dir, inOrOut) {
+  //wipe 'in' or 'out'.  Speed is set by global 'effectSpeed'. Local var
+  //'stepMultiplier' is used to speed up animation.  'initialDelayMs'
+  //is the delay before the effect takes place.
+  function wipe(dir, inOrOut, initialDelayMs) {
     var deferred = $.Deferred(),
         effectLength,
         totRowCol,
@@ -796,6 +798,7 @@ $(document).ready(function() {
         startPos,
         step,
         masker,
+        stepMultiplier = 2,
         wipeInfo = {
           'left': {
             'startRef': buffer[0].length - 1,
@@ -866,9 +869,12 @@ $(document).ready(function() {
         break;
     }
 
-    (function wiper(maskFunc, stepAmount) {
-      maskFunc(step, masker);
-      changeStep(stepAmount);
+    function wiper(maskFunc, stepAmount) {
+      for(var i = 0; i < stepMultiplier; i++){
+        maskFunc(step, masker);
+        changeStep(stepAmount);
+      }
+
 
       drawDisplay(buffer);
 
@@ -879,7 +885,9 @@ $(document).ready(function() {
 
       effectTimer = window.setTimeout(wiper, effectSpeed, maskFunc, stepAmount);
 
-    }(wipeInfo[dir].maskFunc, wipeInfo[dir].stepAmount));
+    };
+
+    setTimeout(wiper, initialDelayMs, wipeInfo[dir].maskFunc, wipeInfo[dir].stepAmount)
 
     return deferred;
   }
@@ -954,7 +962,7 @@ $(document).ready(function() {
         dq();
       }, 2000],
       [function(){
-        wipe('up', 'in').then(dq);
+        wipe('up', 'in', 500).then(dq);
       }],
       [function(){
         scroll({
