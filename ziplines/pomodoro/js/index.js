@@ -465,12 +465,13 @@ $(document).ready(function() {
 
   //Countdown timer. ProgressColor gives visual representation in background
   //of clock face
-  function countDownTimer(startTime, endCallback, progColor) {
+  function countDownTimer(startTime, endCallback, progressColor) {
     var refTime = new Date().getTime() - 1000,
         currTime = startTime,
         totalTime = clockState.totalDur || currTime,
-        err,
-        progressColor = progColor || pomoColor;
+        err;
+
+    progressColor = progressColor || progressColor;
 
     $progressFill.css('background-color', progressColor);
 
@@ -821,6 +822,8 @@ $(document).ready(function() {
             'stepAmount': 1
           }
         };
+
+      initialDelayMs = initialDelayMs || 0;
 
     function changeStep(delta) {
       return step += delta;
