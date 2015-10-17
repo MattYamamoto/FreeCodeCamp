@@ -206,7 +206,7 @@ $(document).ready(function() {
           [0]
         ]
       },
-      chimeURL = 'https://dl.dropbox.com/s/fru6bojfqtewixt/Music_Box.mp3',
+      chimeURL = '/media/Music_Box.mp3',
       chime = new Audio(chimeURL),
       clockTimer,
       clockState = {time: '', totalDur: '', type: '', progress: ''},
