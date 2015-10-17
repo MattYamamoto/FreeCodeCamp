@@ -59,17 +59,17 @@ $(document).ready(function() {
     });
     searchLocation();
   })();
-  
+
   //get location from browser
   function getLocation() {
-    
+
     //success function if location data available
     function success(position) {
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         getWeather(latitude, longitude);
       }
-    
+
     //handle location not supporterd or blocked by presenting input field
     //to find city
     function error(){
@@ -81,7 +81,7 @@ $(document).ready(function() {
       $('.search').css("visibility", "visible");
       $('#locationSearch').focus();
     }
-    
+
     //get location if possible
     if (navigator && navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success,error);
@@ -94,11 +94,11 @@ $(document).ready(function() {
   function getWeather(lat, lon) {
     //get weather info from openweathermap by lat lon
     $.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=' +
-      lat + '&lon=' + lon).
+      lat + '&lon=' + lon + '&appid=bd82977b86bf27fb59a04b61b657fb6f').
     done(function(data) {
       //today object holds current weather daata
       today = data;
-      
+
       //get location info from google api
       $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon).
       done(function(data) {
@@ -108,12 +108,12 @@ $(document).ready(function() {
             city,
             icon = today.weather[0].icon,
             condition = today.weather[0].main;
-        
+
         //set country and/or state abbreviations
         countryAbbr = $.grep(data.results[0].address_components, function(geocode){
             return geocode.types[0] === "country";
           })[0].short_name;
-        
+
         //abbreviation to be used should either by US State (assuming US users here...sorry),
         //or country if not US
         if(countryAbbr !== "US"){
@@ -124,11 +124,11 @@ $(document).ready(function() {
             })[0].short_name;
           abbr = stateAbbr;
         }
-        
+
         city = today.name + ", " + abbr;
         //hide loading element as data is about to be displayed
         $('.loading').css("visibility", "hidden");
-        
+
         //set appropriate background image
         backgroundImage();
         //dispaly weather content
@@ -153,13 +153,13 @@ $(document).ready(function() {
 
         //get forecast data, then set data and animate forecast tiles
         $.getJSON('http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
-          lat + '&lon=' + lon).
+          lat + '&lon=' + lon + '&appid=bd82977b86bf27fb59a04b61b657fb6f').
         done(function(data) {
           forecast = data;
           displayForecastTemps('F');
           //ensure data divs are empty
           $('.date').empty();
-          
+
           //get the 3-day forecast by looping through known forecast object
           for (i = 1; i < 4; i++) {
             $('.date-' + i).html(getDateToDisplay(forecast.list[i].dt) +
@@ -194,7 +194,7 @@ $(document).ready(function() {
       LongitudeDirection = " E";
       longitudeAdjusted = longitude;
     }
-    
+
     //populate data to "details" view on back of main tile
     $('.details-location').html('<h3 class="details-location-city"></h3>' +
       '<span class="details-location-latlon">Latitude: ' + toDegMinSecString(latitude) + " N</span>" +
@@ -214,7 +214,7 @@ $(document).ready(function() {
   //handle chnage location or location search
   function searchLocation() {
     var suggestions = [];
-    
+
     //delay function
     var delay = (function() {
       var timer = 0;
@@ -223,14 +223,14 @@ $(document).ready(function() {
         timer = window.setTimeout(callback, ms);
       };
     })();
-    
+
     //when "change location" is clicked, show input field (and hide city name)
     $('.change-location').click(function(event) {
       $('#city').css("visibility", "hidden");
       $('.search').css("visibility", "visible");
       //bring focus to input field so user can type
       $('#locationSearch').focus();
-      
+
       //if search area is populated, resume previous search by showing autocomplete suggestions
       if ($('#locationSearch').val().length > 0) {
         $('#searchAutoComplete').css('visibility', 'visible');
@@ -247,13 +247,13 @@ $(document).ready(function() {
         $('#searchAutoComplete').css("visibility", "hidden");
       }
     });
-    
+
     //button to clear the search box
     $('.clearSearch').click(function() {
       $('#locationSearch').val("");
       $('#locationSearch').keyup();
     }).css("cursor", "pointer");
-    
+
     //monitor search area for input
     $('#locationSearch').keyup(function() {
       //make sure autocomplete area is empty if search input is empty
@@ -271,12 +271,12 @@ $(document).ready(function() {
           //ensure autocomplete area and suggestion array are empty at begining of process
           $('#searchAutoComplete').empty();
           suggestions = [];
-          
+
           //loop through array and obtain google gecode info for each item
           $.each(arr, function(ind, item) {
             searchLat = item.coord.lat;
             searchLon = item.coord.lon;
-            
+
             $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + searchLat + ',' + searchLon,
                       (function(lat,lon){
               return function(data) {
@@ -286,7 +286,7 @@ $(document).ready(function() {
                       countryLong,
                       abbr;
 
-                //determine the country from geocode info  
+                //determine the country from geocode info
                 country = $.grep(data.results[0].address_components, function(geocode){
                       return geocode.types[0] === "country";
                     });
@@ -304,7 +304,7 @@ $(document).ready(function() {
                   }
                   //add resolved info to sugestions array
                   suggestions.push({"name": item.name, "abbr": abbr, "lat": lat, "lon": lon});
-                  
+
                   //sort suggestions to be in alphabetical order
                   suggestions.sort(function (a, b) {
                     var first = a.name + a.abbr,
@@ -318,17 +318,17 @@ $(document).ready(function() {
                     // a must be equal to b
                     return 0;
                   });
-                
+
                   //empty autocomplete area since it is going to be repopulated
                   $('#searchAutoComplete').empty();
-                
+
                   //loop through suggestions and create list elements for display.  lat and lon attributes
                   //are added to hold that info as data for use later
                   $.each(suggestions, function(ind, item) {
                     $('#searchAutoComplete').append('<li lat="' + item.lat + '" lon="' +
                                                     item.lon + '">' + item.name + ", " + item.abbr + '</li>');
                   });
-                  
+
                   //if li is clicked retrieve lat/lon data from attributes and convert to float
                   //get weather for that lat/lon, then empty search area as user has made a selection
                   $('#searchAutoComplete li').click(function(){
@@ -355,8 +355,8 @@ $(document).ready(function() {
         }
       }, 200);
     });
-    
-    
+
+
   }
 
   //set and display the day progress graphic
@@ -381,7 +381,7 @@ $(document).ready(function() {
     function decimalTime(date) {
       return date.getHours() + date.getMinutes() / 60;
     }
-    
+
     //use google timezone api to get timezone offset.
     //handles case where user is viewing city other than current location
     $.getJSON('https://maps.googleapis.com/maps/api/timezone/json?location=' + latitude +
@@ -389,17 +389,17 @@ $(document).ready(function() {
     done(function(data){
       var currentOffset = currentTime.getTimezoneOffset() * 60,
           zoneOffset = data.rawOffset + data.dstOffset;
-            
+
       timeOffset = (currentOffset + zoneOffset) * 1000;
       //get sunrise and sunset corrected for local time (local to displayed location)
       sunrise = new Date(sunrise.getTime() + timeOffset);
       sunset = new Date(sunset.getTime() + timeOffset);
       currentTime = new Date(currentTime.getTime() + timeOffset);
-      
+
       sunriseDecimal = decimalTime(sunrise);
       sunsetDecmial = decimalTime(sunset);
       currentTimeDecimal = decimalTime(currentTime);
-      
+
       //set sunrise marker. 0 deg = 0600
       riseAngle = (sunriseDecimal - 6) * 15;
       //set sunset marker. 0 deg = 1800
@@ -444,12 +444,12 @@ $(document).ready(function() {
           $('.sunrise-time').empty().append(getTimeString(sunrise));
           $('.sunrise-text-container').css('transform', 'rotate(' + riseTextAngle + 'deg)');
           $('.sunrise-text').css('transform', 'rotate(' + -riseTextAngle + 'deg)');
-          
+
           //populate sunset time and rotate into position
           $('.sunset-time').empty().append(getTimeString(sunset));
           $('.sunset-text-container').css('transform', 'rotate(' + setTextAngle + 'deg)');
           $('.sunset-text').css('transform', 'rotate(' + -setTextAngle + 'deg)');
-          
+
           //Everything is set, show the text
           $('.meter-text-container').css('opacity', '1');
         }, 750);
@@ -477,7 +477,7 @@ $(document).ready(function() {
   function displayForecastTemps(type) {
     var currentHi = forecast.list[0].temp.max,
         currentLo = forecast.list[0].temp.min;
-    
+
     $('.current-high-lo').html('<span class="temperature" tempK="' + currentHi + '">' +
       convertTemp(currentHi, type) + '</span> / <span class="temperature" tempK="' +
       currentLo + '">' + convertTemp(currentLo, type) + "</span>");
@@ -537,13 +537,13 @@ $(document).ready(function() {
     $('.today-front').outerHeight(todayHeight);
     $('.today-back').outerHeight(todayHeight);
   }
-  
+
   //set background image according to current conditions
   function backgroundImage(){
     var $body = $('body'),
         main = today.weather[0].main,
         id = today.weather[0].id;
-    
+
     //set the image and change atrribution link
     //image is pre-loaded to a placeholder img tag (which is promptly removed to prevent memory leak)
     function setImage(pictureObj){
@@ -559,7 +559,7 @@ $(document).ready(function() {
         );
       });
     }
-    
+
     if(main === 'Thunderstorm'){
       setImage('thunderstorm');
     } else if(main === 'Drizzle'){
@@ -584,7 +584,7 @@ $(document).ready(function() {
       setImage('default');
     }
   }
-  
+
   //convert decimal angle to deg-min-sec string for dispaly
   function toDegMinSecString(angle) {
     var deg, minDecimal, min, sec;
@@ -636,7 +636,7 @@ $(document).ready(function() {
       ],
       cardinalTemp = cardinalRanges,
       dir;
-    
+
     //handle binary search for direction
     (function getDir(angle) {
       var setLength = cardinalTemp.length,
