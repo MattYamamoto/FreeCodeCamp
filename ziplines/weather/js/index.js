@@ -1,48 +1,50 @@
 $(document).ready(function() {
-  var today, forecast,
-    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
-    ],
-    backgrounds = {
-               default: {url:'https://farm7.staticflickr.com/6181/6159118656_42ea72b2c0_b.jpg',
-                           name: 'Gary Dicer',
-                           origLink: 'https://www.flickr.com/photos/gdicer/6159118656/in/photolist-aog6oY-aaqUbQ-4gZrKQ-aodkkX-g6JYr-3bad1a-5rhdmi-2kNXj-6CHgvV-LvuFg-5unPmY-77DfPg-pGeJmY-dfEYy5-6GhZUj-7eSY7K-bjKXJ3-acFFuY-4pq11g-3beFuC-6mYLhU-nwAgwx-5vQftV-6DHCMA-GyXQW-9iMXoN-6hxnTS-ay6mJs-nTJRhG-5Y6rkU-a3YvEq-7PFVjV-48im52-6DDrbB-6jt5pY-bFKvQ-2kNZh-7w9jAW-p2HoGn-oN6uhB-5Ko9eH-kVrfEK-6Go6Lu-iTkqZ4-ay3Crn-s6ArHX-JwwMZ-9woqiE-6n2vH1-s1i5y5'},
-               thunderstorm: {url: 'https://farm5.staticflickr.com/4143/4914282680_b292f5676f_b.jpg',
-                                name: 'Bo Insogna',
-                                origLink: 'https://www.flickr.com/photos/lurw/4914282680/in/photolist-8ufZ2J-9TLa7w-4TuBLR-7beGV3-k8D9Nt-pejAy7-4E2PcS-a37f1h-4uH5iB-fo6Wh3-fYs2tV-w8CJWj-6SHKPh-ou7f1V-u5r5rA-hB14mX-nkqT98-n5P6oH-nVVbmz-d1SKSj-nVPDL5-9gqzM-odNJWk-ur7wHP-pkUxXg-8GVvsM-ff3Wap-fo6Uio-h9yuMW-sZspxc-2rvbHT-bQKpKV-8YgQe3-nDrGK4-fhYFo2-tLm9he-4VT9jg-9TLa9u-w6XZzq-TJ1b1-rjLMrr-onHR6k-d1jAXJ-9jcKxj-6NSURT-ddVoce-4PDFy-6bvv57-pcTt1B-8s1gUn'},
-               drizzle: {url: 'https://farm8.staticflickr.com/7278/7733552820_4af8d50cdc_b.jpg',
-                           name: 'Anant Nath Sharma',
-                           origLink: 'https://www.flickr.com/photos/anantns/7733552820/in/photolist-cMotPA-qt5xUy-5Utoxz-4McxiY-8ucrbd-7JmyFs-8qi6Q7-6TQAnC-dDWG3g-8aP1pD-dHtvY6-9nJuoG-8zEcwF-nkDMQ-9fHRYM-5YBour-dUcZ6C-b8YKwT-dfHVKc-4dpMDD-d2tb5u-94Haa7-57WFSU-dNRuB-pjK1Pf-uNeRfH-7QHpnm-aZRxcX-pAXw6V-7tJ3sV-9Gsu2x-8CYuw4-78vkoC-a7ZPFr-j559Jk-fzkD3L-dcSssY-8V2U4K-oo6XUS-dU7maB-e3Y5LJ-86WoE6-aXeAt2-aXej9R-aXegXF-79KNs4-74HVyE-74HVe9-74HUU5-5Y3tGG'},
-               rain: {url: 'https://farm7.staticflickr.com/6182/6132260807_8f2acff010_b.jpg',
-                        name: 'Vinoth Chandar',
-                        origLink: 'https://www.flickr.com/photos/vinothchandar/6132260807/in/photolist-akTruB-ozH6nu-axamgz-bVJFJb-aAvBve-ekmsCR-9fHLzs-ebsxQo-ppFZNk-hSTFxU-nxab3K-avkRF4-aGoMB2-pMJGRD-bg4pYM-bCBFFH-nRYit2-nMHY9v-oroWfu-oQKnsW-gFe4sr-gp9ybn-hhQsxn-f2BLW1-cbjSU1-qAzo14-9jpS2t-fmYkUM-8b5Luw-groEM1-gzze73-8BxjkT-acSzSg-bbDAbx-bWBW7s-a9gyTq-4qWhxS-ntQYon-qLeC4d-c2zASY-khD2GF-shsxMr-ax2NfE-9fPJa3-a9q5iy-dkkjv7-9tsfwG-omLrbm-rNb9mV-nTuYvi'},
-               snow: {url: 'https://farm1.staticflickr.com/41/76809981_bab566151e_b.jpg',
-                        name: 'Thomas Quine',
-                        origLink: 'https://www.flickr.com/photos/quinet/76809981/in/photolist-7MEW2-qcqkY7-rBkgo3-dBkJAY-5Y6dz2-cHQhgJ-9r7f5o-qJrvjs-dQ1EHr-7Bcdyh-dAFhxx-dBFQd8-dCzUTx-9aT4PM-dNxcVW-dB3tXn-pqBz4R-64X3My-65fTkx-e8dnj2-joUcM2-r5rg9F-dFhYZZ-dNLPvg-iEDtsS-bi3k2K-pCLUHS-rpLXkk-qHmPjj-dCnaKo-prmcxy-8W9Thw-dNerJ5-bo8NSW-qdvN2Z-qzGLkA-aZo8Tc-ibNqmc-sDZTL-kssGxr-e5smwt-bqwbu7-qJz7tk-dL9nMu-dKUnon-kCr2DM-iXekZm-q3pKKV-dWrJ5t-9W5u5o'},
-               clouds: {url: 'https://farm3.staticflickr.com/2587/3715630964_86b99810b0_b.jpg',
-                          name: 'Daniel Spiess',
-                          origLink: 'https://www.flickr.com/photos/deegephotos/3715630964/in/photolist-6EkzCQ-4nXfwv-n9qJvH-8XteqS-4HJt6j-9RQkdN-3jgZVF-84o2ER-ehyhPC-6Ekjid-qYGC2C-qRdTgK-gmpTob-dhtwtk-j6H5mo-d2hjzJ-8esaXa-csMQXb-cbzyB5-pWQsJC-bDevbz-84r6Mo-dsNv2H-ofaVC1-oCLPDV-hkLuPi-jzbfAp-oCs3tU-9RqBfq-ackuTC-4nvqBz-53owm5-nUQGYN-36sady-6Xw3Mq-hxb2xb-p8EBZ2-8MjyE5-qkxvpX-7u8sVQ-oBJ7Kq-6kQYpE-5qFgPP-4KJEB-MjBaP-nDFMcz-rEqdKA-dBQRNH-oqJqTF-wzfrwL'},
-               fog: {url: 'https://farm9.staticflickr.com/8186/8120123255_25d42566b9_b.jpg',
-                       name: 'Nicklas Malmsjö',
-                       origLink: 'https://www.flickr.com/photos/malmsjo/8120123255/in/photolist-dnxKK6-5jwfWA-5Us4tW-oFiibU-4t1QVt-oNxsoJ-eB36Ti-5Kshab-7nB7zu-4TEuuB-4odDoG-WhGG-4sGKBF-hcFXxp-dQLBwR-hcDEKd-n2jJ5B-dyD2nM-Dr6y5-9drBYa-EpBsM-dpXDhU-qZpiGU-pSFNMP-msY382-rrbzSv-7BskNQ-s4k1AC-6bSM34-aNrU3-qo9CKc-dysMR5-aFRvQD-bGf23k-7CwpEo-5YraLu-dLrjEj-ifuCzn-saDtxF-utpKK4-hcDbTa-7ge3Jh-ifvqwv-dJJKbT-5bhgVt-4DvBw1-7AZjfc-v2Ubbu-pc7Huj-fNNPe7'},
-               smoke: {url: 'https://farm3.staticflickr.com/2851/8776185274_b51babbd11_b.jpg',
-                         name: 'Bureau of Land Management Oregon and Washington',
-                         origLink: 'https://www.flickr.com/photos/blmoregon/8776185274/in/photolist-enwf8d-nuk1Ap-9EAzCM-6UK34z-cmTsn7-wTdV9a-vpfH82-cjqp77-vQ299C-8yTZG7-cmTr4y-c6unAC-aene52-uTfYSz-cmTrCs-c6sZ6A-eLrLNL-nqyrxr-cmTrns-pz4JjB-6VQxQ4-adcz9U-xiWwrZ-8d6qTu-9zZz7D-kZxVQ-9EDcjY-fyaCjT-oaC5Jh-pcFqae-9EDbX7-ajJNGJ-77FpKK-cnPCpE-9AgC19-nvLwmu-weeeGG-qwKpn1-9AgDGj-cXCbzs-c8ibpC-8szjCW-9AdJRH-mY4ofK-enwr6Q-vYVWVA-9EAnLD-cjfXLm-fT5pJR-owfE85'},
-               volcanicAsh: {url: 'https://farm4.staticflickr.com/3666/13423890975_6089e05482_b.jpg',
-                               name: 'U.S. Geological Survey',
-                               origLink: 'https://www.flickr.com/photos/usgeologicalsurvey/13423890975/in/photolist-msdX78-99N1pk-99R9QE-hiYLae-99Ra4S-99N15c-9ViCdu-a8yaJs-9GFL3p-9GJBdU-99R8R7-icW4aF-a8vsKM-a8vdZ2-a8vdhD-827VXx-91BhRp-efeHLV-efkQFo-qP8tH2-dRFNfH-2fBm9C-dW95on-dRoLWv-a8yrY5-a8vxCr-a8vrVk-9xn18U-gZ8pgD-gZ8MSF-a8ykJJ-a8vybV-a8ybMQ-9xj22T-dRoMhe-a8vv9T-9xj2Lc-efferR-icVodA-a8y39W-7P7GTY-o7fucL-gZ9x1x-icWxjY-dRoMae-ekRz9s-icVtfN-dRumou-7P7BAL-a8xv2b'},
-               tornado: {url: 'https://farm8.staticflickr.com/7188/6838776050_ae02b01a4b_b.jpg',
-                           name: 'NSSL NOAA',
-                           origLink: 'https://www.flickr.com/photos/noaanssl/6838776050/in/photolist-bqjvRU-4G7Vgy-eoLUzQ-4MoS4Z-4MoRAt-4MoRkn-4Mt23h-4Mt1Nm-7PNyLM-nEUWwX-EBioP-fwBetf-6VSw9h-a6qxFK-evBDcm-2KmRox-c8VQqG-9J7yzq-8JaMBc-nqd65D-eEQnnd-eEJfve-8aX7jt-aeL18g-9EWVXs-eAdR9T-wiQMh-9DbjqC-9D8osK-8y1pT5-bDerkX-n7uG1W-9Dbjhb-9c2Qav-9D8oBM-9CM7yr-a5s4hM-9Rgsx2-9STUXY-bmYUDj-bzTJXV-bmYUyh-9CM9rx-dgaMfC-anoUjk-2ASnkM-o4CETQ-o4CnrU-o4rxja-o4JNea'},
-               hurricane: {url: 'https://farm5.staticflickr.com/4105/4994478045_d2b16f4da5_b.jpg',
-                             name: 'NASA\'s Marshall Space Flight Center',
-                             origLink: 'https://www.flickr.com/photos/nasamarshall/4994478045/in/photolist-8Bm1jr-ceLYvE-drrj7a-5mUnub-8xp2q6-afMn4j-8Bp4Ub-dqFS29-ahLJ9C-dpvQe3-aahBYC-agQ6pj-agenUg-dxmiHE-afZwGe-ah6o55-oXTNkK-8xs7E7-dt1Q9p-agws2k-8xp9Yz-cXZyZ9-jXCAbo-8xsdYo-doQSr3-drru93-5TwKjz-agLepw-d1xJyL-pFTQQ6-ahHYVX-d9xPGQ-agTq8E-agzC2s-dwYf5a-8zRDxu-oNpWvj-9oWCdq-8CUqxa-doZzt8-dqTLVg-d2H8Mm-afMPMk-t8k2nB-aJeUVx-a6UEsn-yp11w-ajUDof-ds9yrY-5mifxS'}
-               },
-    $forecast = $('.forecast-container'),
-    $today = $('.today'),
-    latitude,
-    longitude,
-    map;
+  var apiKeyStr = '&appid=bd82977b86bf27fb59a04b61b657fb6f',
+      today,
+      forecast,
+      months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+        'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'
+      ],
+      backgrounds = {
+                 default: {url:'https://farm7.staticflickr.com/6181/6159118656_42ea72b2c0_b.jpg',
+                             name: 'Gary Dicer',
+                             origLink: 'https://www.flickr.com/photos/gdicer/6159118656/in/photolist-aog6oY-aaqUbQ-4gZrKQ-aodkkX-g6JYr-3bad1a-5rhdmi-2kNXj-6CHgvV-LvuFg-5unPmY-77DfPg-pGeJmY-dfEYy5-6GhZUj-7eSY7K-bjKXJ3-acFFuY-4pq11g-3beFuC-6mYLhU-nwAgwx-5vQftV-6DHCMA-GyXQW-9iMXoN-6hxnTS-ay6mJs-nTJRhG-5Y6rkU-a3YvEq-7PFVjV-48im52-6DDrbB-6jt5pY-bFKvQ-2kNZh-7w9jAW-p2HoGn-oN6uhB-5Ko9eH-kVrfEK-6Go6Lu-iTkqZ4-ay3Crn-s6ArHX-JwwMZ-9woqiE-6n2vH1-s1i5y5'},
+                 thunderstorm: {url: 'https://farm5.staticflickr.com/4143/4914282680_b292f5676f_b.jpg',
+                                  name: 'Bo Insogna',
+                                  origLink: 'https://www.flickr.com/photos/lurw/4914282680/in/photolist-8ufZ2J-9TLa7w-4TuBLR-7beGV3-k8D9Nt-pejAy7-4E2PcS-a37f1h-4uH5iB-fo6Wh3-fYs2tV-w8CJWj-6SHKPh-ou7f1V-u5r5rA-hB14mX-nkqT98-n5P6oH-nVVbmz-d1SKSj-nVPDL5-9gqzM-odNJWk-ur7wHP-pkUxXg-8GVvsM-ff3Wap-fo6Uio-h9yuMW-sZspxc-2rvbHT-bQKpKV-8YgQe3-nDrGK4-fhYFo2-tLm9he-4VT9jg-9TLa9u-w6XZzq-TJ1b1-rjLMrr-onHR6k-d1jAXJ-9jcKxj-6NSURT-ddVoce-4PDFy-6bvv57-pcTt1B-8s1gUn'},
+                 drizzle: {url: 'https://farm8.staticflickr.com/7278/7733552820_4af8d50cdc_b.jpg',
+                             name: 'Anant Nath Sharma',
+                             origLink: 'https://www.flickr.com/photos/anantns/7733552820/in/photolist-cMotPA-qt5xUy-5Utoxz-4McxiY-8ucrbd-7JmyFs-8qi6Q7-6TQAnC-dDWG3g-8aP1pD-dHtvY6-9nJuoG-8zEcwF-nkDMQ-9fHRYM-5YBour-dUcZ6C-b8YKwT-dfHVKc-4dpMDD-d2tb5u-94Haa7-57WFSU-dNRuB-pjK1Pf-uNeRfH-7QHpnm-aZRxcX-pAXw6V-7tJ3sV-9Gsu2x-8CYuw4-78vkoC-a7ZPFr-j559Jk-fzkD3L-dcSssY-8V2U4K-oo6XUS-dU7maB-e3Y5LJ-86WoE6-aXeAt2-aXej9R-aXegXF-79KNs4-74HVyE-74HVe9-74HUU5-5Y3tGG'},
+                 rain: {url: 'https://farm7.staticflickr.com/6182/6132260807_8f2acff010_b.jpg',
+                          name: 'Vinoth Chandar',
+                          origLink: 'https://www.flickr.com/photos/vinothchandar/6132260807/in/photolist-akTruB-ozH6nu-axamgz-bVJFJb-aAvBve-ekmsCR-9fHLzs-ebsxQo-ppFZNk-hSTFxU-nxab3K-avkRF4-aGoMB2-pMJGRD-bg4pYM-bCBFFH-nRYit2-nMHY9v-oroWfu-oQKnsW-gFe4sr-gp9ybn-hhQsxn-f2BLW1-cbjSU1-qAzo14-9jpS2t-fmYkUM-8b5Luw-groEM1-gzze73-8BxjkT-acSzSg-bbDAbx-bWBW7s-a9gyTq-4qWhxS-ntQYon-qLeC4d-c2zASY-khD2GF-shsxMr-ax2NfE-9fPJa3-a9q5iy-dkkjv7-9tsfwG-omLrbm-rNb9mV-nTuYvi'},
+                 snow: {url: 'https://farm1.staticflickr.com/41/76809981_bab566151e_b.jpg',
+                          name: 'Thomas Quine',
+                          origLink: 'https://www.flickr.com/photos/quinet/76809981/in/photolist-7MEW2-qcqkY7-rBkgo3-dBkJAY-5Y6dz2-cHQhgJ-9r7f5o-qJrvjs-dQ1EHr-7Bcdyh-dAFhxx-dBFQd8-dCzUTx-9aT4PM-dNxcVW-dB3tXn-pqBz4R-64X3My-65fTkx-e8dnj2-joUcM2-r5rg9F-dFhYZZ-dNLPvg-iEDtsS-bi3k2K-pCLUHS-rpLXkk-qHmPjj-dCnaKo-prmcxy-8W9Thw-dNerJ5-bo8NSW-qdvN2Z-qzGLkA-aZo8Tc-ibNqmc-sDZTL-kssGxr-e5smwt-bqwbu7-qJz7tk-dL9nMu-dKUnon-kCr2DM-iXekZm-q3pKKV-dWrJ5t-9W5u5o'},
+                 clouds: {url: 'https://farm3.staticflickr.com/2587/3715630964_86b99810b0_b.jpg',
+                            name: 'Daniel Spiess',
+                            origLink: 'https://www.flickr.com/photos/deegephotos/3715630964/in/photolist-6EkzCQ-4nXfwv-n9qJvH-8XteqS-4HJt6j-9RQkdN-3jgZVF-84o2ER-ehyhPC-6Ekjid-qYGC2C-qRdTgK-gmpTob-dhtwtk-j6H5mo-d2hjzJ-8esaXa-csMQXb-cbzyB5-pWQsJC-bDevbz-84r6Mo-dsNv2H-ofaVC1-oCLPDV-hkLuPi-jzbfAp-oCs3tU-9RqBfq-ackuTC-4nvqBz-53owm5-nUQGYN-36sady-6Xw3Mq-hxb2xb-p8EBZ2-8MjyE5-qkxvpX-7u8sVQ-oBJ7Kq-6kQYpE-5qFgPP-4KJEB-MjBaP-nDFMcz-rEqdKA-dBQRNH-oqJqTF-wzfrwL'},
+                 fog: {url: 'https://farm9.staticflickr.com/8186/8120123255_25d42566b9_b.jpg',
+                         name: 'Nicklas Malmsjö',
+                         origLink: 'https://www.flickr.com/photos/malmsjo/8120123255/in/photolist-dnxKK6-5jwfWA-5Us4tW-oFiibU-4t1QVt-oNxsoJ-eB36Ti-5Kshab-7nB7zu-4TEuuB-4odDoG-WhGG-4sGKBF-hcFXxp-dQLBwR-hcDEKd-n2jJ5B-dyD2nM-Dr6y5-9drBYa-EpBsM-dpXDhU-qZpiGU-pSFNMP-msY382-rrbzSv-7BskNQ-s4k1AC-6bSM34-aNrU3-qo9CKc-dysMR5-aFRvQD-bGf23k-7CwpEo-5YraLu-dLrjEj-ifuCzn-saDtxF-utpKK4-hcDbTa-7ge3Jh-ifvqwv-dJJKbT-5bhgVt-4DvBw1-7AZjfc-v2Ubbu-pc7Huj-fNNPe7'},
+                 smoke: {url: 'https://farm3.staticflickr.com/2851/8776185274_b51babbd11_b.jpg',
+                           name: 'Bureau of Land Management Oregon and Washington',
+                           origLink: 'https://www.flickr.com/photos/blmoregon/8776185274/in/photolist-enwf8d-nuk1Ap-9EAzCM-6UK34z-cmTsn7-wTdV9a-vpfH82-cjqp77-vQ299C-8yTZG7-cmTr4y-c6unAC-aene52-uTfYSz-cmTrCs-c6sZ6A-eLrLNL-nqyrxr-cmTrns-pz4JjB-6VQxQ4-adcz9U-xiWwrZ-8d6qTu-9zZz7D-kZxVQ-9EDcjY-fyaCjT-oaC5Jh-pcFqae-9EDbX7-ajJNGJ-77FpKK-cnPCpE-9AgC19-nvLwmu-weeeGG-qwKpn1-9AgDGj-cXCbzs-c8ibpC-8szjCW-9AdJRH-mY4ofK-enwr6Q-vYVWVA-9EAnLD-cjfXLm-fT5pJR-owfE85'},
+                 volcanicAsh: {url: 'https://farm4.staticflickr.com/3666/13423890975_6089e05482_b.jpg',
+                                 name: 'U.S. Geological Survey',
+                                 origLink: 'https://www.flickr.com/photos/usgeologicalsurvey/13423890975/in/photolist-msdX78-99N1pk-99R9QE-hiYLae-99Ra4S-99N15c-9ViCdu-a8yaJs-9GFL3p-9GJBdU-99R8R7-icW4aF-a8vsKM-a8vdZ2-a8vdhD-827VXx-91BhRp-efeHLV-efkQFo-qP8tH2-dRFNfH-2fBm9C-dW95on-dRoLWv-a8yrY5-a8vxCr-a8vrVk-9xn18U-gZ8pgD-gZ8MSF-a8ykJJ-a8vybV-a8ybMQ-9xj22T-dRoMhe-a8vv9T-9xj2Lc-efferR-icVodA-a8y39W-7P7GTY-o7fucL-gZ9x1x-icWxjY-dRoMae-ekRz9s-icVtfN-dRumou-7P7BAL-a8xv2b'},
+                 tornado: {url: 'https://farm8.staticflickr.com/7188/6838776050_ae02b01a4b_b.jpg',
+                             name: 'NSSL NOAA',
+                             origLink: 'https://www.flickr.com/photos/noaanssl/6838776050/in/photolist-bqjvRU-4G7Vgy-eoLUzQ-4MoS4Z-4MoRAt-4MoRkn-4Mt23h-4Mt1Nm-7PNyLM-nEUWwX-EBioP-fwBetf-6VSw9h-a6qxFK-evBDcm-2KmRox-c8VQqG-9J7yzq-8JaMBc-nqd65D-eEQnnd-eEJfve-8aX7jt-aeL18g-9EWVXs-eAdR9T-wiQMh-9DbjqC-9D8osK-8y1pT5-bDerkX-n7uG1W-9Dbjhb-9c2Qav-9D8oBM-9CM7yr-a5s4hM-9Rgsx2-9STUXY-bmYUDj-bzTJXV-bmYUyh-9CM9rx-dgaMfC-anoUjk-2ASnkM-o4CETQ-o4CnrU-o4rxja-o4JNea'},
+                 hurricane: {url: 'https://farm5.staticflickr.com/4105/4994478045_d2b16f4da5_b.jpg',
+                               name: 'NASA\'s Marshall Space Flight Center',
+                               origLink: 'https://www.flickr.com/photos/nasamarshall/4994478045/in/photolist-8Bm1jr-ceLYvE-drrj7a-5mUnub-8xp2q6-afMn4j-8Bp4Ub-dqFS29-ahLJ9C-dpvQe3-aahBYC-agQ6pj-agenUg-dxmiHE-afZwGe-ah6o55-oXTNkK-8xs7E7-dt1Q9p-agws2k-8xp9Yz-cXZyZ9-jXCAbo-8xsdYo-doQSr3-drru93-5TwKjz-agLepw-d1xJyL-pFTQQ6-ahHYVX-d9xPGQ-agTq8E-agzC2s-dwYf5a-8zRDxu-oNpWvj-9oWCdq-8CUqxa-doZzt8-dqTLVg-d2H8Mm-afMPMk-t8k2nB-aJeUVx-a6UEsn-yp11w-ajUDof-ds9yrY-5mifxS'}
+                 },
+      $forecast = $('.forecast-container'),
+      $today = $('.today'),
+      latitude,
+      longitude,
+      map;
 
   //Let's get it all started
   (function initialize() {
@@ -94,7 +96,7 @@ $(document).ready(function() {
   function getWeather(lat, lon) {
     //get weather info from openweathermap by lat lon
     $.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=' +
-      lat + '&lon=' + lon + '&appid=bd82977b86bf27fb59a04b61b657fb6f').
+      lat + '&lon=' + lon + apiKeyStr).
     done(function(data) {
       //today object holds current weather daata
       today = data;
@@ -153,7 +155,7 @@ $(document).ready(function() {
 
         //get forecast data, then set data and animate forecast tiles
         $.getJSON('http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
-          lat + '&lon=' + lon + '&appid=bd82977b86bf27fb59a04b61b657fb6f').
+          lat + '&lon=' + lon + apiKeyStr).
         done(function(data) {
           forecast = data;
           displayForecastTemps('F');
@@ -348,7 +350,7 @@ $(document).ready(function() {
         if (searchTerm.length > 2) {
           $('#searchAutoComplete').css('visibility', 'visible');
           $.getJSON("http://api.openweathermap.org/data/2.5/find?q=" +
-            searchTerm + "&type=like").
+            searchTerm + "&type=like" + apiKeyStr).
           done(function(query) {
             suggestionList(query.list);
           });
