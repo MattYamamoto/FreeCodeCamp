@@ -1,0 +1,75 @@
+body {
+}
+
+#calculator{
+  width: 300px;
+  border: 1px solid black;
+  margin: auto;
+}
+
+#screen {
+  background-color: hsla(40, 25%, 50%, 1);
+  height: 200px;
+  width: auto;
+  margin: 15px;
+  padding: 5px;
+}
+
+#keys {
+border: 1px dashed blue;
+text-align: center;
+}
+
+.key-row {
+  margin: 0;
+}
+
+.key-container-option {
+  position: relative;
+  display: inline-block;
+  margin: 7px;
+  width: 30px;
+  height: 15px;
+  border: 1px solid black;
+}
+
+.key-button-option {
+
+}
+
+.key-container-small {
+  position: relative;
+  display: inline-block;
+  margin: 7px;
+  width: 30px;
+  height: 20px;
+  border: 1px solid black;
+  overflow: hidden;
+}
+
+.key-button-small {
+  margin: 0 auto;
+  border: 1px solid black;
+}
+
+.key-container-large {
+  position: relative;
+  display: inline-block;
+  width: 55px;
+  height: 55px;
+  border: 2px solid black;
+  overflow: hidden;
+}
+
+.key-button-large {
+  position: absolute;
+  bottom: 0;
+  width: 80%;
+  height: 28px;
+  margin: 0 5px 5px 5px;
+  border: 1px solid black;
+}
+
+.key-alt {
+  font-size: 0.8em;
+}
