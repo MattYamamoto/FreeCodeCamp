@@ -21,54 +21,69 @@ text-align: center;
 }
 
 .key-row {
-  margin: 0;
+}
+
+.key-button {
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-shadow: 0px 2px black;
 }
 
 .key-container-option {
   position: relative;
   display: inline-block;
-  margin: 7px;
-  width: 30px;
+  margin: -2px;
+  width: 49px;
   height: 15px;
-  border: 1px solid black;
 }
 
 .key-button-option {
-
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  width: 36px;
+  height: 15px;
+  margin-left: -18px;
+  border: 1px solid black;
 }
 
 .key-container-small {
   position: relative;
   display: inline-block;
   margin: -2px;
-  margin: 7px;
-  width: 30px;
-  height: 20px;
-  border: 1px solid black;
+  width: 49px;
+  height: 45px;
   overflow: hidden;
 }
 
 .key-button-small {
-  margin: 0 auto;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 36px;
+  height: 20px;
+  margin-left: -18px;
   border: 1px solid black;
 }
 
 .key-container-large {
   position: relative;
   display: inline-block;
+  background-color: gray;
   margin: -2px;
   width: 55px;
   height: 55px;
-  border: 2px solid black;
+  border: 2px solid white;
   overflow: hidden;
 }
 
 .key-button-large {
   position: absolute;
-  bottom: 0;
-  width: 80%;
+  bottom: 5px;
+  left: 50%;
+  width: 44px;
   height: 28px;
-  margin: 0 5px 5px 5px;
+  margin-left: -23px;
   border: 1px solid black;
 }
 
