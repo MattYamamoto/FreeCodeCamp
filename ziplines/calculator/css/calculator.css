@@ -1,32 +1,57 @@
 body {
 }
 
-#calculator{
+#calculator {
   width: 300px;
-  border: 1px solid black;
+  border: 3px solid black;
+  border-radius: 10px;
   margin: auto;
+  overflow: hidden;
+}
+
+#screen-container {
+  background-color: gray;
+  position:relative;
+  z-index: 1;
+  height: 200px;
+  width: auto;
+  padding: 20px;
+  box-shadow: 0 2px 2px 2px hsla(0, 0%, 0%, 0.7),
+              0 0px 2px 2px hsla(0, 0%, 0%, 0.7) inset;
 }
 
 #screen {
   background-color: hsla(40, 25%, 50%, 1);
-  height: 200px;
-  width: auto;
-  margin: 15px;
-  padding: 5px;
+  height: 100%;
+  width: 100%;
+  box-shadow: 0 -1px 3px 2px hsla(0, 50%, 0%, 0.8),
+              0 -1px 3px 2px black inset;
 }
 
 #keys {
-border: 1px dashed blue;
 text-align: center;
+box-shadow: 1px 1px 2px 4px hsla(0, 0%, 0%, 0.8) inset;
 }
 
 .key-row {
+  position: relative;
+  z-index: -1;
 }
 
 .key-button {
   border: 1px solid #000;
   border-radius: 5px;
-  box-shadow: 0px 2px black;
+  box-shadow: 0px 2px black,
+              2px 2px 2px 1px hsla(0, 50%, 0%, 0.8),
+              -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset;
+}
+
+#option-keys-row {
+  position: relative;
+  z-index: -1;
+  padding-top: 15px;
+  padding-bottom: 10px;
+  background-color: gray;
 }
 
 .key-option-container {
@@ -90,3 +115,16 @@ text-align: center;
 .key-alt {
   font-size: 0.8em;
 }
+
+div.chapter1{
+            height: 250px;
+            border: 1px solid blue;
+
+        }
+        .chapter1 form.line{
+            margin: 10px 30px 5px 30px;
+            border: 1px solid blue;
+            display: inline-table;
+
+
+        }
