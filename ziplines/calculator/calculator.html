@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>FreeCodeCamp Calculator</title>
 
-    <link rel="stylesheet" href="css/calculator.css">
+<head>
+  <meta charset="utf-8">
+  <title>FreeCodeCamp Calculator</title>
+
+  <link rel="stylesheet" href="css/calculator.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  </head>
-  <body>
+</head>
+
+<body>
+  <div class="container">
     <div id="calculator">
 
       <div id="screen-container">
@@ -19,201 +22,203 @@
       </div>
 
       <div id="keys">
-        <div id="option-keys-row" class="key-row group">
+        <div id="key-option-row" class="key-row group">
           <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
-          </div>
-        <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
           </div>
           <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
           </div>
           <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
           </div>
           <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
           </div>
           <div class="key-option-container">
-            <div class="key-button key-option-button"> </div>
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
+          </div>
+          <div class="key-option-container">
+            <div class="key-button key-option-button"><div class="key-text"> </div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"><i class="fa fa-arrow-up"></i></div>
+            <div class="key-button key-small-button"><div class="key-text"><i class="fa fa-arrow-up"></i></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">Next</div>
+            <div class="key-button key-small-button"><div class="key-text">Next</div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-small-container">
             <div class="key-alt">test</div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"></div>
+            <div class="key-button key-small-button"><div class="key-text"></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"><i class="fa fa-arrow-left"></i></div>
+            <div class="key-button key-small-button"><div class="key-text"><i class="fa fa-arrow-left"></i></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"><i class="fa fa-arrow-down"></i></div>
+            <div class="key-button key-small-button"><div class="key-text"><i class="fa fa-arrow-down"></i></div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button"><i class="fa fa-arrow-right"></i></div>
+            <div class="key-button key-small-button"><div class="key-text"><i class="fa fa-arrow-right"></i></div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">A</div>
+            <div class="key-button key-small-button"><div class="key-text">A</div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">B</div>
-          </div>
-        <div class="key-small-container">
-            <div class="key-alt"></div>
-            <div class="key-button key-small-button">C</div>
+            <div class="key-button key-small-button"><div class="key-text">B</div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">D</div>
+            <div class="key-button key-small-button"><div class="key-text">C</div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">E</div>
+            <div class="key-button key-small-button"><div class="key-text">D</div></div>
           </div>
           <div class="key-small-container">
             <div class="key-alt"></div>
-            <div class="key-button key-small-button">F</div>
+            <div class="key-button key-small-button"><div class="key-text">E</div></div>
+          </div>
+          <div class="key-small-container">
+            <div class="key-alt"></div>
+            <div class="key-button key-small-button"><div class="key-text">F</div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button"> </div>
+            <div class="key-button key-large-button"><div class="key-text"> </div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">7</div>
+            <div class="key-button key-large-button"><div class="key-text">7</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">8</div>
+            <div class="key-button key-large-button"><div class="key-text">8</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">9</div>
+            <div class="key-button key-large-button"><div class="key-text">9</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">-</div>
+            <div class="key-button key-large-button"><div class="key-text">-</div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button"><i class="fa fa-reply"></i></div>
+            <div class="key-button key-large-button"><div class="key-text"><i class="fa fa-reply"></i></div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">4</div>
+            <div class="key-button key-large-button"><div class="key-text">4</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">5</div>
+            <div class="key-button key-large-button"><div class="key-text">5</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">6</div>
+            <div class="key-button key-large-button"><div class="key-text">6</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">+</div>
+            <div class="key-button key-large-button"><div class="key-text">+</div></div>
           </div>
         </div>
 
         <div class="key-row group">
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button"><i class="fa fa-share"></i></div>
+            <div class="key-button key-large-button"><div class="key-text"><i class="fa fa-share"></i></div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">1</div>
+            <div class="key-button key-large-button"><div class="key-text">1</div></div>
           </div>
-            <div class="key-large-container">
+          <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">2</div>
+            <div class="key-button key-large-button"><div class="key-text">2</div></div>
           </div>
-            <div class="key-large-container">
+          <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">3</div>
+            <div class="key-button key-large-button"><div class="key-text">3</div></div>
           </div>
-            <div class="key-large-container">
+          <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">-</div>
-            </div>
+            <div class="key-button key-large-button"><div class="key-text">-</div></div>
+          </div>
         </div>
 
         <div class="key-row group">
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">+/-</div>
+            <div class="key-button key-large-button"><div class="key-text">+/-</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt">test</div>
-            <div class="key-button key-large-button">0</div>
+            <div class="key-button key-large-button"><div class="key-text">0</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">.</div>
+            <div class="key-button key-large-button"><div class="key-text">.</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">Enter</div>
+            <div class="key-button key-large-button"><div class="key-text">Enter</div></div>
           </div>
           <div class="key-large-container">
             <div class="key-alt"></div>
-            <div class="key-button key-large-button">+</div>
+            <div class="key-button key-large-button"><div class="key-text">+</div></div>
           </div>
         </div>
 
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
