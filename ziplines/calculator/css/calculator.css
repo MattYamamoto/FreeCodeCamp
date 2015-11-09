@@ -32,6 +32,8 @@ body {
 /*                     */
 #screen {
   position: relative;
+  font-family: 'Play', sans-serif;
+  font-size: 14px;
   background-color: hsla(40, 25%, 50%, 1);
   height: 100%;
   width: 100%;
@@ -56,15 +58,16 @@ body {
 
 .screen-menus {
   position: absolute;
-  bottom: 5px;
-  left: 3px;
+  bottom: 3px;
+  left: 5px;
 }
 .menu {
   display: inline-block;
   position: relative;
-  width: 37px;
+  width: 35px;
+  height: 15px;
   text-align: center;
-  padding-left: 2px;
+  padding: 2px 2px;
   color: hsla(40, 25%, 50%, 1);
   background-color: hsl(130, 15%, 10%);
 }
