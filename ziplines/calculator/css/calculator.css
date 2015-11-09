@@ -27,14 +27,59 @@ body {
   box-shadow: 0 2px 2px 2px hsla(0, 0%, 0%, 0.7),
               0 0px 2px 2px hsla(0, 0%, 0%, 0.7) inset;
 }
-
+/*                     */
+/*     Screen Area     */
+/*                     */
 #screen {
+  position: relative;
   background-color: hsla(40, 25%, 50%, 1);
   height: 100%;
   width: 100%;
+
+}
+#screen::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
   box-shadow: 0 -1px 3px 2px hsla(0, 50%, 0%, 0.8),
               0 -1px 3px 2px black inset;
 }
+
+.screen-header {
+
+}
+
+.screen-main-display {
+
+}
+
+.screen-menus {
+  position: absolute;
+  bottom: 5px;
+  left: 3px;
+}
+.menu {
+  display: inline-block;
+  position: relative;
+  width: 37px;
+  text-align: center;
+  padding-left: 2px;
+  color: hsla(40, 25%, 50%, 1);
+  background-color: hsl(130, 15%, 10%);
+}
+
+.menu-folder::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: 1px;
+  height: 3px;
+  width: 10px;
+  background-color: hsl(130, 35%, 10%);
+}
+
+
 
 /*                     */
 /*     Keypad Area     */
