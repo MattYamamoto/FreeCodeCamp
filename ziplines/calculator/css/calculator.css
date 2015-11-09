@@ -36,6 +36,9 @@ body {
               0 -1px 3px 2px black inset;
 }
 
+/*                     */
+/*     Keypad Area     */
+/*                     */
 #keys {
   background-color: hsl(200, 5%, 30%);
   text-align: center;
@@ -64,13 +67,82 @@ body {
               2px 2px 2px 1px hsla(0, 50%, 0%, 0.8),
               -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset;
 }
+
+
+/*                    */
+/*     Small Keys    */
+/*                    */
+.key-small-container {
+  position: relative;
+  display: inline-block;
+  margin: -2px;
+  width: 49px;
+  height: 45px;
+  vertical-align: bottom;
+}
+
+.key-small-button {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 36px;
+  height: 20px;
+  margin-left: -19px;
+  border: 1px solid black;
+}
+
+
+/*                    */
+/*     Large Keys    */
+/*                    */
+.key-large-container {
+  position: relative;
+  display: inline-block;
+  margin: -1px;
+  width: 55px;
+  height: 55px;
+  vertical-align: bottom;
+}
+
+.key-large-button {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  width: 44px;
+  height: 28px;
+  margin-left: -24px;
+  border: 1px solid black;
+}
+
+/*                    */
+/*     Key Text       */
+/*                    */
 .key-text {
   width: 100%;
   height: 100%;
-display: table-cell;
-vertical-align: middle;
+  display: table-cell;
+  vertical-align: middle;
 }
 
+.key-alt-text-1 {
+  color: hsl(300, 40%, 50%);
+}
+
+.key-alt-text-2 {
+  color: hsl(125, 40%, 50%);
+}
+
+.key-alt {
+  font-size: 0.7em;
+  margin-top: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/*                    */
+/*     Option Keys    */
+/*                    */
 #key-option-row {
   position: relative;
   padding-top: 15px;
@@ -98,58 +170,3 @@ vertical-align: middle;
   border: 3px solid hsl(200, 5%, 20%);
   background-color: white;
 }
-
-.key-small-container {
-  position: relative;
-  display: inline-block;
-  margin: -2px;
-  width: 49px;
-  height: 45px;
-  overflow: hidden;
-}
-
-.key-small-button {
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  width: 36px;
-  height: 20px;
-  margin-left: -19px;
-  border: 1px solid black;
-}
-
-.key-large-container {
-  position: relative;
-  display: inline-block;
-  margin: -1px;
-  width: 55px;
-  height: 55px;
-  overflow: hidden;
-}
-
-.key-large-button {
-  position: absolute;
-  bottom: 5px;
-  left: 50%;
-  width: 44px;
-  height: 28px;
-  margin-left: -24px;
-  border: 1px solid black;
-}
-
-.key-alt {
-  font-size: 0.8em;
-}
-
-div.chapter1{
-            height: 250px;
-            border: 1px solid blue;
-
-        }
-        .chapter1 form.line{
-            margin: 10px 30px 5px 30px;
-            border: 1px solid blue;
-            display: inline-table;
-
-
-        }
