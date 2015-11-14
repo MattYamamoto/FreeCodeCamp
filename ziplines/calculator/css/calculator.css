@@ -124,6 +124,15 @@ body {
               -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset,
               0px 0px 4px 1px hsla(200, 5%, 10%, 0.8) inset,
               0px 0px 0px 3px hsl(200, 5%, 20%) inset;
+  transition: hover 100ms ease-out;
+}
+
+.key-button:hover {
+  transform: translateX(2px);
+  box-shadow: 0px 2px black,
+              -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset,
+              0px 0px 4px 1px hsla(200, 5%, 10%, 0.8) inset,
+              0px 0px 0px 3px hsl(200, 5%, 20%) inset;
 }
 
 .key-text {
