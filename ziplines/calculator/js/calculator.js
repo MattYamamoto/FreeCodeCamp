@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var $keyButtons = $('.key-button'),
+  var $keyButtons = $('.key-button'),  //jQuery object holdeing all keys
     keyMap = {
       "k0": {
         "main": "",
@@ -223,21 +223,26 @@ $(document).ready(function() {
       }
     };
 
+  //setKeys function maps text onto appropriate key.
   function setKeys() {
     $keyButtons.each(function(ind) {
       var main = keyMap["k" + ind].main || "~" + ind + "~",
           alt1 = keyMap["k" + ind].alt1,
           alt2 = keyMap["k" + ind].alt2;
+
       $(this).parent().find(".key-alt-text-1").html(alt1);
       $(this).parent().find(".key-alt-text-2").html(alt2);
       $('.key-text', this).html(main);
+
     })
   }
-  setKeys();
-
-
-
 
   $keyButtons.mousedown(function() {});
+
+  //Initialize the calculator
+  (function initialize() {
+    setKeys();
+  })();
+
 
 });
