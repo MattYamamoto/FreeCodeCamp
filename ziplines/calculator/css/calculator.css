@@ -22,7 +22,6 @@ body {
   position:relative;
   z-index: 1;
   height: 200px;
-  width: auto;
   padding: 20px;
   box-shadow: 0 2px 2px 2px hsla(0, 0%, 0%, 0.7),
               0 0px 2px 2px hsla(0, 0%, 0%, 0.7) inset;
@@ -59,8 +58,32 @@ body {
   margin: 0;
 }
 
-.screen-main-display {
+.screen-main-display-container {
 
+    position: absolute;
+    bottom: 30px;
+}
+
+.screen-main-display {
+  height: 145px;
+  width: 600px;
+  display: table-cell;
+  vertical-align: bottom;
+  padding: 0 10px;
+  font-size: 22px;
+}
+
+.line {
+  text-align: right;
+  clear: both;
+}
+
+.line-number {
+  float: left;
+}
+
+.line-content {
+  width: 100%;
 }
 
 .screen-menus {
