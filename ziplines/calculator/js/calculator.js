@@ -1,17 +1,17 @@
 $(document).ready(function() {
   var $key = $('.key-button'),
     keyMap = {
-      "k07": {
+      "k7": {
         "main": "",
         "alt1": "",
         "alt2": ""
       },
-      "k08": {
+      "k8": {
         "main": "",
         "alt1": "",
         "alt2": ""
       },
-      "k09": {
+      "k9": {
         "main": "",
         "alt1": "",
         "alt2": ""
