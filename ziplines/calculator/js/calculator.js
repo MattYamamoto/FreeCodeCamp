@@ -1,6 +1,36 @@
 $(document).ready(function() {
-  var $key = $('.key-button'),
+  var $keyButtons = $('.key-button'),
     keyMap = {
+      "k0": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
+      "k1": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
+      "k2": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
+      "k3": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
+      "k4": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
+      "k5": {
+        "main": "",
+        "alt1": "",
+        "alt2": ""
+      },
       "k6": {
         "main": "",
         "alt1": "",
@@ -117,7 +147,7 @@ $(document).ready(function() {
         "alt2": ""
       },
       "k29": {
-        "main": "<i class='a fa-reply'></i>",
+        "main": "<i class='fa fa-reply'></i>",
         "alt1": "",
         "alt2": ""
       },
@@ -192,15 +222,22 @@ $(document).ready(function() {
         "alt2": ""
       }
     };
-console.log($key[1]);
+
   function setKeys() {
-
-
+    $keyButtons.each(function(ind) {
+      var main = keyMap["k" + ind].main || "~" + ind + "~",
+          alt1 = keyMap["k" + ind].alt1,
+          alt2 = keyMap["k" + ind].alt2;
+      $(this).parent().find(".key-alt-text-1").html(alt1);
+      $(this).parent().find(".key-alt-text-2").html(alt2);
+      $('.key-text', this).html(main);
+    })
   }
+  setKeys();
 
 
 
 
-  $key.mousedown(function() {});
+  $keyButtons.mousedown(function() {});
 
 });
