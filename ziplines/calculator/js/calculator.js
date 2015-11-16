@@ -1,35 +1,34 @@
 $(document).ready(function() {
-  var $keyButtons = $('.key-button'),  //jQuery object holdeing all keys
-      screenLines = {},
-      keys = {},
+  var $$screenLines = {},
+      $$keys = {},
       keyMap = {
         "k0": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
         "k1": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
         "k2": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
         "k3": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
         "k4": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
         "k5": {
-          "main": "",
+          "main": " ",
           "alt1": "",
           "alt2": ""
         },
@@ -235,7 +234,7 @@ $(document).ready(function() {
     //the line Number element and the line content element
     //places those in the screenLines object by ID
     $('.line').each(function() {
-      screenLines[$(this).attr('id')] = {
+      $$screenLines[$(this).attr('id')] = {
         "lineNum": $(this).find(".line-number"),
         "lineContent": $(this).find(".content")
       };
@@ -246,7 +245,7 @@ $(document).ready(function() {
     //as well as the text area of the alt keys.  Store this object
     //in the keys object by ID.
     $('.key-button').each(function() {
-      keys[$(this).attr('id')] = {
+      $$keys[$(this).attr('id')] = {
         "container": $(this).parent(),
         "button": $(this),
         "text": $('.key-text', this),
@@ -260,27 +259,23 @@ $(document).ready(function() {
 
   //setKeys function maps text onto appropriate key.
   function setKeys() {
-    $keyButtons.each(function(ind) {
-      var main = keyMap["k" + ind].main || "~" + ind + "~",
-          alt1 = keyMap["k" + ind].alt1,
-          alt2 = keyMap["k" + ind].alt2;
-
-      $(this).parent().find(".key-alt-text-1").html(alt1);
-      $(this).parent().find(".key-alt-text-2").html(alt2);
-      $('.key-text', this).html(main);
-
-    })
+    for(var key in $$keys) {
+      if($$keys.hasOwnProperty(key)){
+        $$keys[key].text.html(keyMap[key].main || "~" + key + "~"),
+        $$keys[key].alt1.html(keyMap[key].alt1),
+        $$keys[key].alt2.html(keyMap[key].alt2);
+      }
+    }
   }
 
   function drawScreen() {
     for(var i = 0; i < 5; i++) {
-      screenLines["line" + i].lineNum.html(screenStack.lineNumbers[i]);
-      screenLines["line" + i].lineContent.html(screenStack.lineContents[i]);
+      $$screenLines["line" + i].lineNum.html(screenStack.lineNumbers[i]);
+      $$screenLines["line" + i].lineContent.html(screenStack.lineContents[i]);
     }
   }
 
-  $keyButtons.mousedown(function() {});
-
+  
   //Initialize the calculator
   (function initialize() {
     getSelectors();
