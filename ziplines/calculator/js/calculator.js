@@ -1,5 +1,6 @@
 $(document).ready(function() {
-  var $$screenLines = {},
+  var $keyButtons = $('.key-button'),
+      $$screenLines = {},
       $$keys = {},
       keyMap = {
         "k0": {
@@ -244,7 +245,7 @@ $(document).ready(function() {
     //it's container, the button itself, the text area of the button
     //as well as the text area of the alt keys.  Store this object
     //in the keys object by ID.
-    $('.key-button').each(function() {
+    $keyButtons.each(function() {
       $$keys[$(this).attr('id')] = {
         "container": $(this).parent(),
         "button": $(this),
@@ -275,7 +276,11 @@ $(document).ready(function() {
     }
   }
 
-  
+  $keyButtons.click(function() {
+      
+
+  });
+
   //Initialize the calculator
   (function initialize() {
     getSelectors();
