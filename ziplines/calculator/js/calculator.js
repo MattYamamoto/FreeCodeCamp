@@ -318,7 +318,7 @@ $(document).ready(function() {
         "main": {
           "text": "A",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -335,7 +335,7 @@ $(document).ready(function() {
         "main": {
           "text": "B",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -352,7 +352,7 @@ $(document).ready(function() {
         "main": {
           "text": "C",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -369,7 +369,7 @@ $(document).ready(function() {
         "main": {
           "text": "D",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -386,7 +386,7 @@ $(document).ready(function() {
         "main": {
           "text": "E",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -403,7 +403,7 @@ $(document).ready(function() {
         "main": {
           "text": "F",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -437,7 +437,7 @@ $(document).ready(function() {
         "main": {
           "text": "7",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -454,7 +454,7 @@ $(document).ready(function() {
         "main": {
           "text": "8",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -471,7 +471,7 @@ $(document).ready(function() {
         "main": {
           "text": "9",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -522,7 +522,7 @@ $(document).ready(function() {
         "main": {
           "text": "4",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -539,7 +539,7 @@ $(document).ready(function() {
         "main": {
           "text": "5",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -556,7 +556,7 @@ $(document).ready(function() {
         "main": {
           "text": "6",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -607,7 +607,7 @@ $(document).ready(function() {
         "main": {
           "text": "1",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -624,7 +624,7 @@ $(document).ready(function() {
         "main": {
           "text": "2",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -692,7 +692,7 @@ $(document).ready(function() {
         "main": {
           "text": "0",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "Test",
@@ -709,7 +709,7 @@ $(document).ready(function() {
         "main": {
           "text": ".",
           "val": "",
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -836,8 +836,11 @@ $(document).ready(function() {
   }
 
   $keyButtons.click(function() {
-    numClick(keyMap[$(this).attr('id')].main.text);
-
+    var key = $(this).attr('id'),
+        func = keyMap[key].main.func;
+    if(func) {
+      func(keyMap[key].main.text);
+    }
   });
 
   //Initialize the calculator
