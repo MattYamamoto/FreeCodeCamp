@@ -5,6 +5,7 @@ $(document).ready(function() {
       $keyAlt2Text = $(".key-alt-text-2"),
       $screenNum = $('.line-number'),
       $screenContent = $('.content'),
+      $display = $('.screen-main-display-container'),
       keyMap = {
         "k0": {
           "text": " ",
@@ -253,12 +254,23 @@ $(document).ready(function() {
   }
 
   function drawScreen() {
-/*
-    for(var i = 0; i < 5; i++) {
-      $$screenLines["line" + i].lineNum.html(screenStack.lineNumbers[i]);
-      $$screenLines["line" + i].lineContent.html(screenStack.lineContents[i]);
+    var node = $('<div class="screen-main-display"></div>'),
+        lineNum,
+        content;
+
+    //create html for each line
+    for(var i =0; i < 5; i++) {
+      lineNum = screenStack.lineNumbers[i];
+      content = screenStack.lineContents[i] || "";
+      node.prepend('<div id="line' + i + '" class="line">' +
+                      '<span class="line-number">' + lineNum + '</span>' +
+                      '<span class="content">' + content + '</span>' +
+                    '</div>');
     }
-  */
+
+    //place new display html on the screen
+    $display.empty().append(node);
+
   }
 
   $keyButtons.click(function() {
