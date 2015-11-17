@@ -281,8 +281,33 @@ $(document).ready(function() {
 
   }
 
-  $keyButtons.click(function() {
+  //Create a new input line
+  function enterInputLine(char) {
+    //new line is add to front of screenStack
+    screenStack.lineNumbers.unshift("");  //has no line number
+    screenStack.lineContents.unshift(char.toString());
+    drawScreen();
+  }
 
+  //Add characters to the input line text
+  function concatInputChar(char) {
+    screenStack.lineContents[0] += char.toString();
+    drawScreen();
+  }
+
+  function numClick(char) {
+    //check that we have an input line (a line with no line number)
+    //otherwise assume input and concat to what's there
+    if(screenStack.lineNumbers[0] !== "") {
+      enterInputLine(char);
+    } else {
+      concatInputChar(char);
+    }
+
+  }
+
+  $keyButtons.click(function() {
+    numClick(keyMap[$(this).attr('id')].text);
 
   });
 
