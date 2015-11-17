@@ -1,225 +1,228 @@
 $(document).ready(function() {
   var $keyButtons = $('.key-button'),
-      $$screenLines = {},
-      $$keys = {},
+      $keyText = $('.key-text'),
+      $keyAlt1Text = $(".key-alt-text-1"),
+      $keyAlt2Text = $(".key-alt-text-2"),
+      $screenNum = $('.line-number'),
+      $screenContent = $('.content'),
       keyMap = {
         "k0": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k1": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k2": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k3": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k4": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k5": {
-          "main": " ",
+          "text": " ",
           "alt1": "",
           "alt2": ""
         },
         "k6": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k7": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k8": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k9": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k10": {
-          "main": "<i class='fa fa-arrow-up'></i>",
+          "text": "<i class='fa fa-arrow-up'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k11": {
-          "main": "Next",
+          "text": "Next",
           "alt1": "",
           "alt2": ""
         },
         "k12": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k13": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k14": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k15": {
-          "main": "<i class='fa fa-arrow-left'></i>",
+          "text": "<i class='fa fa-arrow-left'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k16": {
-          "main": "<i class='fa fa-arrow-down'></i>",
+          "text": "<i class='fa fa-arrow-down'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k17": {
-          "main": "<i class='fa fa-arrow-right'></i>",
+          "text": "<i class='fa fa-arrow-right'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k18": {
-          "main": "A",
+          "text": "A",
           "alt1": "",
           "alt2": ""
         },
         "k19": {
-          "main": "B",
+          "text": "B",
           "alt1": "",
           "alt2": ""
         },
         "k20": {
-          "main": "C",
+          "text": "C",
           "alt1": "",
           "alt2": ""
         },
         "k21": {
-          "main": "D",
+          "text": "D",
           "alt1": "",
           "alt2": ""
         },
         "k22": {
-          "main": "E",
+          "text": "E",
           "alt1": "",
           "alt2": ""
         },
         "k23": {
-          "main": "F",
+          "text": "F",
           "alt1": "",
           "alt2": ""
         },
         "k24": {
-          "main": "",
+          "text": "",
           "alt1": "",
           "alt2": ""
         },
         "k25": {
-          "main": "7",
+          "text": "7",
           "alt1": "",
           "alt2": ""
         },
         "k26": {
-          "main": "8",
+          "text": "8",
           "alt1": "",
           "alt2": ""
         },
         "k27": {
-          "main": "9",
+          "text": "9",
           "alt1": "",
           "alt2": ""
         },
         "k28": {
-          "main": "-",
+          "text": "-",
           "alt1": "",
           "alt2": ""
         },
         "k29": {
-          "main": "<i class='fa fa-reply'></i>",
+          "text": "<i class='fa fa-reply'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k30": {
-          "main": "4",
+          "text": "4",
           "alt1": "",
           "alt2": ""
         },
         "k31": {
-          "main": "5",
+          "text": "5",
           "alt1": "",
           "alt2": ""
         },
         "k32": {
-          "main": "6",
+          "text": "6",
           "alt1": "",
           "alt2": ""
         },
         "k33": {
-          "main": "+",
+          "text": "+",
           "alt1": "",
           "alt2": ""
         },
         "k34": {
-          "main": "<i class='fa fa-share'></i>",
+          "text": "<i class='fa fa-share'></i>",
           "alt1": "",
           "alt2": ""
         },
         "k35": {
-          "main": "1",
+          "text": "1",
           "alt1": "",
           "alt2": ""
         },
         "k36": {
-          "main": "2",
+          "text": "2",
           "alt1": "",
           "alt2": ""
         },
         "k37": {
-          "main": "3",
+          "text": "3",
           "alt1": "",
           "alt2": ""
         },
         "k38": {
-          "main": "-",
+          "text": "-",
           "alt1": "",
           "alt2": ""
         },
         "k39": {
-          "main": "+/-",
+          "text": "+/-",
           "alt1": "",
           "alt2": ""
         },
         "k40": {
-          "main": "0",
+          "text": "0",
           "alt1": "Test",
           "alt2": "Test2"
         },
         "k41": {
-          "main": ".",
+          "text": ".",
           "alt1": "",
           "alt2": ""
         },
         "k42": {
-          "main": "Enter",
+          "text": "Enter",
           "alt1": "",
           "alt2": ""
         },
         "k43": {
-          "main": "+",
+          "text": "+",
           "alt1": "",
           "alt2": ""
         }
@@ -229,61 +232,42 @@ $(document).ready(function() {
         lineContents: []
       };
 
-  //
-  function getSelectors() {
-    //For each 'line' on the screen create an object storing
-    //the line Number element and the line content element
-    //places those in the screenLines object by ID
-    $('.line').each(function() {
-      $$screenLines[$(this).attr('id')] = {
-        "lineNum": $(this).find(".line-number"),
-        "lineContent": $(this).find(".content")
-      };
-    });
-
-    //for each 'key-button' on the keyboard create an object storing
-    //it's container, the button itself, the text area of the button
-    //as well as the text area of the alt keys.  Store this object
-    //in the keys object by ID.
-    $keyButtons.each(function() {
-      $$keys[$(this).attr('id')] = {
-        "container": $(this).parent(),
-        "button": $(this),
-        "text": $('.key-text', this),
-        "alt1": $(this).parent().find(".key-alt-text-1"),
-        "alt2": $(this).parent().find(".key-alt-text-2")
-      };
-    });
-
-
-  }
-
   //setKeys function maps text onto appropriate key.
   function setKeys() {
-    for(var key in $$keys) {
-      if($$keys.hasOwnProperty(key)){
-        $$keys[key].text.html(keyMap[key].main || "~" + key + "~"),
-        $$keys[key].alt1.html(keyMap[key].alt1),
-        $$keys[key].alt2.html(keyMap[key].alt2);
-      }
-    }
+    //set text for each key
+    $keyText.each(function(ind) {
+      $(this).html(keyMap["k" + ind].text || "~k" + ind + "~");
+    });
+
+    //set alt1 text for each key
+    $keyAlt1Text.each(function(ind) {
+      var offset = ind + 6; //compensate for 6 top keys w/o alt text
+      $(this).html(keyMap["k" + offset].alt1);
+    });
+
+    //set alt2 text for each key
+    $keyAlt2Text.each(function(ind) {
+      var offset = ind + 6; //compensate for 6 top keys w/o alt text
+      $(this).html(keyMap["k" + offset].alt2);
+    });
   }
 
   function drawScreen() {
+/*
     for(var i = 0; i < 5; i++) {
       $$screenLines["line" + i].lineNum.html(screenStack.lineNumbers[i]);
       $$screenLines["line" + i].lineContent.html(screenStack.lineContents[i]);
     }
+  */
   }
 
   $keyButtons.click(function() {
-      
+
 
   });
 
   //Initialize the calculator
   (function initialize() {
-    getSelectors();
     setKeys();
     drawScreen();
   })();
