@@ -254,22 +254,30 @@ $(document).ready(function() {
   }
 
   function drawScreen() {
-    var node = $('<div class="screen-main-display"></div>'),
+    var nodeText = ['<div class="screen-main-display">'],
+        j = 1,
         lineNum,
         content;
 
-    //create html for each line
-    for(var i =0; i < 5; i++) {
-      lineNum = screenStack.lineNumbers[i];
-      content = screenStack.lineContents[i] || "";
-      node.prepend('<div id="line' + i + '" class="line">' +
-                      '<span class="line-number">' + lineNum + '</span>' +
-                      '<span class="content">' + content + '</span>' +
-                    '</div>');
-    }
+      //create html for each line
+      for(var i = 4; i >= 0; i--) {
+        lineNum = screenStack.lineNumbers[i];
+        content = screenStack.lineContents[i] || "";
+        nodeText[j++] = '<div id="line' + i + '" class="line">';
+        nodeText[j++] = '<span class="line-number">';
+        nodeText[j++] = lineNum;
+        nodeText[j++] = '</span>';
+        nodeText[j++] = '<span class="content">';
+        nodeText[j++] = content;
+        nodeText[j++] = '</span>';
+        nodeText[j++] = '</div>';
+      }
 
-    //place new display html on the screen
-    $display.empty().append(node);
+      //close screen-main-dispaly div
+      nodeText[j++] = '</div>'
+
+      //replace display with newly created html
+      $display.empty().append(nodeText.join(""));
 
   }
 
