@@ -87,6 +87,20 @@ body {
   width: 100%;
 }
 
+.input-line {
+  text-align: left;
+}
+
+.cursor {
+  font-size: 0.8em;
+  animation: blinker 1000ms linear infinite;
+}
+@keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+
 .screen-menus {
   position: absolute;
   bottom: 3px;

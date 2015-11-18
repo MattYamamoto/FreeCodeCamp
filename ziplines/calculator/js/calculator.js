@@ -7,6 +7,7 @@ $(document).ready(function() {
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
     cancelKey = 'k39',
+    inputLine= false,
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
@@ -404,7 +405,7 @@ $(document).ready(function() {
         "main": {
           "text": "<i class='fa fa-arrow-left'></i>",
           "val": "",
-          "func": ""
+          "func": delInputChar
         },
         "alt1": {
           "text": "",
@@ -642,7 +643,7 @@ $(document).ready(function() {
         "main": {
           "text": "3",
           "val": 3,
-          "func": ""
+          "func": numClick
         },
         "alt1": {
           "text": "",
@@ -798,17 +799,33 @@ $(document).ready(function() {
       lineNum,
       content;
 
+
     //create html for each line
     for (var i = 4; i >= 0; i--) {
       lineNum = screenStack.lineNumbers[i];
       content = screenStack.lineContents[i] || "";
-      nodeText[j++] = '<div id="line' + i + '" class="line">';
-      nodeText[j++] = '<span class="line-number">';
-      nodeText[j++] = lineNum;
-      nodeText[j++] = '</span>';
-      nodeText[j++] = '<span class="content">';
-      nodeText[j++] = content;
-      nodeText[j++] = '</span>';
+
+      if(inputLine === true && i === 0) {
+        nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
+        nodeText[j++] = '<span class="line-number">';
+        nodeText[j++] = lineNum;
+        nodeText[j++] = '</span>';
+        nodeText[j++] = '<span class="content">';
+        nodeText[j++] = content;
+        nodeText[j++] = '</span>';
+        nodeText[j++] = '<span class="cursor">';
+        nodeText[j++] = '<i class="fa fa-arrow-left"></i>';
+        nodeText[j++] = '</span>';
+      } else {
+        nodeText[j++] = '<div id="line' + i + '" class="line">';
+        nodeText[j++] = '<span class="line-number">';
+        nodeText[j++] = lineNum;
+        nodeText[j++] = '</span>';
+        nodeText[j++] = '<span class="content">';
+        nodeText[j++] = content;
+        nodeText[j++] = '</span>';
+      }
+
       nodeText[j++] = '</div>';
     }
 
@@ -822,7 +839,8 @@ $(document).ready(function() {
 
   //Create a new input line
   function enterInputLine(char) {
-    //new line is add to front of screenStack
+    inputLine = true;
+    //new line is added to front of screenStack
     screenStack.lineNumbers.unshift(""); //has no line number
     screenStack.lineContents.unshift(char.toString());
     drawScreen();
@@ -831,6 +849,15 @@ $(document).ready(function() {
   //Add characters to the input line text
   function concatInputChar(char) {
     screenStack.lineContents[0] += char.toString();
+    drawScreen();
+  }
+
+  function delInputChar() {
+    var curr = screenStack.lineContents[0],
+        currLen = curr.length;
+
+    screenStack.lineContents[0] = curr.slice(0, currLen - 1);
+
     drawScreen();
   }
 
@@ -843,9 +870,9 @@ $(document).ready(function() {
       input = screenStack.lineContents[0];
       screenStack.lineNumbers.shift();
       screenStack.lineContents.shift();
+      inputLine = false;
       drawScreen();
     }
-
 
     return input;
   }
