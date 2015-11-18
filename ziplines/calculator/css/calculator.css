@@ -149,6 +149,7 @@ body {
               0px 0px 4px 1px hsla(200, 5%, 10%, 0.8) inset,
               0px 0px 0px 3px hsl(200, 5%, 20%) inset;
   transition: hover 100ms ease-out;
+  cursor: pointer;
 }
 
 .key-button:active {
