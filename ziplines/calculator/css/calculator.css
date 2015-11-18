@@ -36,8 +36,8 @@ body {
   background-color: hsla(40, 25%, 50%, 1);
   height: 100%;
   width: 100%;
-
 }
+
 #screen::after {
   content: '';
   position: absolute;
@@ -47,6 +47,7 @@ body {
   height: 100%;
   box-shadow: 0 -1px 3px 2px hsla(0, 50%, 0%, 0.8),
               0 -1px 3px 2px black inset;
+  pointer-events: none;
 }
 
 .screen-header {
@@ -268,4 +269,14 @@ body {
   height: 15px;
   margin-left: -19px;
   background-color: white;
+}
+
+/*     Cancel Key    */
+
+#cancel {
+  position: absolute;
+  bottom: -14px;
+  width: 100%;
+  color: white;
+  font-size: 12px;
 }

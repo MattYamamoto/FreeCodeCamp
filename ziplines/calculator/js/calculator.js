@@ -6,6 +6,7 @@ $(document).ready(function() {
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
+    cancelKey = 'k39',
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
@@ -418,7 +419,7 @@ $(document).ready(function() {
       },
       "k24": {
         "main": {
-          "text": "",
+          "text": "+/-",
           "val": "",
           "func": ""
         },
@@ -673,7 +674,7 @@ $(document).ready(function() {
       },
       "k39": {
         "main": {
-          "text": "+/-",
+          "text": "ON",
           "val": "",
           "func": ""
         },
@@ -780,6 +781,11 @@ $(document).ready(function() {
       var offset = ind + 6; //compensate for 6 top keys w/o alt text
       $(this).html(keyMap["k" + offset].alt2.text);
     });
+
+    //set Cancel key (overrides key's native main func)
+    //should be bottom row key or text will interfere
+    $(cancelKey).parent().append('<div id="cancel">Cancel</div>');
+    keyMap[cancelKey].main.func = clearInputLine;
   }
 
   function drawScreen() {
@@ -822,6 +828,22 @@ $(document).ready(function() {
   function concatInputChar(char) {
     screenStack.lineContents[0] += char.toString();
     drawScreen();
+  }
+
+  //Remove the inputLine and return what was there
+  function clearInputLine() {
+    var input = "";
+    //only clear first screenStack entries if current line is
+    //an input line.
+    if(screenStack.lineNumbers[0] === "") {
+      input = screenStack.lineContents[0];
+      screenStack.lineNumbers.shift();
+      screenStack.lineContents.shift();
+      drawScreen();
+    }
+
+
+    return input;
   }
 
   function numClick(char) {
