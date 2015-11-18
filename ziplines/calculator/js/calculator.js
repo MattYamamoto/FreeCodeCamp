@@ -814,7 +814,7 @@ $(document).ready(function() {
         nodeText[j++] = content;
         nodeText[j++] = '</span>';
         nodeText[j++] = '<span class="cursor">';
-        nodeText[j++] = '<i class="fa fa-arrow-left"></i>';
+        nodeText[j++] = '|';
         nodeText[j++] = '</span>';
       } else {
         nodeText[j++] = '<div id="line' + i + '" class="line">';

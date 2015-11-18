@@ -92,7 +92,7 @@ body {
 }
 
 .cursor {
-  font-size: 0.8em;
+  //font-size: 0.8em;
   animation: blinker 1000ms linear infinite;
 }
 @keyframes blinker {
