@@ -180,6 +180,7 @@ body {
   height: 100%;
   display: table-cell;
   vertical-align: middle;
+  pointer-events: none;
 }
 
 /*                    */
