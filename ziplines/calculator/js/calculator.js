@@ -118,9 +118,9 @@ $(document).ready(function() {
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "A",
+          "val": "A",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -135,9 +135,9 @@ $(document).ready(function() {
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "B",
+          "val": "B",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -152,9 +152,9 @@ $(document).ready(function() {
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "C",
+          "val": "C",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -169,9 +169,9 @@ $(document).ready(function() {
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "D",
+          "val": "D",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -181,14 +181,14 @@ $(document).ready(function() {
       },
       "k10": {
         "main": {
-          "text": "<i class='fa fa-arrow-up'></i>",
+          "text": "<i class='fa fa-chevron-up'></i>",
           "val": "",
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "E",
+          "val": "E",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -203,9 +203,9 @@ $(document).ready(function() {
           "func": ""
         },
         "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "F",
+          "val": "F",
+          "func": numClick
         },
         "alt2": {
           "text": "",
@@ -266,7 +266,7 @@ $(document).ready(function() {
       },
       "k15": {
         "main": {
-          "text": "<i class='fa fa-arrow-left'></i>",
+          "text": "<i class='fa fa-chevron-left'></i>",
           "val": "",
           "func": ""
         },
@@ -283,7 +283,7 @@ $(document).ready(function() {
       },
       "k16": {
         "main": {
-          "text": "<i class='fa fa-arrow-down'></i>",
+          "text": "<i class='fa fa-chevron-down'></i>",
           "val": "",
           "func": ""
         },
@@ -300,7 +300,7 @@ $(document).ready(function() {
       },
       "k17": {
         "main": {
-          "text": "<i class='fa fa-arrow-right'></i>",
+          "text": "<i class='fa fa-chevron-right'></i>",
           "val": "",
           "func": ""
         },
@@ -317,9 +317,9 @@ $(document).ready(function() {
       },
       "k18": {
         "main": {
-          "text": "A",
+          "text": "",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -334,9 +334,9 @@ $(document).ready(function() {
       },
       "k19": {
         "main": {
-          "text": "B",
+          "text": "",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -351,9 +351,9 @@ $(document).ready(function() {
       },
       "k20": {
         "main": {
-          "text": "C",
+          "text": "",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -368,9 +368,9 @@ $(document).ready(function() {
       },
       "k21": {
         "main": {
-          "text": "D",
+          "text": "",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -385,9 +385,9 @@ $(document).ready(function() {
       },
       "k22": {
         "main": {
-          "text": "E",
+          "text": "DEL",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -402,9 +402,9 @@ $(document).ready(function() {
       },
       "k23": {
         "main": {
-          "text": "F",
+          "text": "<i class='fa fa-arrow-left'></i>",
           "val": "",
-          "func": numClick
+          "func": ""
         },
         "alt1": {
           "text": "",
@@ -437,7 +437,7 @@ $(document).ready(function() {
       "k25": {
         "main": {
           "text": "7",
-          "val": "",
+          "val": 7,
           "func": numClick
         },
         "alt1": {
@@ -454,7 +454,7 @@ $(document).ready(function() {
       "k26": {
         "main": {
           "text": "8",
-          "val": "",
+          "val": 8,
           "func": numClick
         },
         "alt1": {
@@ -471,7 +471,7 @@ $(document).ready(function() {
       "k27": {
         "main": {
           "text": "9",
-          "val": "",
+          "val": 9,
           "func": numClick
         },
         "alt1": {
@@ -487,7 +487,7 @@ $(document).ready(function() {
       },
       "k28": {
         "main": {
-          "text": "-",
+          "text": "/",
           "val": "",
           "func": ""
         },
@@ -522,7 +522,7 @@ $(document).ready(function() {
       "k30": {
         "main": {
           "text": "4",
-          "val": "",
+          "val": 4,
           "func": numClick
         },
         "alt1": {
@@ -539,7 +539,7 @@ $(document).ready(function() {
       "k31": {
         "main": {
           "text": "5",
-          "val": "",
+          "val": 5,
           "func": numClick
         },
         "alt1": {
@@ -556,7 +556,7 @@ $(document).ready(function() {
       "k32": {
         "main": {
           "text": "6",
-          "val": "",
+          "val": 6,
           "func": numClick
         },
         "alt1": {
@@ -572,7 +572,7 @@ $(document).ready(function() {
       },
       "k33": {
         "main": {
-          "text": "+",
+          "text": "*",
           "val": "",
           "func": ""
         },
@@ -607,7 +607,7 @@ $(document).ready(function() {
       "k35": {
         "main": {
           "text": "1",
-          "val": "",
+          "val": 1,
           "func": numClick
         },
         "alt1": {
@@ -624,7 +624,7 @@ $(document).ready(function() {
       "k36": {
         "main": {
           "text": "2",
-          "val": "",
+          "val": 2,
           "func": numClick
         },
         "alt1": {
@@ -641,7 +641,7 @@ $(document).ready(function() {
       "k37": {
         "main": {
           "text": "3",
-          "val": "",
+          "val": 3,
           "func": ""
         },
         "alt1": {
@@ -692,7 +692,7 @@ $(document).ready(function() {
       "k40": {
         "main": {
           "text": "0",
-          "val": "",
+          "val": 0,
           "func": numClick
         },
         "alt1": {
