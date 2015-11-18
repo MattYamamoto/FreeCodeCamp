@@ -763,6 +763,10 @@ $(document).ready(function() {
       lineContents: []
     };
 
+  //
+  // Initialization and Setup Functions
+  //
+
   //setKeys function maps text onto appropriate key.
   function setKeys() {
     //set text for each key
@@ -784,7 +788,7 @@ $(document).ready(function() {
 
     //set Cancel key (overrides key's native main func)
     //should be bottom row key or text will interfere
-    $(cancelKey).parent().append('<div id="cancel">Cancel</div>');
+    $('#' + cancelKey).parent().append('<div id="cancel">Cancel</div>');
     keyMap[cancelKey].main.func = clearInputLine;
   }
 
