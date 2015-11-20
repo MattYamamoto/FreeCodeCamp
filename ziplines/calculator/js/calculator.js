@@ -389,7 +389,7 @@ $(document).ready(function() {
         "main": {
           "text": "DEL",
           "val": "",
-          "func": ""
+          "func": deleteKey
         },
         "alt1": {
           "text": "",
@@ -921,6 +921,11 @@ $(document).ready(function() {
       val = screenStack.lineContents[0];
       placeAtLine(1, val);
     }
+    drawScreen();
+  }
+
+  function deleteKey() {
+    screenStack.lineContents = [];
     drawScreen();
   }
 
