@@ -729,7 +729,7 @@ $(document).ready(function() {
         "main": {
           "text": "Enter",
           "val": "",
-          "func": ""
+          "func": enterKey
         },
         "alt1": {
           "text": "",
@@ -883,7 +883,7 @@ $(document).ready(function() {
       drawScreen();
     }
 
-    return input;
+    return input.join("");
   }
 
   function cursorLeft() {
@@ -910,6 +910,28 @@ $(document).ready(function() {
       concatInputChar(char);
     }
 
+  }
+
+  function enterKey() {
+    var val;
+    if(inputLine === true) {
+      val = clearInputLine();
+      screenStack.lineContents.splice(0 , 0, val);
+    } else {
+      val = screenStack.lineContents[0];
+      placeAtLine(1, val);
+    }
+    drawScreen();
+  }
+
+  //0 is input line.  If no input line is present, one will
+  //be created
+  function placeAtLine(lineNum, val) {
+    if(lineNum > 0) {
+      screenStack.lineContents.splice(lineNum - 1 , 0, val);
+    } else {
+
+    }
   }
 
   $keyButtons.click(function() {
