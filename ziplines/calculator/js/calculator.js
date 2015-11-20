@@ -794,7 +794,7 @@ $(document).ready(function() {
     keyMap[cancelKey].main.func = clearInputLine;
   }
 
-  function drawScreen() {
+  function refreshScreen() {
     var nodeText = ['<div class="screen-main-display">'],
       j = 1,
       lineNum,
@@ -852,21 +852,21 @@ $(document).ready(function() {
     //new line is added to front of screenStack
     screenStack.lineNumbers.unshift(""); //has no line number
     screenStack.lineContents.unshift([char.toString()]);
-    drawScreen();
+    refreshScreen();
   }
 
   //Add characters to the input line text
   function concatInputChar(char) {
     screenStack.lineContents[0].splice(cursorPosition, 0, char.toString());
     cursorPosition++;
-    drawScreen();
+    refreshScreen();
   }
 
   function delInputChar() {
     if(cursorPosition > 0) {
       cursorPosition--;
       screenStack.lineContents[0].splice(cursorPosition, 1);
-      drawScreen();
+      refreshScreen();
     }
   }
 
@@ -880,7 +880,7 @@ $(document).ready(function() {
       screenStack.lineNumbers.shift();
       screenStack.lineContents.shift();
       inputLine = false;
-      drawScreen();
+      refreshScreen();
     }
 
     return input.join("");
@@ -889,7 +889,7 @@ $(document).ready(function() {
   function cursorLeft() {
     if(cursorPosition > 0 && inputLine === true) {
       cursorPosition--;
-      drawScreen();
+      refreshScreen();
     }
   }
 
@@ -897,7 +897,7 @@ $(document).ready(function() {
     if(cursorPosition < screenStack.lineContents[0].length &&
        inputLine === true) {
       cursorPosition++;
-      drawScreen();
+      refreshScreen();
     }
   }
 
@@ -921,12 +921,12 @@ $(document).ready(function() {
       val = screenStack.lineContents[0];
       placeAtLine(1, val);
     }
-    drawScreen();
+    refreshScreen();
   }
 
   function deleteKey() {
     screenStack.lineContents = [];
-    drawScreen();
+    refreshScreen();
   }
 
   //0 is input line.  If no input line is present, one will
@@ -950,7 +950,7 @@ $(document).ready(function() {
   //Initialize the calculator
   (function initialize() {
     setKeys();
-    drawScreen();
+    refreshScreen();
   })();
 
 
