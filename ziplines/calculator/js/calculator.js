@@ -8,6 +8,7 @@ $(document).ready(function() {
     $display = $('.screen-main-display-container'),
     cancelKey = 'k39',
     inputLine= false,
+    cursorPosition = 0,
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
@@ -761,7 +762,7 @@ $(document).ready(function() {
     },
     screenStack = {
       lineNumbers: ["1:", "2:", "3:", "4:", "5:"],
-      lineContents: []
+      lineContents: ["24"]
     };
 
   //
@@ -803,34 +804,41 @@ $(document).ready(function() {
     //create html for each line
     for (var i = 4; i >= 0; i--) {
       lineNum = screenStack.lineNumbers[i];
-      content = screenStack.lineContents[i] || "";
 
-      if(inputLine === true && i === 0) {
-        nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
-        nodeText[j++] = '<span class="line-number">';
-        nodeText[j++] = lineNum;
-        nodeText[j++] = '</span>';
-        nodeText[j++] = '<span class="content">';
-        nodeText[j++] = content;
-        nodeText[j++] = '</span>';
-        nodeText[j++] = '<span class="cursor">';
-        nodeText[j++] = '|';
-        nodeText[j++] = '</span>';
+      //check line contents. If content is an array then
+      //create a shallow copy via slice for manipulation
+      //otherwise just return the contents or an empty string
+      if(Array.isArray(screenStack.lineContents[i])) {
+        content = screenStack.lineContents[i].slice();
       } else {
-        nodeText[j++] = '<div id="line' + i + '" class="line">';
-        nodeText[j++] = '<span class="line-number">';
-        nodeText[j++] = lineNum;
-        nodeText[j++] = '</span>';
-        nodeText[j++] = '<span class="content">';
-        nodeText[j++] = content;
-        nodeText[j++] = '</span>';
+        content = screenStack.lineContents[i] || "";
       }
 
+      if(inputLine === true && i === 0) {
+        //add the cursor to the correct position
+        content.splice(cursorPosition, 0, '<span class="cursor">|</span>');
+
+        //join the input array before dispalying as string.
+        content = content.join("");
+
+        //opening line div tag needs 'input-line' class
+        nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
+      } else {
+        //generic opeing line div tag.
+        nodeText[j++] = '<div id="line' + i + '" class="line">';
+      }
+
+      nodeText[j++] = '<span class="line-number">';
+      nodeText[j++] = lineNum;
+      nodeText[j++] = '</span>';
+      nodeText[j++] = '<span class="content">';
+      nodeText[j++] = content;
+      nodeText[j++] = '</span>';
       nodeText[j++] = '</div>';
     }
 
     //close screen-main-dispaly div
-    nodeText[j++] = '</div>'
+    nodeText[j++] = '</div>';
 
     //replace display with newly created html
     $display.empty().append(nodeText.join(""));
@@ -840,24 +848,23 @@ $(document).ready(function() {
   //Create a new input line
   function enterInputLine(char) {
     inputLine = true;
+    cursorPosition++;
     //new line is added to front of screenStack
     screenStack.lineNumbers.unshift(""); //has no line number
-    screenStack.lineContents.unshift(char.toString());
+    screenStack.lineContents.unshift([char.toString()]);
     drawScreen();
   }
 
   //Add characters to the input line text
   function concatInputChar(char) {
-    screenStack.lineContents[0] += char.toString();
+    cursorPosition++;
+    screenStack.lineContents[0].push(char.toString());
     drawScreen();
   }
 
   function delInputChar() {
-    var curr = screenStack.lineContents[0],
-        currLen = curr.length;
-
-    screenStack.lineContents[0] = curr.slice(0, currLen - 1);
-
+    screenStack.lineContents[0].pop();
+    cursorPosition--;
     drawScreen();
   }
 
