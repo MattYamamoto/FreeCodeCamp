@@ -270,7 +270,7 @@ $(document).ready(function() {
         "main": {
           "text": "<i class='fa fa-chevron-left'></i>",
           "val": "",
-          "func": ""
+          "func": cursorLeft
         },
         "alt1": {
           "text": "",
@@ -304,7 +304,7 @@ $(document).ready(function() {
         "main": {
           "text": "<i class='fa fa-chevron-right'></i>",
           "val": "",
-          "func": ""
+          "func": cursorRight
         },
         "alt1": {
           "text": "",
@@ -762,7 +762,7 @@ $(document).ready(function() {
     },
     screenStack = {
       lineNumbers: ["1:", "2:", "3:", "4:", "5:"],
-      lineContents: ["24"]
+      lineContents: []
     };
 
   //
@@ -857,15 +857,17 @@ $(document).ready(function() {
 
   //Add characters to the input line text
   function concatInputChar(char) {
+    screenStack.lineContents[0].splice(cursorPosition, 0, char.toString());
     cursorPosition++;
-    screenStack.lineContents[0].push(char.toString());
     drawScreen();
   }
 
   function delInputChar() {
-    screenStack.lineContents[0].pop();
-    cursorPosition--;
-    drawScreen();
+    if(cursorPosition > 0) {
+      cursorPosition--;
+      screenStack.lineContents[0].splice(cursorPosition, 1);
+      drawScreen();
+    }
   }
 
   //Remove the inputLine and return what was there
@@ -882,6 +884,21 @@ $(document).ready(function() {
     }
 
     return input;
+  }
+
+  function cursorLeft() {
+    if(cursorPosition > 0 && inputLine === true) {
+      cursorPosition--;
+      drawScreen();
+    }
+  }
+
+  function cursorRight() {
+    if(cursorPosition < screenStack.lineContents[0].length &&
+       inputLine === true) {
+      cursorPosition++;
+      drawScreen();
+    }
   }
 
   function numClick(char) {
