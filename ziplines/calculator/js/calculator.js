@@ -424,7 +424,7 @@ $(document).ready(function() {
         "main": {
           "text": "+/-",
           "val": "",
-          "func": ""
+          "func": toggleSign
         },
         "alt1": {
           "text": "",
@@ -926,6 +926,23 @@ $(document).ready(function() {
       concatInputChar(char);
     }
 
+  }
+
+  function toggleSign() {
+    if(inputLine === true) {  //check we're on input line
+
+      if(screenStack.lineContents[0][0] === '+') { //if + make it -
+          screenStack.lineContents[0][0] = '-';
+          refreshScreen();
+      } else if(screenStack.lineContents[0][0] === '-') { //if + make it -
+          screenStack.lineContents[0][0] = '+';
+          refreshScreen();
+      } else {  //else number is implied positive, make it -
+          screenStack.lineContents[0].unshift('-');
+          cursorPosition++;
+          refreshScreen();
+      }
+    }
   }
 
   function enterKey() {
