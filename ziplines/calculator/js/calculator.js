@@ -958,8 +958,10 @@ $(document).ready(function() {
   }
 
   function deleteKey() {
-    screenStack.lineContents = [];
-    refreshScreen();
+    if(inputLine === false) {
+      screenStack.lineContents = [];
+      refreshScreen();
+    }
   }
 
   function cursorLeft() {
