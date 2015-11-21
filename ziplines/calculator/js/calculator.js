@@ -9,6 +9,7 @@ $(document).ready(function() {
     cancelKey = 'k39',
     inputLine= false,
     cursorPosition = 0,
+    reDec = '/^[-]{0,1}[\d]*[\.]{0,1}[\d]*$/g',
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
