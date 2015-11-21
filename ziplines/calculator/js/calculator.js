@@ -917,6 +917,7 @@ $(document).ready(function() {
     *
   */
 
+  //handle any character that needs to be added to input line
   function numClick(char) {
     //check that we have an input line (a line with no line number)
     //otherwise assume input and concat to what's there
@@ -928,21 +929,35 @@ $(document).ready(function() {
 
   }
 
-  function toggleSign() {
-    if(inputLine === true) {  //check we're on input line
+  //take content and return a string with toggled sign
+  function changeSign(lineContent) {
+    var array = false;
 
-      if(screenStack.lineContents[0][0] === '+') { //if + make it -
-          screenStack.lineContents[0][0] = '-';
-          refreshScreen();
-      } else if(screenStack.lineContents[0][0] === '-') { //if + make it -
-          screenStack.lineContents[0][0] = '+';
-          refreshScreen();
-      } else {  //else number is implied positive, make it -
-          screenStack.lineContents[0].unshift('-');
-          cursorPosition++;
-          refreshScreen();
-      }
+    //test if lineContent is an Array, convert to string if it is
+    if(Array.isArray(lineContent)) {
+      lineContent = lineContent.slice().join("");
+      array = true;
     }
+
+    //positive number strings get '-' prepended
+    //negative number strings get '+' prepended
+    if(lineContent.charAt(0) === '+') { //if + make it -
+        lineContent = '-' + lineContent.substring(1);
+    } else if(lineContent.charAt(0) === '-') { //if - make it +
+        lineContent = '+' + lineContent.substring(1);
+    } else {  //else number is implied positive, make it -
+        lineContent = '-' + lineContent;
+        cursorPosition++;
+    }
+
+    return array ? line.split("") : line;
+  }
+
+  //toggle sign of active line
+  function toggleSign() {
+    //replace first line of screen with signed version
+    screenStack.lineContents[0] = changeSign(screenStack.lineContents[0]);
+    refreshScreen();
   }
 
   function enterKey() {
