@@ -766,9 +766,11 @@ $(document).ready(function() {
       lineContents: []
     };
 
-  //
-  // Initialization and Setup Functions
-  //
+  /**
+    *
+    *Initialization and Setup Functions
+    *
+  */
 
   //setKeys function maps text onto appropriate key.
   function setKeys() {
@@ -795,6 +797,15 @@ $(document).ready(function() {
     keyMap[cancelKey].main.func = clearInputLine;
   }
 
+
+  /**
+    *
+    *Screen Functions
+    *
+  */
+
+
+  //draw the screen
   function refreshScreen() {
     var nodeText = ['<div class="screen-main-display">'],
       j = 1,
@@ -863,6 +874,7 @@ $(document).ready(function() {
     refreshScreen();
   }
 
+  //Remove characters from the input line
   function delInputChar() {
     if(cursorPosition > 0) {
       cursorPosition--;
@@ -887,20 +899,23 @@ $(document).ready(function() {
     return input.join("");
   }
 
-  function cursorLeft() {
-    if(cursorPosition > 0 && inputLine === true) {
-      cursorPosition--;
-      refreshScreen();
+  //Place content at a specific line.
+  //0 is input line (which may not be visible)
+  //If no input line is present, one will be created
+  function placeAtLine(lineNum, val) {
+    if(lineNum > 0) {
+      screenStack.lineContents.splice(lineNum - 1 , 0, val);
+    } else {
+
     }
   }
 
-  function cursorRight() {
-    if(cursorPosition < screenStack.lineContents[0].length &&
-       inputLine === true) {
-      cursorPosition++;
-      refreshScreen();
-    }
-  }
+
+  /**
+    *Key functions
+    *These are assigned to keys in the keyMap object
+    *
+  */
 
   function numClick(char) {
     //check that we have an input line (a line with no line number)
@@ -930,15 +945,27 @@ $(document).ready(function() {
     refreshScreen();
   }
 
-  //0 is input line.  If no input line is present, one will
-  //be created
-  function placeAtLine(lineNum, val) {
-    if(lineNum > 0) {
-      screenStack.lineContents.splice(lineNum - 1 , 0, val);
-    } else {
-
+  function cursorLeft() {
+    if(cursorPosition > 0 && inputLine === true) {
+      cursorPosition--;
+      refreshScreen();
     }
   }
+
+  function cursorRight() {
+    if(cursorPosition < screenStack.lineContents[0].length &&
+       inputLine === true) {
+      cursorPosition++;
+      refreshScreen();
+    }
+  }
+
+
+  /**
+    *
+    *Event bindings
+    *
+  */
 
   $keyButtons.click(function() {
     var key = $(this).attr('id'),
@@ -948,7 +975,12 @@ $(document).ready(function() {
     }
   });
 
-  //Initialize the calculator
+
+  /**
+    *
+    *Lets' Go!: Initialize the calculator
+    *
+  */
   (function initialize() {
     setKeys();
     refreshScreen();
