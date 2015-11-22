@@ -493,8 +493,8 @@ $(document).ready(function() {
       "k28": {
         "main": {
           "text": "/",
-          "val": "",
-          "func": ""
+          "val": "/",
+          "func": divideKey
         },
         "alt1": {
           "text": "",
@@ -578,8 +578,8 @@ $(document).ready(function() {
       "k33": {
         "main": {
           "text": "*",
-          "val": "",
-          "func": ""
+          "val": "*",
+          "func": MultiplyKey
         },
         "alt1": {
           "text": "",
@@ -663,8 +663,8 @@ $(document).ready(function() {
       "k38": {
         "main": {
           "text": "-",
-          "val": "",
-          "func": ""
+          "val": "-",
+          "func": subtractKey
         },
         "alt1": {
           "text": "",
@@ -748,8 +748,8 @@ $(document).ready(function() {
       "k43": {
         "main": {
           "text": "+",
-          "val": "",
-          "func": ""
+          "val": "+",
+          "func": addKey
         },
         "alt1": {
           "text": "",
@@ -825,6 +825,10 @@ $(document).ready(function() {
     var str = getLineContents(lineNum);
 
     return Array.isArray(str) ? str.join("") : str;
+  }
+
+  function getLineFloat(lineNum) {
+    return parseFloat(getLineString(lineNum));
   }
 
   //function returns a copy of the input line with cursor at given position
@@ -936,6 +940,27 @@ $(document).ready(function() {
     }
 
     return input.join("");
+  }
+
+  // function clears number of lines specified starting from the bottom of
+  // the stack. This occurs irrespective of input line
+  function clearLines(num) {
+    // defalut to 1 if none specified.
+    num = num || 1;
+
+    // delete line conents and numbers for number of lines specified.
+    for(var i = 0; i < num; i++) {
+      screenStack.lineNumbers.shift();
+      screenStack.lineContents.shift();
+    }
+
+    //maintain minimum of default line numbers
+    if(screenStack.lineNumbers.length < defaultLineNums.length) {
+      screenStack.lineNumbers = defaultLineNums.slice();
+    }
+
+    // in case was input line, set inputLine to false
+    inputLine = false;
   }
 
   function addLineToStack(val) {
@@ -1072,6 +1097,66 @@ $(document).ready(function() {
     }
   }
 
+  //function returs an array of the first two lines irrespective of
+  //the precesnce of the input Line.
+  function getFirstTwoLines() {
+    var a,
+        b;
+
+    if(inputLine === true) {
+      a = parseFloat(getLineFloat(1));
+      b = parseFloat(getLineFloat(0));
+    } else {
+      a = parseFloat(getLineFloat(2));
+      b = parseFloat(getLineFloat(1));
+    }
+
+    return [b, a];
+  }
+
+  function add(num1, num2) {
+    return num1 + num2;
+  }
+
+  function addKey() {
+    var rslt = add.apply(this, getFirstTwoLines());
+    clearLines(2);
+    addLineToStack(rslt);
+    refreshScreen();
+  }
+
+  function subtract(num1, num2) {
+    return num1 - num2;
+  }
+
+  function subtractKey() {
+    var rslt = subtract.apply(this, getFirstTwoLines());
+    clearLines(2);
+    addLineToStack(rslt);
+    refreshScreen();
+  }
+
+  function multiply(num1, num2) {
+    return num1 * num2;
+  }
+
+  function MultiplyKey() {
+    var rslt = multiply.apply(this, getFirstTwoLines());
+    clearLines(2);
+    addLineToStack(rslt);
+    refreshScreen();
+  }
+
+  function divide(num1, num2) {
+    return num1 / num2;
+  }
+
+  function divideKey() {
+    var rslt = divide.apply(this, getFirstTwoLines());
+    clearLines(2);
+    addLineToStack(rslt);
+    refreshScreen();
+  }
 
   /**
     *
