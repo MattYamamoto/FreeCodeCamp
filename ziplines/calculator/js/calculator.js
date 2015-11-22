@@ -7,9 +7,11 @@ $(document).ready(function() {
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
     cancelKey = 'k39',
-    inputLine= false,
+    inputLine = false,
+    inputMode = 'dec',
     cursorPosition = 0,
-    reDec = '/^[-]{0,1}[\d]*[\.]{0,1}[\d]*$/g',
+    defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
+    reDec = new RegExp(/^[+-]{0,1}[\d]*[\.]{0,1}[\d]*$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
@@ -390,7 +392,7 @@ $(document).ready(function() {
         "main": {
           "text": "DEL",
           "val": "",
-          "func": deleteKey
+          "func": clearStack
         },
         "alt1": {
           "text": "",
@@ -762,7 +764,7 @@ $(document).ready(function() {
       }
     },
     screenStack = {
-      lineNumbers: ["1:", "2:", "3:", "4:", "5:"],
+      lineNumbers: defaultLineNums.slice(),
       lineContents: []
     };
 
@@ -804,6 +806,48 @@ $(document).ready(function() {
     *
   */
 
+  //function returns the content of a given line number.
+  //line number corresponds to line number on screen
+  //if present, 0 represents input line
+  function getLineContents(lineNum) {
+    var contents;
+    //if input line is present, screenStack.lineContents is indexed correctly
+    if(inputLine === true) {
+      contents = screenStack.lineContents[lineNum];
+    } else {  //if no inptul line, screen line 1 lies at index 0;
+      contents = screenStack.lineContents[lineNum - 1] || "";
+    }
+
+    return contents;
+  }
+
+  function getLineString(lineNum) {
+    var str = getLineContents(lineNum);
+
+    return Array.isArray(str) ? str.join("") : str;
+  }
+
+  //function returns a copy of the input line with cursor at given position
+  function insertCurosr(position) {
+    var newLine;
+
+    //verify we're on input line
+    if(inputLine === true) {
+      //check if input line is array of characters
+      if(Array.isArray(screenStack.lineContents[0])) {
+        //grab a copy of the input array
+        newLine = screenStack.lineContents[0].slice();
+      } else { //a string is displayed there, so make it an array.
+        newLine = screenStack.lineContents[0].split("");
+      }
+
+
+      //splice in the cursor at the given position
+      newLine.splice(position, 0, '<span class="cursor">|</span>');
+    }
+
+    return newLine;
+  }
 
   //draw the screen
   function refreshScreen() {
@@ -817,25 +861,20 @@ $(document).ready(function() {
     for (var i = 4; i >= 0; i--) {
       lineNum = screenStack.lineNumbers[i];
 
-      //check line contents. If content is an array then
-      //create a shallow copy via slice for manipulation
-      //otherwise just return the contents or an empty string
-      if(Array.isArray(screenStack.lineContents[i])) {
-        content = screenStack.lineContents[i].slice();
-      } else {
-        content = screenStack.lineContents[i] || "";
-      }
-
+      //check for input line and also verify that this is index 0
+      //any other index would be anomalous
       if(inputLine === true && i === 0) {
-        //add the cursor to the correct position
-        content.splice(cursorPosition, 0, '<span class="cursor">|</span>');
 
-        //join the input array before dispalying as string.
-        content = content.join("");
+        //insert the cursor and join the input array to be dispalyed as string
+        content = insertCurosr(cursorPosition).join("");
 
         //opening line div tag needs 'input-line' class
         nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
       } else {
+
+        //grabe content from the screenStack object.
+        content = screenStack.lineContents[i];
+
         //generic opeing line div tag.
         nodeText[j++] = '<div id="line' + i + '" class="line">';
       }
@@ -858,7 +897,7 @@ $(document).ready(function() {
   }
 
   //Create a new input line
-  function enterInputLine(char) {
+  function openInputLine(char) {
     inputLine = true;
     cursorPosition++;
     //new line is added to front of screenStack
@@ -883,7 +922,7 @@ $(document).ready(function() {
     }
   }
 
-  //Remove the inputLine and return what was there
+  //Remove the inputLine and return what was there as a string
   function clearInputLine() {
     var input = "";
     //only clear first screenStack entries if current line is
@@ -899,6 +938,20 @@ $(document).ready(function() {
     return input.join("");
   }
 
+  function addLineToStack(val) {
+    //the next line number value
+    var num = screenStack.lineNumbers.length + 1;
+
+    //prepend val to the screenStack.lineContents array
+    screenStack.lineContents.unshift(val);
+
+    //if another line number is needed, add it to the line numbers.
+    if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
+      screenStack.lineNumbers.push(num.toString(10) + ":");
+    }
+  }
+
+
   //Place content at a specific line.
   //0 is input line (which may not be visible)
   //If no input line is present, one will be created
@@ -912,17 +965,21 @@ $(document).ready(function() {
 
 
   /**
-    *Key functions
+    *Calculation/Operation functions
     *These are assigned to keys in the keyMap object
     *
   */
+
+  //
+  //Basic Calculator functionality
+  //
 
   //handle any character that needs to be added to input line
   function numClick(char) {
     //check that we have an input line (a line with no line number)
     //otherwise assume input and concat to what's there
     if (screenStack.lineNumbers[0] !== "") {
-      enterInputLine(char);
+      openInputLine(char);
     } else {
       concatInputChar(char);
     }
@@ -950,31 +1007,52 @@ $(document).ready(function() {
         cursorPosition++;
     }
 
-    return array ? line.split("") : line;
+    return array ? lineContent.split("") : lineContent;
   }
 
   //toggle sign of active line
   function toggleSign() {
     //replace first line of screen with signed version
-    screenStack.lineContents[0] = changeSign(screenStack.lineContents[0]);
+    screenStack.lineContents[0] = changeSign(getLineContents(0));
     refreshScreen();
   }
 
+  //validate the syntax of string number for a give mode.
+  //  mode: 'dec', 'bin', 'hex'
+  function validateSyntax(str, mode) {
+
+    switch(mode) {
+      case 'dec':
+        return reDec.test(str);
+    }
+
+  }
+
   function enterKey() {
-    var val;
+    var val = "";
+
     if(inputLine === true) {
-      val = clearInputLine();
-      screenStack.lineContents.splice(0 , 0, val);
+      val = getLineString(0);
+      if(validateSyntax(val, inputMode)) {
+        addLineToStack(clearInputLine());
+      } else {
+        console.log('Error');
+      }
+
     } else {
       val = screenStack.lineContents[0];
       placeAtLine(1, val);
     }
+
     refreshScreen();
   }
 
-  function deleteKey() {
+  //Clear the screen stack and reset the line numbers
+  function clearStack() {
+    //enforce clearing of stack only when input line not present.
     if(inputLine === false) {
       screenStack.lineContents = [];
+      screenStack.lineNumbers = defaultLineNums.slice();
       refreshScreen();
     }
   }
