@@ -11,6 +11,7 @@ $(document).ready(function() {
     inputMode = 'dec',
     cursorPosition = 0,
     maxLineChars = 18,
+    maxDispDigits = 12,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^[+-]{0,1}[\d]*[\.]{0,1}[\d]*$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -807,9 +808,9 @@ $(document).ready(function() {
     *
   */
 
-  //function returns the content of a given line number.
-  //line number corresponds to line number on screen
-  //if present, 0 represents input line
+  // function returns the content of a given line number.
+  // line number corresponds to line number on screen.
+  // If present, 0 represents input line
   function getLineContents(lineNum) {
     var contents;
     //if input line is present, screenStack.lineContents is indexed correctly
@@ -854,12 +855,13 @@ $(document).ready(function() {
     return newLine;
   }
 
+  //
   function formatLine(contents) {
     var formattedLine,
         numExcessChars = contents.length - maxLineChars,
         type = typeof contents,
         startIndex = numExcessChars < 0 ? 0 : numExcessChars;
-console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cursorPosition);
+
     if(numExcessChars > 0) {
 
       if(Array.isArray(contents)) {
@@ -889,13 +891,40 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
 
   }
 
+  // Format numbers to fit maxDispDigits
+  function screenNumberFormat(num) {
+    var numLen;
+
+    // validate input is number, if not attempt conversion.
+    if(num === undefined) { // if num is undefined should dispaly empty string
+      return "";
+    } else if(typeof num === 'string') {
+      num = parseFloat(num);
+    } else if(Array.isArray(num)) {
+      num = parseFloat(num.join(""));
+    }
+
+    // number of chracters in num
+    numLen = num.toString().length;
+
+    if(numLen > maxDispDigits) { //num is too large
+      // whole number protion is too long then put in exponential form
+      if(Math.floor(num).toString().length > maxDispDigits ) {
+        return num.toExponential(maxDispDigits);
+      } else {  // decimals take up too  much room so display in fixed form
+        return num.toFixed(maxDispDigits);
+      }
+    }
+
+    return num;
+  }
+
   // draw the screen
   function refreshScreen() {
     var nodeText = ['<div class="screen-main-display">'],
       j = 1,
       lineNum,
       content;
-
 
     // create html for each line
     for (var i = 4; i >= 0; i--) {
@@ -907,13 +936,13 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
 
         // insert the cursor and join the input array to be dispalyed as string
         content = formatLine(insertCurosr(cursorPosition)).join("");
-//console.log(content);
+
         // opening line div tag needs 'input-line' class
         nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
       } else {
 
         //grabe content from the screenStack object.
-        content = screenStack.lineContents[i];
+        content = screenNumberFormat(screenStack.lineContents[i]);
 
         // generic opeing line div tag.
         nodeText[j++] = '<div id="line' + i + '" class="line">';
@@ -962,7 +991,7 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
     }
   }
 
-  //Remove the inputLine and return what was there as a string
+  //Remove the inputLine and return what was there as a float
   function clearInputLine() {
     var input = "";
     //only clear first screenStack entries if current line is
@@ -975,7 +1004,11 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
       refreshScreen();
     }
 
-    return input.join("");
+    return parseFloat(input.join(""));
+  }
+
+  function formatedParseFloat(str) {
+    var num = parseFloat(str);
   }
 
   // function clears number of lines specified starting from the bottom of
@@ -1001,14 +1034,14 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
 
   function addLineToStack(val) {
     //the next line number value
-    var num = screenStack.lineNumbers.length + 1;
+    var lineNum = screenStack.lineNumbers.length + 1;
 
     //prepend val to the screenStack.lineContents array
     screenStack.lineContents.unshift(val);
 
     //if another line number is needed, add it to the line numbers.
     if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
-      screenStack.lineNumbers.push(num.toString(10) + ":");
+      screenStack.lineNumbers.push(lineNum.toString(10) + ":");
     }
   }
 
@@ -1133,18 +1166,18 @@ console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cu
     }
   }
 
-  //function returs an array of the first two lines irrespective of
-  //the precesnce of the input Line.
+  //  function returs an array of the first two lines irrespective of
+  //  the precesnce of the input Line.
   function getFirstTwoLines() {
     var a,
         b;
 
-    if(inputLine === true) {
-      a = parseFloat(getLineFloat(1));
-      b = parseFloat(getLineFloat(0));
-    } else {
-      a = parseFloat(getLineFloat(2));
-      b = parseFloat(getLineFloat(1));
+    if(inputLine === true) { // if on inputline, get line 1 and input (line 0)
+      a = getLineContents(1);
+      b = parseFloat(getLineContents(0).toString());
+    } else {  // else get lines 2 and 1
+      a = getLineContents(2);
+      b = getLineContents(1);
     }
 
     return [b, a];
