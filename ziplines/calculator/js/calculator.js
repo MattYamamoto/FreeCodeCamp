@@ -11,7 +11,7 @@ $(document).ready(function() {
     inputMode = 'dec',
     cursorPosition = 0,
     maxLineChars = 18,
-    maxDispDigits = 12,
+    maxDispDigits = 9,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^[+-]{0,1}[\d]*[\.]{0,1}[\d]*$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -765,6 +765,33 @@ $(document).ready(function() {
         }
       }
     },
+    keyboardKeyMap = {
+      '0': 'k40',
+      '1': 'k35',
+      '2': 'k36',
+      '3': 'k37',
+      '4': 'k30',
+      '5': 'k31',
+      '6': 'k32',
+      '7': 'k25',
+      '8': 'k26',
+      '9': 'k27',
+      '.': 'k41',
+      'Enter': 'k42',
+      '+': 'k43',
+      '-': 'k38',
+      '*': 'k33',
+      '\/': 'k28',
+      'e': '',
+      'E': '',
+      'Backspace': 'k23',
+      'Delete': 'k22',
+      'ArrowLeft': 'k15',
+      'ArrowRight': 'k17',
+      'ArrowUp': 'k10',
+      'ArrowDown': 'k16',
+      'Escape': 'k39'
+    },
     screenStack = {
       lineNumbers: defaultLineNums.slice(),
       lineContents: []
@@ -893,10 +920,12 @@ $(document).ready(function() {
 
   // Format numbers to fit maxDispDigits
   function screenNumberFormat(num) {
-    var numLen;
+    var numLen,
+        whole,
+        wholeLen;
 
     // validate input is number, if not attempt conversion.
-    if(num === undefined) { // if num is undefined should dispaly empty string
+    if(num === undefined || isNaN(num)) { // if num is undefined should dispaly empty string
       return "";
     } else if(typeof num === 'string') {
       num = parseFloat(num);
@@ -906,13 +935,15 @@ $(document).ready(function() {
 
     // number of chracters in num
     numLen = num.toString().length;
+    whole = Math.floor(num);
+    wholeLen = whole.toString().length;
 
     if(numLen > maxDispDigits) { //num is too large
       // whole number protion is too long then put in exponential form
-      if(Math.floor(num).toString().length > maxDispDigits ) {
+      if(wholeLen > maxDispDigits ) {
         return num.toExponential(maxDispDigits);
       } else {  // decimals take up too  much room so display in fixed form
-        return num.toFixed(maxDispDigits);
+        return num.toFixed(maxDispDigits - wholeLen);
       }
     }
 
@@ -984,6 +1015,7 @@ $(document).ready(function() {
 
   //Remove characters from the input line
   function delInputChar() {
+    console.log(screenStack.lineContents, cursorPosition);
     if(cursorPosition > 0) {
       cursorPosition--;
       screenStack.lineContents[0].splice(cursorPosition, 1);
@@ -1044,7 +1076,6 @@ $(document).ready(function() {
       screenStack.lineNumbers.push(lineNum.toString(10) + ":");
     }
   }
-
 
   //Place content at a specific line.
   //0 is input line (which may not be visible)
@@ -1241,7 +1272,23 @@ $(document).ready(function() {
     }
   });
 
+  // physicsal keyboard button bindings
+  $('body').keydown(function(e){
+    e.preventDefault();
+    var key,
+        func,
+        text;
 
+    key = keyboardKeyMap[e.key];
+    func = keyMap[key].main.func;
+    text = keyMap[key].main.text;
+
+    func(text);
+
+  });
+/*
+
+*/
   /**
     *
     *Lets' Go!: Initialize the calculator
