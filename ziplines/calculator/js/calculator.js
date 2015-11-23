@@ -10,6 +10,7 @@ $(document).ready(function() {
     inputLine = false,
     inputMode = 'dec',
     cursorPosition = 0,
+    maxLineChars = 18,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^[+-]{0,1}[\d]*[\.]{0,1}[\d]*$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -831,7 +832,7 @@ $(document).ready(function() {
     return parseFloat(getLineString(lineNum));
   }
 
-  //function returns a copy of the input line with cursor at given position
+  // function returns a copy of the input line with cursor at given position
   function insertCurosr(position) {
     var newLine;
 
@@ -853,7 +854,42 @@ $(document).ready(function() {
     return newLine;
   }
 
-  //draw the screen
+  function formatLine(contents) {
+    var formattedLine,
+        numExcessChars = contents.length - maxLineChars,
+        type = typeof contents,
+        startIndex = numExcessChars < 0 ? 0 : numExcessChars;
+console.log('excess: ' + numExcessChars, 'start: ' + startIndex, 'cursor: ' + cursorPosition);
+    if(numExcessChars > 0) {
+
+      if(Array.isArray(contents)) {
+        formattedLine = contents.slice();
+      } else if(type === 'string') {
+        formattedLine = contents.split("");
+      }
+
+      if(cursorPosition > startIndex){
+        formattedLine.splice(0, contents.length - maxLineChars, "...");
+      } else if(cursorPosition <= startIndex && cursorPosition > 1) {
+        formattedLine = formattedLine.splice(cursorPosition, maxLineChars - 2);
+        formattedLine.unshift("...");
+        formattedLine.push("...");
+      } else {
+        formattedLine = formattedLine.splice(0, maxLineChars - 2);
+        formattedLine.push("...");
+      }
+
+      if(type === 'string') {
+        formattedLine.join("");
+      }
+
+    }
+
+    return formattedLine || contents;
+
+  }
+
+  // draw the screen
   function refreshScreen() {
     var nodeText = ['<div class="screen-main-display">'],
       j = 1,
@@ -861,34 +897,34 @@ $(document).ready(function() {
       content;
 
 
-    //create html for each line
+    // create html for each line
     for (var i = 4; i >= 0; i--) {
       lineNum = screenStack.lineNumbers[i];
 
-      //check for input line and also verify that this is index 0
-      //any other index would be anomalous
+      // check for input line and also verify that this is index 0
+      // any other index would be anomalous
       if(inputLine === true && i === 0) {
 
-        //insert the cursor and join the input array to be dispalyed as string
-        content = insertCurosr(cursorPosition).join("");
-
-        //opening line div tag needs 'input-line' class
+        // insert the cursor and join the input array to be dispalyed as string
+        content = formatLine(insertCurosr(cursorPosition)).join("");
+//console.log(content);
+        // opening line div tag needs 'input-line' class
         nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
       } else {
 
         //grabe content from the screenStack object.
         content = screenStack.lineContents[i];
 
-        //generic opeing line div tag.
+        // generic opeing line div tag.
         nodeText[j++] = '<div id="line' + i + '" class="line">';
       }
 
-      nodeText[j++] = '<span class="line-number">';
+      nodeText[j++] = '<div class="line-number">';
       nodeText[j++] = lineNum;
-      nodeText[j++] = '</span>';
-      nodeText[j++] = '<span class="content">';
+      nodeText[j++] = '</div>';
+      nodeText[j++] = '<div class="line-content">';
       nodeText[j++] = content;
-      nodeText[j++] = '</span>';
+      nodeText[j++] = '</div>';
       nodeText[j++] = '</div>';
     }
 
