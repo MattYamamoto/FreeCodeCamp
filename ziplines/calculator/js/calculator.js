@@ -6,7 +6,7 @@ $(document).ready(function() {
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
-    cancelKey = 'k39',
+    cancelKey = 'k38',
     inputLine = false,
     inputMode = 'dec',
     cursorPosition = 0,
@@ -773,7 +773,7 @@ $(document).ready(function() {
       'ArrowRight': 'k17',
       'ArrowUp': 'k10',
       'ArrowDown': 'k16',
-      'Escape': 'k39'
+      'Escape': 'k38'
     },
     screenMenus = {
       main: {
