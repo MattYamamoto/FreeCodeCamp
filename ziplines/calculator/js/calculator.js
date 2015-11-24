@@ -749,31 +749,40 @@ $(document).ready(function() {
       }
     },
     keyboardKeyMap = {
-      '0': 'k40',
-      '1': 'k35',
-      '2': 'k36',
-      '3': 'k37',
-      '4': 'k30',
-      '5': 'k31',
-      '6': 'k32',
-      '7': 'k25',
-      '8': 'k26',
-      '9': 'k27',
-      '.': 'k41',
+      '0': 'k39',
+      '1': 'k34',
+      '2': 'k35',
+      '3': 'k36',
+      '4': 'k29',
+      '5': 'k30',
+      '6': 'k31',
+      '7': 'k24',
+      '8': 'k25',
+      '9': 'k26',
+      '.': 'k40',
       'Enter': 'k18',
-      '+': 'k43',
-      '-': 'k38',
-      '*': 'k33',
-      '\/': 'k28',
-      'e': '',
-      'E': '',
-      'Backspace': 'k23',
-      'Delete': 'k22',
+      '+': 'k42',
+      '-': 'k37',
+      '*': 'k32',
+      '\/': 'k27',
+      'e': 'k41',
+      'E': 'k41',
+      'Backspace': 'k22',
+      'Delete': 'k21',
       'ArrowLeft': 'k15',
       'ArrowRight': 'k17',
       'ArrowUp': 'k10',
       'ArrowDown': 'k16',
       'Escape': 'k39'
+    },
+    screenMenus = {
+      main: {
+        menu1: {
+          sub1: "",
+          sub2: ""
+        },
+        menu2: ""
+      }
     },
     screenStack = {
       lineNumbers: defaultLineNums.slice(),
@@ -811,6 +820,9 @@ $(document).ready(function() {
     keyMap[cancelKey].main.func = clearInputLine;
   }
 
+  function setMenus() {
+
+  }
 
   /**
     *
@@ -1094,34 +1106,36 @@ $(document).ready(function() {
 
   }
 
-  //take content and return a string with toggled sign
+  // Take content and return a string with toggled sign
   function changeSign(lineContent) {
-    var array = false;
 
-    //test if lineContent is an Array, convert to string if it is
-    if(Array.isArray(lineContent)) {
-      lineContent = lineContent.slice().join("");
-      array = true;
+    if(inputLine) { // if on input line handle the array of chars
+      // get a string from array of chars
+      lineContent = lineContent.join("");
+
+      if(lineContent.charAt(0) === '+') { //if + make it -
+          lineContent = '-' + lineContent.substring(1);
+      } else if(lineContent.charAt(0) === '-') { //if - make it +
+          lineContent = '+' + lineContent.substring(1);
+      } else {  //else number is implied positive, make it -
+          lineContent = '-' + lineContent;
+          cursorPosition++;
+      }
+    } else {
+      // other lines contain number, so invert sign
+      lineContent *= -1;
     }
 
-    //positive number strings get '-' prepended
-    //negative number strings get '+' prepended
-    if(lineContent.charAt(0) === '+') { //if + make it -
-        lineContent = '-' + lineContent.substring(1);
-    } else if(lineContent.charAt(0) === '-') { //if - make it +
-        lineContent = '+' + lineContent.substring(1);
-    } else {  //else number is implied positive, make it -
-        lineContent = '-' + lineContent;
-        cursorPosition++;
-    }
-
-    return array ? lineContent.split("") : lineContent;
+    // If on input line return an array of chars, else the new number
+    return inputLine ? lineContent.split("") : lineContent;
   }
 
   //toggle sign of active line
   function toggleSign() {
+    var lineNum = inputLine ? 0 : 1;
+
     //replace first line of screen with signed version
-    screenStack.lineContents[0] = changeSign(getLineContents(0));
+    screenStack.lineContents[0] = changeSign(getLineContents(lineNum));
     refreshScreen();
   }
 
