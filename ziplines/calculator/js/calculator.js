@@ -13,7 +13,7 @@ $(document).ready(function() {
     maxLineChars = 18,
     maxDispDigits = 9,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
-    reDec = new RegExp(/^[+-]{0,1}[\d]*[\.]{0,1}[\d]*$/),
+    reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap = {
       "k0": {
