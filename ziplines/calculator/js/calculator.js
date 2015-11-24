@@ -324,9 +324,9 @@ $(document).ready(function() {
       },
       "k18": {
         "main": {
-          "text": "",
+          "text": "ENTER",
           "val": "",
-          "func": ""
+          "func": enterKey
         },
         "alt1": {
           "text": "",
@@ -375,23 +375,6 @@ $(document).ready(function() {
       },
       "k21": {
         "main": {
-          "text": "",
-          "val": "",
-          "func": ""
-        },
-        "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
-        },
-        "alt2": {
-          "text": "",
-          "val": "",
-          "func": ""
-        }
-      },
-      "k22": {
-        "main": {
           "text": "DEL",
           "val": "",
           "func": clearStack
@@ -407,7 +390,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k23": {
+      "k22": {
         "main": {
           "text": "<i class='fa fa-arrow-left'></i>",
           "val": "",
@@ -424,7 +407,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k24": {
+      "k23": {
         "main": {
           "text": "+/-",
           "val": "",
@@ -441,7 +424,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k25": {
+      "k24": {
         "main": {
           "text": "7",
           "val": 7,
@@ -458,7 +441,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k26": {
+      "k25": {
         "main": {
           "text": "8",
           "val": 8,
@@ -475,7 +458,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k27": {
+      "k26": {
         "main": {
           "text": "9",
           "val": 9,
@@ -492,7 +475,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k28": {
+      "k27": {
         "main": {
           "text": "/",
           "val": "/",
@@ -509,7 +492,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k29": {
+      "k28": {
         "main": {
           "text": "<i class='fa fa-reply'></i>",
           "val": "",
@@ -526,7 +509,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k30": {
+      "k29": {
         "main": {
           "text": "4",
           "val": 4,
@@ -543,7 +526,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k31": {
+      "k30": {
         "main": {
           "text": "5",
           "val": 5,
@@ -560,7 +543,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k32": {
+      "k31": {
         "main": {
           "text": "6",
           "val": 6,
@@ -577,7 +560,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k33": {
+      "k32": {
         "main": {
           "text": "*",
           "val": "*",
@@ -594,7 +577,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k34": {
+      "k33": {
         "main": {
           "text": "<i class='fa fa-share'></i>",
           "val": "",
@@ -611,7 +594,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k35": {
+      "k34": {
         "main": {
           "text": "1",
           "val": 1,
@@ -628,7 +611,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k36": {
+      "k35": {
         "main": {
           "text": "2",
           "val": 2,
@@ -645,7 +628,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k37": {
+      "k36": {
         "main": {
           "text": "3",
           "val": 3,
@@ -662,7 +645,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k38": {
+      "k37": {
         "main": {
           "text": "-",
           "val": "-",
@@ -679,7 +662,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k39": {
+      "k38": {
         "main": {
           "text": "ON",
           "val": "",
@@ -696,7 +679,7 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k40": {
+      "k39": {
         "main": {
           "text": "0",
           "val": 0,
@@ -713,10 +696,27 @@ $(document).ready(function() {
           "func": ""
         }
       },
-      "k41": {
+      "k40": {
         "main": {
           "text": ".",
+          "val": ".",
+          "func": numClick
+        },
+        "alt1": {
+          "text": "",
           "val": "",
+          "func": ""
+        },
+        "alt2": {
+          "text": "",
+          "val": "",
+          "func": ""
+        }
+      },
+      "k41": {
+        "main": {
+          "text": "EE",
+          "val": "E",
           "func": numClick
         },
         "alt1": {
@@ -731,23 +731,6 @@ $(document).ready(function() {
         }
       },
       "k42": {
-        "main": {
-          "text": "Enter",
-          "val": "",
-          "func": enterKey
-        },
-        "alt1": {
-          "text": "",
-          "val": "",
-          "func": ""
-        },
-        "alt2": {
-          "text": "",
-          "val": "",
-          "func": ""
-        }
-      },
-      "k43": {
         "main": {
           "text": "+",
           "val": "+",
@@ -777,7 +760,7 @@ $(document).ready(function() {
       '8': 'k26',
       '9': 'k27',
       '.': 'k41',
-      'Enter': 'k42',
+      'Enter': 'k18',
       '+': 'k43',
       '-': 'k38',
       '*': 'k33',
@@ -1268,7 +1251,7 @@ $(document).ready(function() {
     var key = $(this).attr('id'),
         func = keyMap[key].main.func;
     if(func) {
-      func(keyMap[key].main.text);
+      func(keyMap[key].main.val);
     }
   });
 
@@ -1277,13 +1260,13 @@ $(document).ready(function() {
     e.preventDefault();
     var key,
         func,
-        text;
+        val;
 
     key = keyboardKeyMap[e.key];
     func = keyMap[key].main.func;
-    text = keyMap[key].main.text;
+    val = keyMap[key].main.val;
 
-    func(text);
+    func(val);
 
   });
 /*
