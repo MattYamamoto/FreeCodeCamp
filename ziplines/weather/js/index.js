@@ -1,5 +1,6 @@
 $(document).ready(function() {
   var apiKeyStr = '&appid=4f4e98d53946958b89b7a7bbdcdc8064',
+      apiKey = '4f4e98d53946958b89b7a7bbdcdc8064',
       today,
       forecast,
       months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -94,16 +95,44 @@ $(document).ready(function() {
 
   //handle json requests for weather/location data for provided lat/lon
   function getWeather(lat, lon) {
-    //get weather info from openweathermap by lat lon
-    $.getJSON('http://api.openweathermap.org/data/2.5/weather?lat=' +
-      lat + '&lon=' + lon + apiKeyStr).
-    done(function(data) {
-      //today object holds current weather daata
-      today = data;
+    var weatherApiUrl = 'http://api.openweathermap.org/data/2.5/weather',
+        weatherApiData = {
+          lat: lat,
+          lon:  lon,
+          appid: apiKey
+        },
+        locationApiUrl = 'http://maps.googleapis.com/maps/api/geocode/json',
+        locationApiData = {
+          latlng: lat + ',' + lon
+        },
+        forecastApiUrl = 'http://api.openweathermap.org/data/2.5/forecast/daily',
+        forecastApiData = {
+          lat: lat,
+          lon: lon,
+          appid: apiKey
+        };
 
-      //get location info from google api
-      $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?latlng=' + lat + ',' + lon).
-      done(function(data) {
+
+    //get weather info from openweathermap by lat lon
+    $.getJSON(weatherApiUrl, weatherApiData)
+      .then(function(weatherData) {
+        //today object holds current weather daata
+        today = weatherData;
+
+        //get location info from google api
+        return $.getJSON(locationApiUrl, locationApiData);
+      })
+      .then(function(locationData) {
+          //use location data
+          formatLocationData(locationData);
+
+          //get forecast data from openweathermap
+          return   $.getJSON(forecastApiUrl, forecastApiData);
+      })
+      .then(formatForecast);
+
+      // function to use and format location data returned from google API
+      function formatLocationData(locationData) {
         var stateAbbr,
             countryAbbr,
             abbr,
@@ -112,16 +141,18 @@ $(document).ready(function() {
             condition = today.weather[0].main;
 
         //set country and/or state abbreviations
-        countryAbbr = $.grep(data.results[0].address_components, function(geocode){
+        countryAbbr = $.grep(locationData.results[0].address_components,
+          function(geocode){
             return geocode.types[0] === "country";
           })[0].short_name;
 
-        //abbreviation to be used should either by US State (assuming US users here...sorry),
-        //or country if not US
+        // abbreviation to be used should either by US State
+        // (assuming US users here...sorry), or country if not US
         if(countryAbbr !== "US"){
           abbr = countryAbbr;
         } else {
-          stateAbbr = $.grep(data.results[0].address_components, function(geocode){
+          stateAbbr = $.grep(locationData.results[0].address_components,
+            function(geocode){
               return geocode.types[0] === "administrative_area_level_1";
             })[0].short_name;
           abbr = stateAbbr;
@@ -143,7 +174,8 @@ $(document).ready(function() {
         dayProgressMeter();
         weatherMap();
         fixHeight();
-        //hides forecast tiles to handle case that city was changed and page is being redisplayed
+        // hides forecast tiles to handle case that city was changed and page
+        //  is being redisplayed
         $('.forecast').css({
           'opacity': '0',
           'transform': 'rotateY(90deg)'
@@ -152,28 +184,26 @@ $(document).ready(function() {
           $('.today').css('opacity', '1');
           $forecast.dequeue('forecastAnim');
         }).delay(2000, 'forecastAnim');
+      }
 
-        //get forecast data, then set data and animate forecast tiles
-        $.getJSON('http://api.openweathermap.org/data/2.5/forecast/daily?lat=' +
-          lat + '&lon=' + lon + apiKeyStr).
-        done(function(data) {
-          forecast = data;
-          displayForecastTemps('F');
-          //ensure data divs are empty
-          $('.date').empty();
+    //Set forecast data returned from openweathermpa API and animate forecast tiles
+    function formatForecast(data) {
+        forecast = data;
+        displayForecastTemps('F');
+        //ensure data divs are empty
+        $('.date').empty();
 
-          //get the 3-day forecast by looping through known forecast object
-          for (i = 1; i < 4; i++) {
-            $('.date-' + i).html(getDateToDisplay(forecast.list[i].dt) +
-                                 '<span class="icon icon-' + i + '"></span>');
-            $('.icon-' + i).append('<img src="http://openweathermap.org/img/w/' +
-              forecast.list[i].weather[0].icon + '.png">');
-          }
-          animateForecast();
-        });
-      });
+        //get the 3-day forecast by looping through known forecast object
+        for (i = 1; i < 4; i++) {
+          $('.date-' + i).html(getDateToDisplay(forecast.list[i].dt) +
+                               '<span class="icon icon-' + i + '"></span>');
+          $('.icon-' + i).append('<img src="http://openweathermap.org/img/w/' +
+            forecast.list[i].weather[0].icon + '.png">');
+        }
+        animateForecast();
+      }
 
-    });
+
   }
 
   //handle dispalying current condition data
