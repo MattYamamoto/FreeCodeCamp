@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  var apiKeyStr = '&appid=bd82977b86bf27fb59a04b61b657fb6f',
+  var apiKeyStr = '&appid=4f4e98d53946958b89b7a7bbdcdc8064',
       today,
       forecast,
       months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
