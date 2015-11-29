@@ -65,9 +65,12 @@ $(document).ready(function() {
 
   //get location from browser
   function getLocation() {
+    // Set a timeout to run error in case user does not allow geolocation
+    var locationTimeout = setTimeout(error, 5000)
 
     //success function if location data available
     function success(position) {
+        clearTimeout(locationTimeout);
         latitude = position.coords.latitude;
         longitude = position.coords.longitude;
         getWeather(latitude, longitude);
@@ -87,7 +90,7 @@ $(document).ready(function() {
 
     //get location if possible
     if (navigator && navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success,error);
+      navigator.geolocation.getCurrentPosition(success, error, {timeout: 5000});
     } else {
         error();
     }
