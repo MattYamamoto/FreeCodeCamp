@@ -1271,16 +1271,18 @@ $(document).ready(function() {
 
   // physicsal keyboard button bindings
   $('body').keydown(function(e){
-    e.preventDefault();
     var key,
         func,
         val;
+    // check that key is used
+    if(keyboardKeyMap[e.key]) {
+      e.preventDefault();
+      key = keyboardKeyMap[e.key];  // get corresponding calc key
+      func = keyMap[key].main.func;  // get calc key function
+      val = keyMap[key].main.val;  // get calc key value
 
-    key = keyboardKeyMap[e.key];
-    func = keyMap[key].main.func;
-    val = keyMap[key].main.val;
-
-    func(val);
+      func(val);  //run calc key function
+    }
 
   });
 /*
