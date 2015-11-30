@@ -1202,7 +1202,7 @@ $(document).ready(function() {
 
     if(inputLine === true) { // if on inputline, get line 1 and input (line 0)
       a = getLineContents(1);
-      b = parseFloat(getLineContents(0).toString());
+      b = parseFloat(getLineString(0));
     } else {  // else get lines 2 and 1
       a = getLineContents(2);
       b = getLineContents(1);
