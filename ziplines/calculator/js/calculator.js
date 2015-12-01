@@ -1,8 +1,9 @@
 $(document).ready(function() {
   var $keyButtons = $('.key-button'),
     $keyText = $('.key-text'),
-    $keyAlt1Text = $(".key-alt-text-1"),
-    $keyAlt2Text = $(".key-alt-text-2"),
+    $keyAlt1Text = $('.key-alt-text-1'),
+    $keyAlt2Text = $('.key-alt-text-2'),
+    $menus = $('.menu'),
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
@@ -777,11 +778,11 @@ $(document).ready(function() {
     },
     screenMenus = {
       main: {
-        menu1: {
+        men1: {
           sub1: "",
           sub2: ""
         },
-        menu2: ""
+        men2: ""
       }
     },
     screenStack = {
@@ -820,9 +821,6 @@ $(document).ready(function() {
     keyMap[cancelKey].main.func = clearInputLine;
   }
 
-  function setMenus() {
-
-  }
 
   /**
     *
@@ -991,6 +989,27 @@ $(document).ready(function() {
 
   }
 
+  // Draws appropriate menu text and menu button style
+  function drawMenus(menuObj) {
+    // get keys for menuObj.  These are the menu block labels
+    var keys = Object.keys(menuObj);
+
+    // iterate through the menu divs
+    $menus.each(function(ind) {
+      // set the menu html to the key text for each menu
+      $(this).html(keys[ind]);
+
+      // check if this key's property is an object.  If so, this is a menu
+      // otherwise it is an action button.
+      if(typeof menuObj[keys[ind]] === 'object') {
+        $(this).addClass('menu-folder');
+      } else {
+        $(this).removeClass('menu-folder');
+      }
+
+    });
+  }
+
   //Create a new input line
   function openInputLine(char) {
     inputLine = true;
@@ -1010,7 +1029,6 @@ $(document).ready(function() {
 
   //Remove characters from the input line
   function delInputChar() {
-    console.log(screenStack.lineContents, cursorPosition);
     if(cursorPosition > 0) {
       cursorPosition--;
       screenStack.lineContents[0].splice(cursorPosition, 1);
@@ -1295,6 +1313,7 @@ $(document).ready(function() {
   */
   (function initialize() {
     setKeys();
+    drawMenus(screenMenus.main);
     refreshScreen();
   })();
 

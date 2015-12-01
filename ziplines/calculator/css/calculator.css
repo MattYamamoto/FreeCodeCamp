@@ -109,9 +109,11 @@ body {
 }
 .menu {
   display: inline-block;
+  vertical-align: top;
   position: relative;
   width: 35px;
   height: 15px;
+  margin-bottom: 2px;
   text-align: center;
   padding: 2px 2px;
   color: hsla(40, 25%, 50%, 1);
