@@ -13,8 +13,10 @@ $(document).ready(function() {
     cursorPosition = 0,
     maxLineChars = 18,
     maxDispDigits = 9,
+    menus = 6,  // number of menu spaces on screen
     menuLength,
     menuPage = 0,
+    menuState,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -210,7 +212,7 @@ $(document).ready(function() {
         "main": {
           "text": "Next",
           "val": "",
-          "func": ""
+          "func": nextMenu
         },
         "alt1": {
           "text": "F",
@@ -784,7 +786,12 @@ $(document).ready(function() {
           sub1: "",
           sub2: ""
         },
-        men2: ""
+        men2: "",
+        men3: "",
+        men4: "",
+        men5: "",
+        men6: "",
+        men7: ""
       }
     },
     screenStack = {
@@ -998,7 +1005,7 @@ $(document).ready(function() {
 
     // iterate through the menu divs
     $menus.each(function(ind) {
-      var key = keys[ind + menuPage];
+      var key = keys[ind + (menuPage * menus)];
 
       // if there's something to add to the menus
       if(key) {
@@ -1012,6 +1019,8 @@ $(document).ready(function() {
         } else {
           $(this).removeClass('menu-folder');
         }
+      } else {  // else ensure the menu space is empty
+        $(this).html('');
       }
 
     });
@@ -1206,21 +1215,6 @@ $(document).ready(function() {
     }
   }
 
-  function cursorLeft() {
-    if(cursorPosition > 0 && inputLine === true) {
-      cursorPosition--;
-      refreshScreen();
-    }
-  }
-
-  function cursorRight() {
-    if(cursorPosition < screenStack.lineContents[0].length &&
-       inputLine === true) {
-      cursorPosition++;
-      refreshScreen();
-    }
-  }
-
   //  function returs an array of the first two lines irrespective of
   //  the precesnce of the input Line.
   function getFirstTwoLines() {
@@ -1282,6 +1276,32 @@ $(document).ready(function() {
     refreshScreen();
   }
 
+  //
+  // Non-math related buttons
+  //
+
+  function cursorLeft() {
+    if(cursorPosition > 0 && inputLine === true) {
+      cursorPosition--;
+      refreshScreen();
+    }
+  }
+
+  function cursorRight() {
+    if(cursorPosition < screenStack.lineContents[0].length &&
+       inputLine === true) {
+      cursorPosition++;
+      refreshScreen();
+    }
+  }
+
+function nextMenu() {
+  if(menuLength > menus) {
+    menuPage = ++menuPage % ((menuLength % menus) + 1);
+    drawMenus(menuState);
+  }
+}
+
   /**
     *
     *Event bindings
@@ -1322,6 +1342,7 @@ $(document).ready(function() {
   */
   (function initialize() {
     setKeys();
+    menuState = screenMenus.main;
     menuLength = drawMenus(screenMenus.main);
     refreshScreen();
   })();
