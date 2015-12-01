@@ -13,6 +13,8 @@ $(document).ready(function() {
     cursorPosition = 0,
     maxLineChars = 18,
     maxDispDigits = 9,
+    menuLength,
+    menuPage = 0,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -996,18 +998,25 @@ $(document).ready(function() {
 
     // iterate through the menu divs
     $menus.each(function(ind) {
-      // set the menu html to the key text for each menu
-      $(this).html(keys[ind]);
+      var key = keys[ind + menuPage];
 
-      // check if this key's property is an object.  If so, this is a menu
-      // otherwise it is an action button.
-      if(typeof menuObj[keys[ind]] === 'object') {
-        $(this).addClass('menu-folder');
-      } else {
-        $(this).removeClass('menu-folder');
+      // if there's something to add to the menus
+      if(key) {
+        // set the menu html to the key text for each menu
+        $(this).html(key);
+
+        // check if this key's property is an object.  If so, this is a menu
+        // otherwise it is an action button.
+        if(typeof menuObj[key] === 'object') {
+          $(this).addClass('menu-folder');
+        } else {
+          $(this).removeClass('menu-folder');
+        }
       }
 
     });
+
+    return keys.length;
   }
 
   //Create a new input line
@@ -1313,7 +1322,7 @@ $(document).ready(function() {
   */
   (function initialize() {
     setKeys();
-    drawMenus(screenMenus.main);
+    menuLength = drawMenus(screenMenus.main);
     refreshScreen();
   })();
 
