@@ -3,7 +3,6 @@ $(document).ready(function() {
     $keyText = $('.key-text'),
     $keyAlt1Text = $('.key-alt-text-1'),
     $keyAlt2Text = $('.key-alt-text-2'),
-    $menus = $('.menu'),
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
     $display = $('.screen-main-display-container'),
@@ -14,6 +13,7 @@ $(document).ready(function() {
     maxLineChars = 18,
     maxDispDigits = 9,
     menu,
+    menuSlots = 6,  // number of menu spaces on screen
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -942,37 +942,35 @@ $(document).ready(function() {
     *
   */
 
-  menu = {
-    init: function() {
-      this.menuState = "main";
-      this.menuLength = this.drawMenu(this.screenMenus[this.menuState]);
-    },
-    slots: 6,  // number of menu spaces on screen
-    menuLength: 0,
-    page: 0,
-    screenMenus: {
-      main: {
-        men1: {
-          sub1: "",
-          sub2: ""
-        },
-        men2: "",
-        men3: "",
-        men4: "",
-        men5: "",
-        men6: "",
-        men7: ""
-      }
-    },
-    menuState: "main",
-    drawMenu: function (menuObj) {  // Draws appropriate menu text and menu button style
+  menu = (function() {
+    var slots = menuSlots,
+        menuLength,
+        state = "main",
+        $menus = $('.menu'),
+        page = 0,
+        screenMenus = {
+          main: {
+            men1: {
+              sub1: "",
+              sub2: ""
+            },
+            men2: "",
+            men3: "",
+            men4: "",
+            men5: "",
+            men6: "",
+            men7: ""
+          }
+        };
+
+    // Draws appropriate menu text and menu button style
+    function drawMenu(menuObj) {
       // get keys for menuObj.  These are the menu block labels
-      var keys = Object.keys(menuObj),
-          that = this;
+      var keys = Object.keys(menuObj);
 
       // iterate through the menu divs
       $menus.each(function(ind) {
-        var key = keys[ind + (that.page * that.slots)];
+        var key = keys[ind + (page * slots)];
 
         // if there's something to add to the menus
         if(key) {
@@ -994,7 +992,29 @@ $(document).ready(function() {
 
       return keys.length;
     }
-  };
+
+    function nextMenu() {
+
+      if(menuLength > slots) {
+        page = ++page % ((menuLength % slots) + 1);
+        drawMenu(screenMenus[state]);
+      }
+    }
+
+    function init() {
+      state = "main";
+      menuLength = drawMenu(screenMenus[state]);
+    }
+
+    return {
+      init: init,
+      nextMenu: nextMenu
+    };
+
+
+  })();
+
+
 
   // draw the screen
   function refreshScreen() {
@@ -1313,10 +1333,7 @@ $(document).ready(function() {
   }
 
 function nextMenu() {
-  if(menuLength > menus) {
-    menuPage = ++menuPage % ((menuLength % menus) + 1);
-    drawMenus(menuState);
-  }
+  menu.nextMenu();
 }
 
   /**
