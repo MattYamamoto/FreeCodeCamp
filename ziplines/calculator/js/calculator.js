@@ -13,10 +13,7 @@ $(document).ready(function() {
     cursorPosition = 0,
     maxLineChars = 18,
     maxDispDigits = 9,
-    menus = 6,  // number of menu spaces on screen
-    menuLength,
-    menuPage = 0,
-    menuState,
+    menu,
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
@@ -780,20 +777,7 @@ $(document).ready(function() {
       'ArrowDown': 'k16',
       'Escape': 'k38'
     },
-    screenMenus = {
-      main: {
-        men1: {
-          sub1: "",
-          sub2: ""
-        },
-        men2: "",
-        men3: "",
-        men4: "",
-        men5: "",
-        men6: "",
-        men7: ""
-      }
-    },
+
     screenStack = {
       lineNumbers: defaultLineNums.slice(),
       lineContents: []
@@ -952,6 +936,66 @@ $(document).ready(function() {
     return num;
   }
 
+  /**
+    *
+    * Menu Functionality
+    *
+  */
+
+  menu = {
+    init: function() {
+      this.menuState = "main";
+      this.menuLength = this.drawMenu(this.screenMenus[this.menuState]);
+    },
+    slots: 6,  // number of menu spaces on screen
+    menuLength: 0,
+    page: 0,
+    screenMenus: {
+      main: {
+        men1: {
+          sub1: "",
+          sub2: ""
+        },
+        men2: "",
+        men3: "",
+        men4: "",
+        men5: "",
+        men6: "",
+        men7: ""
+      }
+    },
+    menuState: "main",
+    drawMenu: function (menuObj) {  // Draws appropriate menu text and menu button style
+      // get keys for menuObj.  These are the menu block labels
+      var keys = Object.keys(menuObj),
+          that = this;
+
+      // iterate through the menu divs
+      $menus.each(function(ind) {
+        var key = keys[ind + (that.page * that.slots)];
+
+        // if there's something to add to the menus
+        if(key) {
+          // set the menu html to the key text for each menu
+          $(this).html(key);
+
+          // check if this key's property is an object.  If so, this is a menu
+          // otherwise it is an action button.
+          if(typeof menuObj[key] === 'object') {
+            $(this).addClass('menu-folder');
+          } else {
+            $(this).removeClass('menu-folder');
+          }
+        } else {  // else ensure the menu space is empty
+          $(this).html('');
+        }
+
+      });
+
+      return keys.length;
+    }
+  };
+
   // draw the screen
   function refreshScreen() {
     var nodeText = ['<div class="screen-main-display">'],
@@ -998,35 +1042,8 @@ $(document).ready(function() {
 
   }
 
-  // Draws appropriate menu text and menu button style
-  function drawMenus(menuObj) {
-    // get keys for menuObj.  These are the menu block labels
-    var keys = Object.keys(menuObj);
 
-    // iterate through the menu divs
-    $menus.each(function(ind) {
-      var key = keys[ind + (menuPage * menus)];
 
-      // if there's something to add to the menus
-      if(key) {
-        // set the menu html to the key text for each menu
-        $(this).html(key);
-
-        // check if this key's property is an object.  If so, this is a menu
-        // otherwise it is an action button.
-        if(typeof menuObj[key] === 'object') {
-          $(this).addClass('menu-folder');
-        } else {
-          $(this).removeClass('menu-folder');
-        }
-      } else {  // else ensure the menu space is empty
-        $(this).html('');
-      }
-
-    });
-
-    return keys.length;
-  }
 
   //Create a new input line
   function openInputLine(char) {
@@ -1342,8 +1359,7 @@ function nextMenu() {
   */
   (function initialize() {
     setKeys();
-    menuState = screenMenus.main;
-    menuLength = drawMenus(screenMenus.main);
+    menu.init();
     refreshScreen();
   })();
 
