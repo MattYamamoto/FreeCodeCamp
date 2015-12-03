@@ -1266,7 +1266,7 @@ $(document).ready(function() {
       b = getLineContents(1);
     }
 
-    return [b, a];
+    return [a, b];
   }
 
   function add(num1, num2) {
