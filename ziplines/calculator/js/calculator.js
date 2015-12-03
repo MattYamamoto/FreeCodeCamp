@@ -777,7 +777,6 @@ $(document).ready(function() {
       'ArrowDown': 'k16',
       'Escape': 'k38'
     },
-
     screenStack = {
       lineNumbers: defaultLineNums.slice(),
       lineContents: []
@@ -821,31 +820,6 @@ $(document).ready(function() {
     *
   */
 
-  // function returns the content of a given line number.
-  // line number corresponds to line number on screen.
-  // If present, 0 represents input line
-  function getLineContents(lineNum) {
-    var contents;
-    //if input line is present, screenStack.lineContents is indexed correctly
-    if(inputLine === true) {
-      contents = screenStack.lineContents[lineNum];
-    } else {  //if no inptul line, screen line 1 lies at index 0;
-      contents = screenStack.lineContents[lineNum - 1] || "";
-    }
-
-    return contents;
-  }
-
-  function getLineString(lineNum) {
-    var str = getLineContents(lineNum);
-
-    return Array.isArray(str) ? str.join("") : str;
-  }
-
-  function getLineFloat(lineNum) {
-    return parseFloat(getLineString(lineNum));
-  }
-
   // function returns a copy of the input line with cursor at given position
   function insertCurosr(position) {
     var newLine;
@@ -868,7 +842,7 @@ $(document).ready(function() {
     return newLine;
   }
 
-  //
+  // function to handle excessive characters on a line.
   function formatLine(contents) {
     var formattedLine,
         numExcessChars = contents.length - maxLineChars,
@@ -935,6 +909,174 @@ $(document).ready(function() {
 
     return num;
   }
+
+
+  // draw the screen
+  function refreshScreen() {
+    var nodeText = ['<div class="screen-main-display">'],
+      j = 1,
+      lineNum,
+      content;
+
+    // create html for each line
+    for (var i = 4; i >= 0; i--) {
+      lineNum = screenStack.lineNumbers[i];
+
+      // check for input line and also verify that this is index 0
+      // any other index would be anomalous
+      if(inputLine === true && i === 0) {
+
+        // insert the cursor and join the input array to be dispalyed as string
+        content = formatLine(insertCurosr(cursorPosition)).join("");
+
+        // opening line div tag needs 'input-line' class
+        nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
+      } else {
+
+        //grabe content from the screenStack object.
+        content = screenNumberFormat(screenStack.lineContents[i]);
+
+        // generic opeing line div tag.
+        nodeText[j++] = '<div id="line' + i + '" class="line">';
+      }
+
+      nodeText[j++] = '<div class="line-number">';
+      nodeText[j++] = lineNum;
+      nodeText[j++] = '</div>';
+      nodeText[j++] = '<div class="line-content">';
+      nodeText[j++] = content;
+      nodeText[j++] = '</div>';
+      nodeText[j++] = '</div>';
+    }
+
+    //close screen-main-dispaly div
+    nodeText[j++] = '</div>';
+
+    //replace display with newly created html
+    $display.empty().append(nodeText.join(""));
+
+  }
+
+
+  //Create a new input line
+  function openInputLine(char) {
+    inputLine = true;
+    cursorPosition++;
+    //new line is added to front of screenStack
+    screenStack.lineNumbers.unshift(""); //has no line number
+    screenStack.lineContents.unshift([char.toString()]);
+    refreshScreen();
+  }
+
+  //Add characters to the input line text
+  function concatInputChar(char) {
+    screenStack.lineContents[0].splice(cursorPosition, 0, char.toString());
+    cursorPosition++;
+    refreshScreen();
+  }
+
+  //Remove characters from the input line
+  function delInputChar() {
+    if(cursorPosition > 0) {
+      cursorPosition--;
+      screenStack.lineContents[0].splice(cursorPosition, 1);
+      refreshScreen();
+    }
+  }
+
+  //Remove the inputLine and return what was there as a float
+  function clearInputLine() {
+    var input = "";
+    //only clear first screenStack entries if current line is
+    //an input line.
+    if(screenStack.lineNumbers[0] === "") {
+      input = screenStack.lineContents[0];
+      screenStack.lineNumbers.shift();
+      screenStack.lineContents.shift();
+      inputLine = false;
+      refreshScreen();
+    }
+
+    return parseFloat(input.join(""));
+  }
+
+
+  // function returns the content of a given line number.
+  // line number corresponds to line number on screen.
+  // If present, 0 represents input line
+  function getLineContents(lineNum) {
+    var contents;
+    //if input line is present, screenStack.lineContents is indexed correctly
+    if(inputLine === true) {
+      contents = screenStack.lineContents[lineNum];
+    } else {  //if no inptul line, screen line 1 lies at index 0;
+      contents = screenStack.lineContents[lineNum - 1] || "";
+    }
+
+    return contents;
+  }
+
+  function getLineString(lineNum) {
+    var str = getLineContents(lineNum);
+
+    return Array.isArray(str) ? str.join("") : str;
+  }
+
+  function getLineFloat(lineNum) {
+    return parseFloat(getLineString(lineNum));
+  }
+
+  function formatedParseFloat(str) {
+    var num = parseFloat(str);
+  }
+
+  // function clears number of lines specified starting from the bottom of
+  // the stack. This occurs irrespective of input line
+  function clearLines(num) {
+    // defalut to 1 if none specified.
+    num = num || 1;
+
+    // delete line conents and numbers for number of lines specified.
+    for(var i = 0; i < num; i++) {
+      screenStack.lineNumbers.shift();
+      screenStack.lineContents.shift();
+    }
+
+    //maintain minimum of default line numbers
+    if(screenStack.lineNumbers.length < defaultLineNums.length) {
+      screenStack.lineNumbers = defaultLineNums.slice();
+    }
+
+    // in case was input line, set inputLine to false
+    inputLine = false;
+  }
+
+  function addLineToStack(val) {
+    //the next line number value
+    var lineNum = screenStack.lineNumbers.length + 1;
+
+    //prepend val to the screenStack.lineContents array
+    screenStack.lineContents.unshift(val);
+
+    //if another line number is needed, add it to the line numbers.
+    if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
+      screenStack.lineNumbers.push(lineNum.toString(10) + ":");
+    }
+  }
+
+  //Place content at a specific line.
+  //0 is input line (which may not be visible)
+  //If no input line is present, one will be created
+  function placeAtLine(lineNum, val) {
+    if(lineNum > 0) {
+      screenStack.lineContents.splice(lineNum - 1 , 0, val);
+    } else {
+
+    }
+  }
+
+
+
 
   /**
     *
@@ -1014,147 +1156,6 @@ $(document).ready(function() {
 
   })();
 
-
-
-  // draw the screen
-  function refreshScreen() {
-    var nodeText = ['<div class="screen-main-display">'],
-      j = 1,
-      lineNum,
-      content;
-
-    // create html for each line
-    for (var i = 4; i >= 0; i--) {
-      lineNum = screenStack.lineNumbers[i];
-
-      // check for input line and also verify that this is index 0
-      // any other index would be anomalous
-      if(inputLine === true && i === 0) {
-
-        // insert the cursor and join the input array to be dispalyed as string
-        content = formatLine(insertCurosr(cursorPosition)).join("");
-
-        // opening line div tag needs 'input-line' class
-        nodeText[j++] = '<div id="line' + i + '" class="line input-line">';
-      } else {
-
-        //grabe content from the screenStack object.
-        content = screenNumberFormat(screenStack.lineContents[i]);
-
-        // generic opeing line div tag.
-        nodeText[j++] = '<div id="line' + i + '" class="line">';
-      }
-
-      nodeText[j++] = '<div class="line-number">';
-      nodeText[j++] = lineNum;
-      nodeText[j++] = '</div>';
-      nodeText[j++] = '<div class="line-content">';
-      nodeText[j++] = content;
-      nodeText[j++] = '</div>';
-      nodeText[j++] = '</div>';
-    }
-
-    //close screen-main-dispaly div
-    nodeText[j++] = '</div>';
-
-    //replace display with newly created html
-    $display.empty().append(nodeText.join(""));
-
-  }
-
-
-
-
-  //Create a new input line
-  function openInputLine(char) {
-    inputLine = true;
-    cursorPosition++;
-    //new line is added to front of screenStack
-    screenStack.lineNumbers.unshift(""); //has no line number
-    screenStack.lineContents.unshift([char.toString()]);
-    refreshScreen();
-  }
-
-  //Add characters to the input line text
-  function concatInputChar(char) {
-    screenStack.lineContents[0].splice(cursorPosition, 0, char.toString());
-    cursorPosition++;
-    refreshScreen();
-  }
-
-  //Remove characters from the input line
-  function delInputChar() {
-    if(cursorPosition > 0) {
-      cursorPosition--;
-      screenStack.lineContents[0].splice(cursorPosition, 1);
-      refreshScreen();
-    }
-  }
-
-  //Remove the inputLine and return what was there as a float
-  function clearInputLine() {
-    var input = "";
-    //only clear first screenStack entries if current line is
-    //an input line.
-    if(screenStack.lineNumbers[0] === "") {
-      input = screenStack.lineContents[0];
-      screenStack.lineNumbers.shift();
-      screenStack.lineContents.shift();
-      inputLine = false;
-      refreshScreen();
-    }
-
-    return parseFloat(input.join(""));
-  }
-
-  function formatedParseFloat(str) {
-    var num = parseFloat(str);
-  }
-
-  // function clears number of lines specified starting from the bottom of
-  // the stack. This occurs irrespective of input line
-  function clearLines(num) {
-    // defalut to 1 if none specified.
-    num = num || 1;
-
-    // delete line conents and numbers for number of lines specified.
-    for(var i = 0; i < num; i++) {
-      screenStack.lineNumbers.shift();
-      screenStack.lineContents.shift();
-    }
-
-    //maintain minimum of default line numbers
-    if(screenStack.lineNumbers.length < defaultLineNums.length) {
-      screenStack.lineNumbers = defaultLineNums.slice();
-    }
-
-    // in case was input line, set inputLine to false
-    inputLine = false;
-  }
-
-  function addLineToStack(val) {
-    //the next line number value
-    var lineNum = screenStack.lineNumbers.length + 1;
-
-    //prepend val to the screenStack.lineContents array
-    screenStack.lineContents.unshift(val);
-
-    //if another line number is needed, add it to the line numbers.
-    if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
-      screenStack.lineNumbers.push(lineNum.toString(10) + ":");
-    }
-  }
-
-  //Place content at a specific line.
-  //0 is input line (which may not be visible)
-  //If no input line is present, one will be created
-  function placeAtLine(lineNum, val) {
-    if(lineNum > 0) {
-      screenStack.lineContents.splice(lineNum - 1 , 0, val);
-    } else {
-
-    }
-  }
 
 
   /**
