@@ -1085,15 +1085,18 @@ $(document).ready(function() {
   */
 
   menu = (function() {
-    var slots = menuSlots,
+    var $keyOptionButtons = $('.key-option-button'),
+        $menus = $('.menu'),
+        slots = menuSlots,
         menuLength,
         state = "main",
-        $menus = $('.menu'),
         page = 0,
         screenMenus = {
           main: {
             men1: {
-              sub1: "",
+              sub1: {
+                'sub1.1': ""
+              },
               sub2: ""
             },
             men2: "",
@@ -1103,7 +1106,8 @@ $(document).ready(function() {
             men6: "",
             men7: ""
           }
-        };
+        },
+        currMenu = screenMenus.main;
 
     // Draws appropriate menu text and menu button style
     function drawMenu(menuObj) {
@@ -1139,18 +1143,41 @@ $(document).ready(function() {
 
       if(menuLength > slots) {
         page = ++page % ((menuLength % slots) + 1);
-        drawMenu(screenMenus[state]);
+        drawMenu(currMenu);
       }
     }
 
+    // Draws submenu by name relative to the current menu object
+    function goToSubMenu(name) {
+      currMenu = currMenu[name];
+      drawMenu(currMenu);
+    }
+
+    // handle clicks to option buttons
+    $keyOptionButtons.click(function() {
+      var index = $keyOptionButtons.index(this),
+          name = $menus.eq(index).html();
+
+
+      if(typeof currMenu[name] === 'object') {  // if button is submenu
+        goToSubMenu(name);  // the go to subment
+      } else if (typeof currMenu[name] === 'function') {
+        currMenu[name]();  // if button is an action/function, run it.
+      }
+
+    });
+
+    // initialize the menus
     function init() {
       state = "main";
       menuLength = drawMenu(screenMenus[state]);
     }
 
+    // return the menu object for public reference
     return {
       init: init,
-      nextMenu: nextMenu
+      nextMenu: nextMenu,
+      subMenu: goToSubMenu
     };
 
 
