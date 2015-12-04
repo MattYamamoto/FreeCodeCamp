@@ -1089,7 +1089,7 @@ $(document).ready(function() {
         $menus = $('.menu'),
         slots = menuSlots,
         menuLength,
-        state = "main",
+        mainMenu = 'main',
         page = 0,
         screenMenus = {
           main: {
@@ -1136,15 +1136,20 @@ $(document).ready(function() {
 
       });
 
-      return keys.length;
+      menuLength = keys.length;
     }
 
     function nextMenu() {
-
       if(menuLength > slots) {
         page = ++page % ((menuLength % slots) + 1);
         drawMenu(currMenu);
       }
+    }
+
+    // navigate to top level menu
+    function goToMenu(name) {
+      currMenu = screenMenus[name];
+      drawMenu(currMenu);
     }
 
     // Draws submenu by name relative to the current menu object
@@ -1169,8 +1174,7 @@ $(document).ready(function() {
 
     // initialize the menus
     function init() {
-      state = "main";
-      menuLength = drawMenu(screenMenus[state]);
+      goToMenu(mainMenu);
     }
 
     // return the menu object for public reference
