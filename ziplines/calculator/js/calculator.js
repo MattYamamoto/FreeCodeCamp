@@ -7,6 +7,7 @@ $(document).ready(function() {
     $screenContent = $('.content'),
     $screenHeader = $('.screen-header-content'),
     $display = $('.screen-main-display-container'),
+    altBtnState = '',
     cancelKey = 'k38',
     inputLine = false,
     inputMode = 'dec',
@@ -18,6 +19,73 @@ $(document).ready(function() {
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
+    keyMap,
+    keyboardKeyMap = {
+      '0': 'k39',
+      '1': 'k34',
+      '2': 'k35',
+      '3': 'k36',
+      '4': 'k29',
+      '5': 'k30',
+      '6': 'k31',
+      '7': 'k24',
+      '8': 'k25',
+      '9': 'k26',
+      '.': 'k40',
+      'Enter': 'k18',
+      '+': 'k42',
+      '-': 'k37',
+      '*': 'k32',
+      '\/': 'k27',
+      'e': 'k41',
+      'E': 'k41',
+      'Backspace': 'k22',
+      'Delete': 'k21',
+      'ArrowLeft': 'k15',
+      'ArrowRight': 'k17',
+      'ArrowUp': 'k10',
+      'ArrowDown': 'k16',
+      'Escape': 'k38'
+    },
+    screenStack = {
+      lineNumbers: defaultLineNums.slice(),
+      lineContents: []
+    };
+
+  /**
+    *
+    *Initialization and Setup Functions
+    *
+  */
+
+  //setKeys function maps text onto appropriate key.
+  function setKeys() {
+    //set text for each key
+    $keyText.each(function(ind) {
+      $(this).html(keyMap["k" + ind].main.text || "~k" + ind + "~");
+    });
+
+    //set alt1 text for each key
+    $keyAlt1Text.each(function(ind) {
+      var offset = ind + 6; //compensate for 6 top keys w/o alt text
+      $(this).html(keyMap["k" + offset].alt1.text);
+    });
+
+    //set alt2 text for each key
+    $keyAlt2Text.each(function(ind) {
+      var offset = ind + 6; //compensate for 6 top keys w/o alt text
+      $(this).html(keyMap["k" + offset].alt2.text);
+    });
+
+    //set Cancel key (overrides key's native main func)
+    //should be bottom row key or text will interfere
+    $('#' + cancelKey).parent().append('<div id="cancel">Cancel</div>');
+    keyMap[cancelKey].main.func = clearInputLine;
+  }
+
+  // set the keyMap object.  This is in a function so that other objects
+  // which may be needed can be instantiated first.
+  function setKeyMap() {
     keyMap = {
       "k0": {
         "main": {
@@ -125,7 +193,7 @@ $(document).ready(function() {
         "main": {
           "text": "Main",
           "val": "main",
-          "func": menuButton
+          "func": menu.goToMenu
         },
         "alt1": {
           "text": "A",
@@ -201,9 +269,9 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt2": {
-          "text": "",
+          "text": "Up",
           "val": "",
-          "func": ""
+          "func": menu.goToPrevMenu
         }
       },
       "k11": {
@@ -498,8 +566,8 @@ $(document).ready(function() {
       "k28": {
         "main": {
           "text": "<i class='fa fa-reply'></i>",
-          "val": "",
-          "func": ""
+          "val": "alt1",
+          "func": altBtn
         },
         "alt1": {
           "text": "",
@@ -583,8 +651,8 @@ $(document).ready(function() {
       "k33": {
         "main": {
           "text": "<i class='fa fa-share'></i>",
-          "val": "",
-          "func": ""
+          "val": "alt2",
+          "func": altBtn
         },
         "alt1": {
           "text": "",
@@ -750,70 +818,9 @@ $(document).ready(function() {
           "func": ""
         }
       }
-    },
-    keyboardKeyMap = {
-      '0': 'k39',
-      '1': 'k34',
-      '2': 'k35',
-      '3': 'k36',
-      '4': 'k29',
-      '5': 'k30',
-      '6': 'k31',
-      '7': 'k24',
-      '8': 'k25',
-      '9': 'k26',
-      '.': 'k40',
-      'Enter': 'k18',
-      '+': 'k42',
-      '-': 'k37',
-      '*': 'k32',
-      '\/': 'k27',
-      'e': 'k41',
-      'E': 'k41',
-      'Backspace': 'k22',
-      'Delete': 'k21',
-      'ArrowLeft': 'k15',
-      'ArrowRight': 'k17',
-      'ArrowUp': 'k10',
-      'ArrowDown': 'k16',
-      'Escape': 'k38'
-    },
-    screenStack = {
-      lineNumbers: defaultLineNums.slice(),
-      lineContents: []
     };
 
-  /**
-    *
-    *Initialization and Setup Functions
-    *
-  */
-
-  //setKeys function maps text onto appropriate key.
-  function setKeys() {
-    //set text for each key
-    $keyText.each(function(ind) {
-      $(this).html(keyMap["k" + ind].main.text || "~k" + ind + "~");
-    });
-
-    //set alt1 text for each key
-    $keyAlt1Text.each(function(ind) {
-      var offset = ind + 6; //compensate for 6 top keys w/o alt text
-      $(this).html(keyMap["k" + offset].alt1.text);
-    });
-
-    //set alt2 text for each key
-    $keyAlt2Text.each(function(ind) {
-      var offset = ind + 6; //compensate for 6 top keys w/o alt text
-      $(this).html(keyMap["k" + offset].alt2.text);
-    });
-
-    //set Cancel key (overrides key's native main func)
-    //should be bottom row key or text will interfere
-    $('#' + cancelKey).parent().append('<div id="cancel">Cancel</div>');
-    keyMap[cancelKey].main.func = clearInputLine;
   }
-
 
   /**
     *
@@ -1091,6 +1098,7 @@ $(document).ready(function() {
         slots = menuSlots,
         menuLength,
         mainMenu = 'main',
+        menuState = [],
         page = 0,
         screenMenus = {
           main: {
@@ -1107,8 +1115,7 @@ $(document).ready(function() {
             men6: "",
             men7: ""
           }
-        },
-        currMenu = screenMenus.main;
+        };
 
     // Draws appropriate menu text and menu button style
     function drawMenu(menuObj) {
@@ -1142,32 +1149,46 @@ $(document).ready(function() {
       menuLength = keys.length;
     }
 
+    function getCurrMenuObj() {
+      return menuState.reduce(function(prev, curr) {
+        return prev[curr];
+      }, screenMenus);
+    }
+
     function nextMenu() {
       if(menuLength > slots) {
         page = ++page % ((menuLength % slots) + 1);
-        drawMenu(currMenu);
+        drawMenu(getCurrMenuObj());
       }
     }
 
     // navigate to top level menu
     function goToMenu(name) {
-      $screenHeader.html(name);
-      currMenu = screenMenus[name];
-      drawMenu(currMenu);
+      menuState = [name];
+      $screenHeader.html(menuState.join(' -> '));
+      drawMenu(getCurrMenuObj());
     }
 
     // Draws submenu by name relative to the current menu object
     function goToSubMenu(name) {
-      $screenHeader.append(" -> " + name);
-      currMenu = currMenu[name];
-      drawMenu(currMenu);
+      menuState.push(name);
+      $screenHeader.html(menuState.join(' -> '));
+      drawMenu(getCurrMenuObj());
+    }
+
+    function goToPrevMenu() {
+      if(menuState.length > 1){
+        menuState.pop();
+        $screenHeader.html(menuState.join(' -> '));
+        drawMenu(getCurrMenuObj());
+      }
     }
 
     // handle clicks to option buttons
     $keyOptionButtons.click(function() {
       var index = $keyOptionButtons.index(this),
-          name = $menus.eq(index).html();
-
+          name = $menus.eq(index).html(),
+          currMenu = getCurrMenuObj();
 
       if(typeof currMenu[name] === 'object') {  // if button is submenu
         goToSubMenu(name);  // the go to subment
@@ -1187,7 +1208,8 @@ $(document).ready(function() {
       init: init,
       nextMenu: nextMenu,
       subMenu: goToSubMenu,
-      goToMenu: goToMenu
+      goToMenu: goToMenu,
+      goToPrevMenu: goToPrevMenu
     };
 
 
@@ -1370,8 +1392,12 @@ $(document).ready(function() {
     }
   }
 
-  function menuButton(name) {
-    menu.goToMenu(name);
+  function altBtn(name) {
+    if(altBtnState === name) {
+      altBtnState = '';
+    } else {
+      altBtnState = name;
+    }
   }
 
   function nextMenu() {
@@ -1386,10 +1412,28 @@ $(document).ready(function() {
 
   $keyButtons.click(function() {
     var key = $(this).attr('id'),
+        func;
+
+    switch(altBtnState) {
+      case 'alt1':
+        func = keyMap[key].alt1.func;
+        altBtnState = '';
+        break;
+
+      case 'alt2':
+        func = keyMap[key].alt2.func;
+        altBtnState = '';
+        break;
+
+      default:
         func = keyMap[key].main.func;
+        break;
+    }
+
     if(func) {
       func(keyMap[key].main.val);
     }
+
   });
 
   // physicsal keyboard button bindings
@@ -1417,8 +1461,9 @@ $(document).ready(function() {
     *
   */
   (function initialize() {
+    menu.init();  // initialize the menu first so that methods are available.
+    setKeyMap();
     setKeys();
-    menu.init();
     refreshScreen();
   })();
 
