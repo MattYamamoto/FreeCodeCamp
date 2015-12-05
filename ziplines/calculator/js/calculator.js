@@ -6,6 +6,7 @@ $(document).ready(function() {
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
     $screenHeader = $('.screen-header-content'),
+    $screenAltKey = $('.screen-header-alt'),
     $display = $('.screen-main-display-container'),
     altBtnState = '',
     cancelKey = 'k38',
@@ -1392,11 +1393,25 @@ $(document).ready(function() {
     }
   }
 
+  function setAltBtnState(type) {
+    var btnText = {
+      alt1: "<i class='fa fa-reply'></i>",
+      alt2:  "<i class='fa fa-share'></i>"
+    };
+
+    altBtnState = type;
+    if(type !== '') {
+      $screenAltKey.html(btnText[type]);
+    } else {
+      $screenAltKey.html('');
+    }
+  }
+
   function altBtn(name) {
     if(altBtnState === name) {
-      altBtnState = '';
+      setAltBtnState('');
     } else {
-      altBtnState = name;
+      setAltBtnState(name);
     }
   }
 
@@ -1417,12 +1432,12 @@ $(document).ready(function() {
     switch(altBtnState) {
       case 'alt1':
         func = keyMap[key].alt1.func;
-        altBtnState = '';
+        setAltBtnState('');
         break;
 
       case 'alt2':
         func = keyMap[key].alt2.func;
-        altBtnState = '';
+        setAltBtnState('');
         break;
 
       default:

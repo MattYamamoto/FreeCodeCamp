@@ -54,6 +54,12 @@ body {
 .screen-header {
   padding: 5px 3px 3px 3px;
 }
+.screen-header div {
+  display: inline-block;
+}
+.screen-header-alt {
+  float: right;
+}
 
 .screen-header hr {
   border-color: hsl(130, 15%, 10%);
@@ -266,6 +272,7 @@ body {
 
 .key-alt-text-2 {
   color: hsl(125, 40%, 50%);
+  padding-left: 5px;
 }
 
 
