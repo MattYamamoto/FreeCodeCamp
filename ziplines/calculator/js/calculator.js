@@ -5,6 +5,7 @@ $(document).ready(function() {
     $keyAlt2Text = $('.key-alt-text-2'),
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
+    $screenHeader = $('.screen-header-content'),
     $display = $('.screen-main-display-container'),
     cancelKey = 'k38',
     inputLine = false,
@@ -122,9 +123,9 @@ $(document).ready(function() {
       },
       "k6": {
         "main": {
-          "text": "",
-          "val": "",
-          "func": ""
+          "text": "Main",
+          "val": "main",
+          "func": menuButton
         },
         "alt1": {
           "text": "A",
@@ -1136,6 +1137,8 @@ $(document).ready(function() {
 
       });
 
+
+
       menuLength = keys.length;
     }
 
@@ -1148,12 +1151,14 @@ $(document).ready(function() {
 
     // navigate to top level menu
     function goToMenu(name) {
+      $screenHeader.html(name);
       currMenu = screenMenus[name];
       drawMenu(currMenu);
     }
 
     // Draws submenu by name relative to the current menu object
     function goToSubMenu(name) {
+      $screenHeader.append(" -> " + name);
       currMenu = currMenu[name];
       drawMenu(currMenu);
     }
@@ -1181,7 +1186,8 @@ $(document).ready(function() {
     return {
       init: init,
       nextMenu: nextMenu,
-      subMenu: goToSubMenu
+      subMenu: goToSubMenu,
+      goToMenu: goToMenu
     };
 
 
@@ -1364,9 +1370,13 @@ $(document).ready(function() {
     }
   }
 
-function nextMenu() {
-  menu.nextMenu();
-}
+  function menuButton(name) {
+    menu.goToMenu(name);
+  }
+
+  function nextMenu() {
+    menu.nextMenu();
+  }
 
   /**
     *
