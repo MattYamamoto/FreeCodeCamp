@@ -1317,6 +1317,25 @@ $(document).ready(function() {
     }
   }
 
+  // display syntax error message in the header.
+  function operationSyntaxErr() {
+    $headerRow1Right.html("SYNTAX ERROR");
+  }
+
+  function clearOperationSyntaxErr() {
+    $headerRow1Right.html("");
+  }
+
+  // checks the elements of an array and returns false if any are
+  // the falsy values used.
+  function checkForArgs(arr) {
+    return !(arr.some(function(arg) {
+      if(arg === undefined || arg === '' || isNaN(arg) || arg === null) {
+        return true;
+      }
+    }));
+  }
+
   // function returs an array of 'num' arguments from the stack in decending
   // order, irrespecitve of the precesnce of the input Line.
   function getFirstLines(num) {
@@ -1336,14 +1355,26 @@ $(document).ready(function() {
       }
     }
 
-    // return reveresed array so arguemnts are in decending stack order.
-    return arr.reverse();
+    // check for valid arguments.
+    if(checkForArgs(arr)) {
+      // return reveresed array so arguemnts are in decending stack order.
+      return arr.reverse();
+    } else {
+      operationSyntaxErr();
+      return false;
+    }
+
+
   }
 
   // clears the number of lines specfied and replaces with the rslt.
-  function stackOperation(numLinesInOperation, rslt) {
-    clearLines(numLinesInOperation);
-    addLineToStack(rslt);
+  function stackOperation(numLinesInOperation, callback) {
+    var argsArray = getFirstLines(numLinesInOperation);
+
+    if(argsArray) {
+      clearLines(numLinesInOperation);
+      addLineToStack(callback.apply(this, argsArray));
+    }
     refreshScreen();
   }
 
@@ -1376,7 +1407,7 @@ $(document).ready(function() {
   }
 
   function divideKey() {
-    stackOperation(2, divide.apply(this, getFirstLines(2)));
+    stackOperation(2, divide);
   }
 
   function modulo(num1, num2) {
@@ -1545,6 +1576,9 @@ $(document).ready(function() {
   $keyButtons.click(function() {
     var key = $(this).attr('id'),
         func;
+
+    //  clear any operation syntax error on screeen.
+    clearOperationSyntaxErr();
 
     switch(altBtnState) {
       case 'alt1':
