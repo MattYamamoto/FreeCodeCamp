@@ -214,7 +214,7 @@ $(document).ready(function() {
         "main": {
           "text": "sin",
           "val": "",
-          "func": ""
+          "func": sinKey
         },
         "alt1": {
           "text": "B",
@@ -224,14 +224,14 @@ $(document).ready(function() {
         "alt2": {
           "text": "asin",
           "val": "",
-          "func": ""
+          "func": asinKey
         }
       },
       "k8": {
         "main": {
           "text": "cos",
           "val": "",
-          "func": ""
+          "func": cosKey
         },
         "alt1": {
           "text": "C",
@@ -241,14 +241,14 @@ $(document).ready(function() {
         "alt2": {
           "text": "acos",
           "val": "",
-          "func": ""
+          "func": acosKey
         }
       },
       "k9": {
         "main": {
           "text": "tan",
           "val": "",
-          "func": ""
+          "func": tanKey
         },
         "alt1": {
           "text": "D",
@@ -258,7 +258,7 @@ $(document).ready(function() {
         "alt2": {
           "text": "atan",
           "val": "",
-          "func": ""
+          "func": atanKey
         }
       },
       "k10": {
@@ -1320,11 +1320,12 @@ $(document).ready(function() {
     var arr = [],
         firstLine = 1;  // starting line
 
-    if(inputLine === true) { // if on inputline, start with line 0
-      firstLine = 0;
+    if(inputLine === true) {
+      firstLine = 0;  // if on inputline, start with line 0
+      num = num - 1;  // adjust num to compensate from starting at zero
     }
 
-    for(var i = firstLine; i < num; i++ ) {
+    for(var i = firstLine; i <= num; i++ ) {
       if(i === 0) {
         arr.push(parseFloat(getLineString(0))); // handle input line
       } else {
@@ -1374,6 +1375,82 @@ $(document).ready(function() {
   function divideKey() {
     stackOperation(2, divide.apply(this, getFirstLines(2)));
   }
+
+
+  //
+  // Tirg functionality
+  //
+
+  function convertToRadians(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  function convertToDeg(rad) {
+    return rad * (180 / Math.PI);
+  }
+
+  function sinKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1, Math.sin(convertToRadians(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.sin(num) );
+    }
+  }
+
+  function cosKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1, Math.cos(convertToRadians(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.cos(num) );
+    }
+  }
+
+  function tanKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1, Math.tan(convertToRadians(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.tan(num) );
+    }
+  }
+
+  function asinKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1, convertToDeg(Math.asin(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.asin(num) );
+    }
+  }
+
+  function acosKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1,convertToDeg(Math.acos(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.cos(num) );
+    }
+  }
+
+  function atanKey() {
+    var num = getFirstLines(1)[0];
+
+    if(mode === 'deg') {
+       stackOperation(1, convertToDeg(Math.atan(num)));
+    } else if(mode === 'rad') {
+      stackOperation(1, Math.tan(num) );
+    }
+  }
+
+
+
 
   //
   // Non-math related buttons
