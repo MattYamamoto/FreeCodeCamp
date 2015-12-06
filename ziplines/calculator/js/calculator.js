@@ -287,58 +287,58 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt2": {
-          "text": "",
+          "text": "Prev",
           "val": "",
           "func": ""
         }
       },
       "k12": {
         "main": {
-          "text": "",
+          "text": "&radic;x",
           "val": "",
           "func": ""
         },
         "alt1": {
-          "text": "",
+          "text": "<span class='math'>x<sup>2</sup></span>",
           "val": "",
           "func": ""
         },
         "alt2": {
-          "text": "",
+          "text": "<span class='math'><sup>x</sup>&radic;y</span>",
           "val": "",
           "func": ""
         }
       },
       "k13": {
         "main": {
-          "text": "",
+          "text": "y<sup>x</sup>",
           "val": "",
           "func": ""
         },
         "alt1": {
-          "text": "",
+          "text": "<span class='math'>10<sup>x</sup></span>",
           "val": "",
           "func": ""
         },
         "alt2": {
-          "text": "",
+          "text": "log",
           "val": "",
           "func": ""
         }
       },
       "k14": {
         "main": {
-          "text": "",
+          "text": "1/x",
           "val": "",
           "func": ""
         },
         "alt1": {
-          "text": "",
+          "text": "<span class='math'>e<sup>x</sup></span>",
           "val": "",
           "func": ""
         },
         "alt2": {
-          "text": "",
+          "text": "ln",
           "val": "",
           "func": ""
         }
@@ -384,7 +384,7 @@ $(document).ready(function() {
           "func": cursorRight
         },
         "alt1": {
-          "text": "",
+          "text": "Swap",
           "val": "",
           "func": ""
         },
@@ -413,7 +413,7 @@ $(document).ready(function() {
       },
       "k19": {
         "main": {
-          "text": "",
+          "text": "&pi;",
           "val": "",
           "func": ""
         },
@@ -430,7 +430,7 @@ $(document).ready(function() {
       },
       "k20": {
         "main": {
-          "text": "",
+          "text": "mod",
           "val": "",
           "func": ""
         },
