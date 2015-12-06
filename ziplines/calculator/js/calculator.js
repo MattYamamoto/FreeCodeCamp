@@ -435,7 +435,7 @@ $(document).ready(function() {
         "main": {
           "text": "mod",
           "val": "",
-          "func": ""
+          "func": moduloKey
         },
         "alt1": {
           "text": "",
@@ -1376,6 +1376,13 @@ $(document).ready(function() {
     stackOperation(2, divide.apply(this, getFirstLines(2)));
   }
 
+  function modulo(num1, num2) {
+    return num1 % num2;
+  }
+
+  function moduloKey() {
+    stackOperation(2, modulo.apply(this, getFirstLines(2)));
+  }
 
   //
   // Tirg functionality
