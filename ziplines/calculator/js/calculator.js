@@ -1191,12 +1191,13 @@ $(document).ready(function() {
     // handle clicks to option buttons
     $keyOptionButtons.click(function() {
       var index = $keyOptionButtons.index(this),
-          name = $menus.eq(index).html(),
+          name = $menus.eq(index).text(),
           currMenu = getCurrMenuObj();
 
       if(typeof currMenu[name] === 'object') {  // if button is submenu
         goToSubMenu(name);  // the go to subment
       } else if (typeof currMenu[name] === 'function') {
+        console.log('here');
         currMenu[name]();  // if button is an action/function, run it.
       }
 
@@ -1411,7 +1412,7 @@ $(document).ready(function() {
     changeMode('rad');
   }
 
-  function convertToRadians(deg) {
+  function convertToRad(deg) {
     return deg * (Math.PI / 180);
   }
 
@@ -1420,19 +1421,18 @@ $(document).ready(function() {
   }
 
   function degToRad() {
-    console.log('here');
-    stackOperation(1, convertTodegress(getLines(1)));
+    stackOperation(1, convertToRad(getFirstLines(1)));
   }
 
   function radToDeg() {
-    stackOperation(1, convertToRadians(getLines(1)));
+    stackOperation(1, convertToDeg(getFirstLines(1)));
   }
 
   function sinKey() {
     var num = getFirstLines(1)[0];
 
     if(mode === 'deg') {
-       stackOperation(1, Math.sin(convertToRadians(num)));
+       stackOperation(1, Math.sin(convertToRad(num)));
     } else if(mode === 'rad') {
       stackOperation(1, Math.sin(num) );
     }
@@ -1442,7 +1442,7 @@ $(document).ready(function() {
     var num = getFirstLines(1)[0];
 
     if(mode === 'deg') {
-       stackOperation(1, Math.cos(convertToRadians(num)));
+       stackOperation(1, Math.cos(convertToRad(num)));
     } else if(mode === 'rad') {
       stackOperation(1, Math.cos(num) );
     }
@@ -1452,7 +1452,7 @@ $(document).ready(function() {
     var num = getFirstLines(1)[0];
 
     if(mode === 'deg') {
-       stackOperation(1, Math.tan(convertToRadians(num)));
+       stackOperation(1, Math.tan(convertToRad(num)));
     } else if(mode === 'rad') {
       stackOperation(1, Math.tan(num) );
     }
