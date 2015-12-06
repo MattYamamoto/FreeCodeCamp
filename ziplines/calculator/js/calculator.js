@@ -5,8 +5,10 @@ $(document).ready(function() {
     $keyAlt2Text = $('.key-alt-text-2'),
     $screenNum = $('.line-number'),
     $screenContent = $('.content'),
-    $screenHeader = $('.screen-header-content'),
-    $screenAltKey = $('.screen-header-alt'),
+    $headerRow1 = $('#header-row1 .screen-header-content'),
+    $headerRow1Right = $('#header-row1 .screen-header-right'),
+    $headerRow2 = $('#header-row2 .screen-header-content'),
+    $headerRow2Right = $('#header-row2 .screen-header-right'),
     $display = $('.screen-main-display-container'),
     altBtnState = '',
     cancelKey = 'k38',
@@ -16,6 +18,7 @@ $(document).ready(function() {
     maxLineChars = 18,
     maxDispDigits = 9,
     menu,
+    mode = 'deg',
     menuSlots = 6,  // number of menu spaces on screen
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
@@ -1103,11 +1106,9 @@ $(document).ready(function() {
         page = 0,
         screenMenus = {
           main: {
-            men1: {
-              sub1: {
-                'sub1.1': ""
-              },
-              sub2: ""
+            mode: {
+              deg: "",
+              rad: ""
             },
             men2: "",
             men3: "",
@@ -1166,21 +1167,21 @@ $(document).ready(function() {
     // navigate to top level menu
     function goToMenu(name) {
       menuState = [name];
-      $screenHeader.html(menuState.join(' -> '));
+      $headerRow2.html(menuState.join(' -> '));
       drawMenu(getCurrMenuObj());
     }
 
     // Draws submenu by name relative to the current menu object
     function goToSubMenu(name) {
       menuState.push(name);
-      $screenHeader.html(menuState.join(' -> '));
+      $headerRow2.html(menuState.join(' -> '));
       drawMenu(getCurrMenuObj());
     }
 
     function goToPrevMenu() {
       if(menuState.length > 1){
         menuState.pop();
-        $screenHeader.html(menuState.join(' -> '));
+        $headerRow2.html(menuState.join(' -> '));
         drawMenu(getCurrMenuObj());
       }
     }
@@ -1401,9 +1402,9 @@ $(document).ready(function() {
 
     altBtnState = type;
     if(type !== '') {
-      $screenAltKey.html(btnText[type]);
+      $headerRow2Right.html(btnText[type]);
     } else {
-      $screenAltKey.html('');
+      $headerRow2Right.html('');
     }
   }
 

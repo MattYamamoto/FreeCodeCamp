@@ -56,14 +56,14 @@ body {
 }
 
 .screen-header {
-  padding: 0 5px 5px 5px;
+  padding: 0 5px;
 }
 
-.screen-header div {
+.screen-header-row div {
   display: inline-block;
 }
 
-.screen-header-alt {
+.screen-header-right {
   float: right;
 }
 
