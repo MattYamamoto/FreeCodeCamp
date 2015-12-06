@@ -998,7 +998,7 @@ $(document).ready(function() {
 
   //Remove the inputLine and return what was there as a float
   function clearInputLine() {
-    var input = "";
+    var input = [];
     //only clear first screenStack entries if current line is
     //an input line.
     if(screenStack.lineNumbers[0] === "") {
