@@ -418,7 +418,7 @@ $(document).ready(function() {
         "main": {
           "text": "&pi;",
           "val": "",
-          "func": ""
+          "func": piKey
         },
         "alt1": {
           "text": "",
@@ -1520,6 +1520,14 @@ $(document).ready(function() {
   }
 
 
+  //
+  // misc math buttons
+  //
+
+  function piKey() {
+    addLineToStack(Math.PI);
+    refreshScreen();
+  }
 
 
   //
