@@ -1314,21 +1314,33 @@ $(document).ready(function() {
     }
   }
 
-  //  function returs an array of the first two lines irrespective of
-  //  the precesnce of the input Line.
-  function getFirstTwoLines() {
-    var a,
-        b;
+  // function returs an array of 'num' arguments from the stack in decending
+  // order, irrespecitve of the precesnce of the input Line.
+  function getFirstLines(num) {
+    var arr = [],
+        firstLine = 1;  // starting line
 
-    if(inputLine === true) { // if on inputline, get line 1 and input (line 0)
-      a = getLineContents(1);
-      b = parseFloat(getLineString(0));
-    } else {  // else get lines 2 and 1
-      a = getLineContents(2);
-      b = getLineContents(1);
+    if(inputLine === true) { // if on inputline, start with line 0
+      firstLine = 0;
     }
 
-    return [a, b];
+    for(var i = firstLine; i < num; i++ ) {
+      if(i === 0) {
+        arr.push(parseFloat(getLineString(0))); // handle input line
+      } else {
+        arr.push(getLineContents(i));
+      }
+    }
+
+    // return reveresed array so arguemnts are in decending stack order.
+    return arr.reverse();
+  }
+
+  // clears the number of lines specfied and replaces with the rslt.
+  function stackOperation(numLinesInOperation, rslt) {
+    clearLines(numLinesInOperation);
+    addLineToStack(rslt);
+    refreshScreen();
   }
 
   function add(num1, num2) {
@@ -1336,10 +1348,7 @@ $(document).ready(function() {
   }
 
   function addKey() {
-    var rslt = add.apply(this, getFirstTwoLines());
-    clearLines(2);
-    addLineToStack(rslt);
-    refreshScreen();
+    stackOperation(2, add.apply(this, getFirstLines(2)));
   }
 
   function subtract(num1, num2) {
@@ -1347,10 +1356,7 @@ $(document).ready(function() {
   }
 
   function subtractKey() {
-    var rslt = subtract.apply(this, getFirstTwoLines());
-    clearLines(2);
-    addLineToStack(rslt);
-    refreshScreen();
+    stackOperation(2, subtract.apply(this, getFirstLines(2)));
   }
 
   function multiply(num1, num2) {
@@ -1358,10 +1364,7 @@ $(document).ready(function() {
   }
 
   function MultiplyKey() {
-    var rslt = multiply.apply(this, getFirstTwoLines());
-    clearLines(2);
-    addLineToStack(rslt);
-    refreshScreen();
+    stackOperation(2, multiply.apply(this, getFirstLines(2)));
   }
 
   function divide(num1, num2) {
@@ -1369,10 +1372,7 @@ $(document).ready(function() {
   }
 
   function divideKey() {
-    var rslt = divide.apply(this, getFirstTwoLines());
-    clearLines(2);
-    addLineToStack(rslt);
-    refreshScreen();
+    stackOperation(2, divide.apply(this, getFirstLines(2)));
   }
 
   //
