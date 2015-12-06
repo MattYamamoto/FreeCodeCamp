@@ -1107,8 +1107,10 @@ $(document).ready(function() {
         screenMenus = {
           main: {
             mode: {
-              deg: "",
-              rad: ""
+              deg: degKey,
+              rad: radKey,
+              'd->r': degToRad,
+              'r->d': radToDeg
             },
             men2: "",
             men3: "",
@@ -1388,12 +1390,42 @@ $(document).ready(function() {
   // Tirg functionality
   //
 
+  function changeMode(angleMode) {
+    if(mode === angleMode) {
+      return;
+    }
+
+    mode = angleMode;
+    if(mode === 'rad') {
+      $headerRow1.html('rad');
+    } else {
+      $headerRow1.html('');
+    }
+  }
+
+  function degKey() {
+    changeMode('deg');
+  }
+
+  function radKey() {
+    changeMode('rad');
+  }
+
   function convertToRadians(deg) {
     return deg * (Math.PI / 180);
   }
 
   function convertToDeg(rad) {
     return rad * (180 / Math.PI);
+  }
+
+  function degToRad() {
+    console.log('here');
+    stackOperation(1, convertTodegress(getLines(1)));
+  }
+
+  function radToDeg() {
+    stackOperation(1, convertToRadians(getLines(1)));
   }
 
   function sinKey() {
