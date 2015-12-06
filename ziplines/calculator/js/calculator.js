@@ -209,7 +209,7 @@ $(document).ready(function() {
       },
       "k7": {
         "main": {
-          "text": "",
+          "text": "sin",
           "val": "",
           "func": ""
         },
@@ -219,14 +219,14 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt2": {
-          "text": "",
+          "text": "asin",
           "val": "",
           "func": ""
         }
       },
       "k8": {
         "main": {
-          "text": "",
+          "text": "cos",
           "val": "",
           "func": ""
         },
@@ -236,14 +236,14 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt2": {
-          "text": "",
+          "text": "acos",
           "val": "",
           "func": ""
         }
       },
       "k9": {
         "main": {
-          "text": "",
+          "text": "tan",
           "val": "",
           "func": ""
         },
@@ -253,7 +253,7 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt2": {
-          "text": "",
+          "text": "atan",
           "val": "",
           "func": ""
         }
