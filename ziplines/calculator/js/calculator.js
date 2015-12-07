@@ -298,52 +298,52 @@ $(document).ready(function() {
       "k12": {
         "main": {
           "text": "&radic;x",
-          "arg": "",
-          "func": ""
+          "arg": [1, squareRoot],
+          "func": stackOperation
         },
         "alt1": {
           "text": "<span class='math'>x<sup>2</sup></span>",
-          "arg": "",
-          "func": ""
+          "arg": [1, squared],
+          "func": stackOperation
         },
         "alt2": {
           "text": "<span class='math'><sup>x</sup>&radic;y</span>",
-          "arg": "",
-          "func": ""
+          "arg": [2, xthRoot],
+          "func": stackOperation
         }
       },
       "k13": {
         "main": {
           "text": "y<sup>x</sup>",
-          "arg": "",
-          "func": ""
+          "arg": [2, xthPower],
+          "func": stackOperation
         },
         "alt1": {
           "text": "<span class='math'>10<sup>x</sup></span>",
-          "arg": "",
-          "func": ""
+          "arg": [1, tenPow],
+          "func": stackOperation
         },
         "alt2": {
           "text": "log",
-          "arg": "",
-          "func": ""
+          "arg": [1, log10],
+          "func": stackOperation
         }
       },
       "k14": {
         "main": {
           "text": "1/x",
-          "arg": "",
-          "func": ""
+          "arg": [1, inverse],
+          "func": stackOperation
         },
         "alt1": {
           "text": "<span class='math'>e<sup>x</sup></span>",
-          "arg": "",
-          "func": ""
+          "arg": [1, exp],
+          "func": stackOperation
         },
         "alt2": {
           "text": "ln",
-          "arg": "",
-          "func": ""
+          "arg": [1, ln10],
+          "func": stackOperation
         }
       },
       "k15": {
@@ -1383,29 +1383,76 @@ $(document).ready(function() {
     refreshScreen();
   }
 
-  function add(num1, num2) {
-    return num1 + num2;
+  function add(x, y) {
+    return x + y;
   }
 
-  function subtract(num1, num2) {
-    return num1 - num2;
+  function subtract(x, y) {
+    return x - y;
   }
 
-  function multiply(num1, num2) {
-    return num1 * num2;
+  function multiply(x, y) {
+    return x * y;
   }
 
-  function divide(num1, num2) {
-    return num1 / num2;
+  function divide(x, y) {
+    return x / y;
   }
 
-  function modulo(num1, num2) {
-    return num1 % num2;
+  function modulo(x, y) {
+    return x % y;
   }
 
 
   //
-  // Tirg functionality
+  // Power/Exponential functionality
+  //
+
+  function inverse(x) {
+    return 1/x;
+  }
+
+  function squareRoot(x) {
+    return Math.sqrt(x);
+  }
+
+  function xthRoot(x, y) {
+    // handle negative numbers with odd roots
+    if(x < 0 && y % 2 === 1) {
+      return -Math.pow(-x, 1/y);
+    } else {
+      return Math.pow(x, 1/y);
+    }
+  }
+
+  function squared(x) {
+    return x * x;
+  }
+
+  function xthPower(x, y) {
+    return Math.pow(x,y);
+  }
+
+  function tenPow(x) {
+    return Math.pow(10, x);
+  }
+
+  function log10(x) {
+    return Math.log10(x);
+  }
+
+  function ln10(x) {
+    return Math.log(x);
+  }
+
+  function exp(x) {
+    return Math.exp(x);
+  }
+
+
+
+  //
+  // Trig functionality
   //
 
   function changeMode(angleMode) {
