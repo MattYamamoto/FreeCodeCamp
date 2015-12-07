@@ -1065,15 +1065,19 @@ $(document).ready(function() {
   }
 
   function addLineToStack(val) {
-    //the next line number value
-    var lineNum = screenStack.lineNumbers.length + 1;
+    var lineNum;
 
-    //prepend val to the screenStack.lineContents array
-    screenStack.lineContents.unshift(val);
+    if(!isNaN(val)) {
+      //the next line number value
+      lineNum = screenStack.lineNumbers.length + 1;
 
-    //if another line number is needed, add it to the line numbers.
-    if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
-      screenStack.lineNumbers.push(lineNum.toString(10) + ":");
+      //prepend val to the screenStack.lineContents array
+      screenStack.lineContents.unshift(val);
+
+      //if another line number is needed, add it to the line numbers.
+      if(screenStack.lineContents.length > screenStack.lineNumbers.length) {
+        screenStack.lineNumbers.push(lineNum.toString(10) + ":");
+      }
     }
   }
 
@@ -1506,7 +1510,6 @@ $(document).ready(function() {
 
   function delKey() {
     if(inputLine) {
-      console.log('here', inputLine);
       delInputChar();
     } else {
       clearLines(1);
