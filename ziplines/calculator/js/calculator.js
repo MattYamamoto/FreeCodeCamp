@@ -469,7 +469,7 @@ $(document).ready(function() {
         "main": {
           "text": "<i class='fa fa-arrow-left'></i>",
           "arg": "",
-          "func": delInputChar
+          "func": delKey
         },
         "alt1": {
           "text": "",
@@ -992,7 +992,6 @@ $(document).ready(function() {
     if(cursorPosition > 0) {
       cursorPosition--;
       screenStack.lineContents[0].splice(cursorPosition, 1);
-      refreshScreen();
     }
   }
 
@@ -1006,6 +1005,7 @@ $(document).ready(function() {
       screenStack.lineNumbers.shift();
       screenStack.lineContents.shift();
       inputLine = false;
+      cursorPosition = 0;  // reset cursor position
       refreshScreen();
     }
 
@@ -1059,8 +1059,9 @@ $(document).ready(function() {
       screenStack.lineNumbers = defaultLineNums.slice();
     }
 
-    // in case was input line, set inputLine to false
+    // in case was input line, set inputLine to false and reset cursor position
     inputLine = false;
+    cursorPosition = 0;
   }
 
   function addLineToStack(val) {
@@ -1502,6 +1503,17 @@ $(document).ready(function() {
   //
   // Non-math related buttons
   //
+
+  function delKey() {
+    if(inputLine) {
+      console.log('here', inputLine);
+      delInputChar();
+    } else {
+      clearLines(1);
+    }
+    refreshScreen();
+  }
+
 
   function cursorLeft() {
     if(cursorPosition > 0 && inputLine === true) {
