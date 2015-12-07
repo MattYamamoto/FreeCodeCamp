@@ -94,731 +94,731 @@ $(document).ready(function() {
       "k0": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k1": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k2": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k3": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k4": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k5": {
         "main": {
           "text": " ",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k6": {
         "main": {
           "text": "Main",
-          "val": "main",
+          "arg": "main",
           "func": menu.goToMenu
         },
         "alt1": {
           "text": "A",
-          "val": "A",
+          "arg": "A",
           "func": numClick
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k7": {
         "main": {
           "text": "sin",
-          "val": "",
-          "func": sinKey
+          "arg": [1, sin],
+          "func": stackOperation
         },
         "alt1": {
           "text": "B",
-          "val": "B",
+          "arg": "B",
           "func": numClick
         },
         "alt2": {
           "text": "asin",
-          "val": "",
-          "func": asinKey
+          "arg": [1, asin],
+          "func": stackOperation
         }
       },
       "k8": {
         "main": {
           "text": "cos",
-          "val": "",
-          "func": cosKey
+          "arg": [1, cos],
+          "func": stackOperation
         },
         "alt1": {
           "text": "C",
-          "val": "C",
+          "arg": "C",
           "func": numClick
         },
         "alt2": {
           "text": "acos",
-          "val": "",
-          "func": acosKey
+          "arg": [1, acos],
+          "func": stackOperation
         }
       },
       "k9": {
         "main": {
           "text": "tan",
-          "val": "",
-          "func": tanKey
+          "arg": [1, tan],
+          "func": stackOperation
         },
         "alt1": {
           "text": "D",
-          "val": "D",
+          "arg": "D",
           "func": numClick
         },
         "alt2": {
           "text": "atan",
-          "val": "",
-          "func": atanKey
+          "arg": [1, atan],
+          "func": stackOperation
         }
       },
       "k10": {
         "main": {
           "text": "<i class='fa fa-chevron-up'></i>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "E",
-          "val": "E",
+          "arg": "E",
           "func": numClick
         },
         "alt2": {
           "text": "Up",
-          "val": "",
+          "arg": "",
           "func": menu.goToPrevMenu
         }
       },
       "k11": {
         "main": {
           "text": "Next",
-          "val": "",
+          "arg": "",
           "func": nextMenu
         },
         "alt1": {
           "text": "F",
-          "val": "F",
+          "arg": "F",
           "func": numClick
         },
         "alt2": {
           "text": "Prev",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k12": {
         "main": {
           "text": "&radic;x",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "<span class='math'>x<sup>2</sup></span>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "<span class='math'><sup>x</sup>&radic;y</span>",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k13": {
         "main": {
           "text": "y<sup>x</sup>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "<span class='math'>10<sup>x</sup></span>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "log",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k14": {
         "main": {
           "text": "1/x",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "<span class='math'>e<sup>x</sup></span>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "ln",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k15": {
         "main": {
           "text": "<i class='fa fa-chevron-left'></i>",
-          "val": "",
+          "arg": "",
           "func": cursorLeft
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k16": {
         "main": {
           "text": "<i class='fa fa-chevron-down'></i>",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k17": {
         "main": {
           "text": "<i class='fa fa-chevron-right'></i>",
-          "val": "",
+          "arg": "",
           "func": cursorRight
         },
         "alt1": {
           "text": "Swap",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k18": {
         "main": {
           "text": "ENTER",
-          "val": "",
+          "arg": "",
           "func": enterKey
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k19": {
         "main": {
           "text": "&pi;",
-          "val": "",
+          "arg": "",
           "func": piKey
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k20": {
         "main": {
           "text": "mod",
-          "val": "",
-          "func": moduloKey
+          "arg": [2, modulo],
+          "func": stackOperation
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k21": {
         "main": {
           "text": "DEL",
-          "val": "",
+          "arg": "",
           "func": clearStack
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k22": {
         "main": {
           "text": "<i class='fa fa-arrow-left'></i>",
-          "val": "",
+          "arg": "",
           "func": delInputChar
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k23": {
         "main": {
           "text": "+/-",
-          "val": "",
+          "arg": "",
           "func": toggleSign
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k24": {
         "main": {
           "text": "7",
-          "val": 7,
+          "arg": 7,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k25": {
         "main": {
           "text": "8",
-          "val": 8,
+          "arg": 8,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k26": {
         "main": {
           "text": "9",
-          "val": 9,
+          "arg": 9,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k27": {
         "main": {
           "text": "/",
-          "val": "/",
-          "func": divideKey
+          "arg": [2, divide],
+          "func": stackOperation
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k28": {
         "main": {
           "text": "<i class='fa fa-reply'></i>",
-          "val": "alt1",
+          "arg": "alt1",
           "func": altBtn
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k29": {
         "main": {
           "text": "4",
-          "val": 4,
+          "arg": 4,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k30": {
         "main": {
           "text": "5",
-          "val": 5,
+          "arg": 5,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k31": {
         "main": {
           "text": "6",
-          "val": 6,
+          "arg": 6,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k32": {
         "main": {
           "text": "*",
-          "val": "*",
-          "func": MultiplyKey
+          "arg": [2, multiply],
+          "func": stackOperation
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k33": {
         "main": {
           "text": "<i class='fa fa-share'></i>",
-          "val": "alt2",
+          "arg": "alt2",
           "func": altBtn
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k34": {
         "main": {
           "text": "1",
-          "val": 1,
+          "arg": 1,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k35": {
         "main": {
           "text": "2",
-          "val": 2,
+          "arg": 2,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k36": {
         "main": {
           "text": "3",
-          "val": 3,
+          "arg": 3,
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k37": {
         "main": {
           "text": "-",
-          "val": "-",
-          "func": subtractKey
+          "arg": [2, subtract],
+          "func": stackOperation
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k38": {
         "main": {
           "text": "ON",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k39": {
         "main": {
           "text": "0",
-          "val": 0,
+          "arg": 0,
           "func": numClick
         },
         "alt1": {
           "text": "Test",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "Test2",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k40": {
         "main": {
           "text": ".",
-          "val": ".",
+          "arg": ".",
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k41": {
         "main": {
           "text": "EE",
-          "val": "E",
+          "arg": "E",
           "func": numClick
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       },
       "k42": {
         "main": {
           "text": "+",
-          "val": "+",
-          "func": addKey
+          "arg": [2,add],
+          "func": stackOperation
         },
         "alt1": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         },
         "alt2": {
           "text": "",
-          "val": "",
+          "arg": "",
           "func": ""
         }
       }
@@ -1197,7 +1197,6 @@ $(document).ready(function() {
       if(typeof currMenu[name] === 'object') {  // if button is submenu
         goToSubMenu(name);  // the go to subment
       } else if (typeof currMenu[name] === 'function') {
-        console.log('here');
         currMenu[name]();  // if button is an action/function, run it.
       }
 
@@ -1367,7 +1366,8 @@ $(document).ready(function() {
 
   }
 
-  // clears the number of lines specfied and replaces with the rslt.
+  // clears the number of lines specfied, runs the callback function
+  // on the arguments from those lines, then places the result on the screen.
   function stackOperation(numLinesInOperation, callback) {
     var argsArray = getFirstLines(numLinesInOperation);
 
@@ -1382,41 +1382,22 @@ $(document).ready(function() {
     return num1 + num2;
   }
 
-  function addKey() {
-    stackOperation(2, add.apply(this, getFirstLines(2)));
-  }
-
   function subtract(num1, num2) {
     return num1 - num2;
-  }
-
-  function subtractKey() {
-    stackOperation(2, subtract.apply(this, getFirstLines(2)));
   }
 
   function multiply(num1, num2) {
     return num1 * num2;
   }
 
-  function MultiplyKey() {
-    stackOperation(2, multiply.apply(this, getFirstLines(2)));
-  }
-
   function divide(num1, num2) {
     return num1 / num2;
-  }
-
-  function divideKey() {
-    stackOperation(2, divide);
   }
 
   function modulo(num1, num2) {
     return num1 % num2;
   }
 
-  function moduloKey() {
-    stackOperation(2, modulo.apply(this, getFirstLines(2)));
-  }
 
   //
   // Tirg functionality
@@ -1452,70 +1433,58 @@ $(document).ready(function() {
   }
 
   function degToRad() {
-    stackOperation(1, convertToRad(getFirstLines(1)));
+    stackOperation(1, convertToRad);
   }
 
   function radToDeg() {
-    stackOperation(1, convertToDeg(getFirstLines(1)));
+    stackOperation(1, convertToDeg);
   }
 
-  function sinKey() {
-    var num = getFirstLines(1)[0];
-
+  function sin(num) {
     if(mode === 'deg') {
-       stackOperation(1, Math.sin(convertToRad(num)));
+       return Math.sin(convertToRad(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.sin(num) );
+      return Math.sin(num);
     }
   }
 
-  function cosKey() {
-    var num = getFirstLines(1)[0];
-
+  function cos(num) {
     if(mode === 'deg') {
-       stackOperation(1, Math.cos(convertToRad(num)));
+       return Math.cos(convertToRad(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.cos(num) );
+      return Math.cos(num);
     }
   }
 
-  function tanKey() {
-    var num = getFirstLines(1)[0];
-
+  function tan(num) {
     if(mode === 'deg') {
-       stackOperation(1, Math.tan(convertToRad(num)));
+       return Math.tan(convertToRad(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.tan(num) );
+      return Math.tan(num);
     }
   }
 
-  function asinKey() {
-    var num = getFirstLines(1)[0];
-
+  function asin(num) {
     if(mode === 'deg') {
-       stackOperation(1, convertToDeg(Math.asin(num)));
+       return convertToDeg(Math.asin(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.asin(num) );
+      return Math.asin(num);
     }
   }
 
-  function acosKey() {
-    var num = getFirstLines(1)[0];
-
+  function acos(num) {
     if(mode === 'deg') {
-       stackOperation(1,convertToDeg(Math.acos(num)));
+       return convertToDeg(Math.acos(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.cos(num) );
+      return Math.acos(num);
     }
   }
 
-  function atanKey() {
-    var num = getFirstLines(1)[0];
-
+  function atan(num) {
     if(mode === 'deg') {
-       stackOperation(1, convertToDeg(Math.atan(num)));
+       return convertToDeg(Math.atan(num));
     } else if(mode === 'rad') {
-      stackOperation(1, Math.tan(num) );
+      return Math.atan(num);
     }
   }
 
@@ -1581,9 +1550,22 @@ $(document).ready(function() {
     *
   */
 
+  // calls the callback function with the given arguments which may be
+  // a single argument or an array of arguments.
+  function callWithArgs(callback, args) {
+    if(typeof callback === 'function') {
+      if(Array.isArray(args)) {
+        callback.apply(this, args);
+      } else {
+        callback(args);
+      }
+    }
+  }
+
   $keyButtons.click(function() {
     var key = $(this).attr('id'),
-        func;
+        func,
+        arg;
 
     //  clear any operation syntax error on screeen.
     clearOperationSyntaxErr();
@@ -1591,22 +1573,24 @@ $(document).ready(function() {
     switch(altBtnState) {
       case 'alt1':
         func = keyMap[key].alt1.func;
+        arg = keyMap[key].alt1.arg;
         setAltBtnState('');
         break;
 
       case 'alt2':
         func = keyMap[key].alt2.func;
+        arg = keyMap[key].alt2.arg;
         setAltBtnState('');
         break;
 
       default:
         func = keyMap[key].main.func;
+        arg = keyMap[key].main.arg;
         break;
     }
 
-    if(func) {
-      func(keyMap[key].main.val);
-    }
+    // run calc key function
+    callWithArgs(func, arg);
 
   });
 
@@ -1620,9 +1604,11 @@ $(document).ready(function() {
       e.preventDefault();
       key = keyboardKeyMap[e.key];  // get corresponding calc key
       func = keyMap[key].main.func;  // get calc key function
-      val = keyMap[key].main.val;  // get calc key value
+      arg = keyMap[key].main.arg;  // get calc key value
 
-      func(val);  //run calc key function
+      // run calc key function
+      callWithArgs(func, arg);
+
     }
 
   });
