@@ -1617,6 +1617,10 @@ $(document).ready(function() {
     // check that key is used
     if(keyboardKeyMap[e.key]) {
       e.preventDefault();
+
+      //  clear any operation syntax error on screeen.
+      clearOperationSyntaxErr();
+
       key = keyboardKeyMap[e.key];  // get corresponding calc key
       func = keyMap[key].main.func;  // get calc key function
       arg = keyMap[key].main.arg;  // get calc key value
