@@ -389,7 +389,7 @@ $(document).ready(function() {
         "alt1": {
           "text": "Swap",
           "arg": "",
-          "func": ""
+          "func": swapLines
         },
         "alt2": {
           "text": "",
@@ -1564,7 +1564,6 @@ $(document).ready(function() {
     refreshScreen();
   }
 
-
   function cursorLeft() {
     if(cursorPosition > 0 && inputLine === true) {
       cursorPosition--;
@@ -1604,6 +1603,25 @@ $(document).ready(function() {
 
   function nextMenu() {
     menu.nextMenu();
+  }
+
+  function swapLines() {
+    var a, b;
+
+    if(inputLine) {
+      a = getLineContents(1);
+      b = getLineContents(0);
+      screenStack.lineContents[1] = b.join("");
+      screenStack.lineContents[0] = a.toString().split("");
+      cursorPosition = screenStack.lineContents[0].length;
+    } else {
+      a = getLineContents(2);
+      b = getLineContents(1);
+      screenStack.lineContents[1] = b;
+      screenStack.lineContents[0] = a;
+
+    }
+    refreshScreen();
   }
 
   /**
