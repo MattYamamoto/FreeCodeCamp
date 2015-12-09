@@ -1374,7 +1374,7 @@ $(document).ready(function() {
       if(validateSyntax(val, inputMode)) {
         addLineToStack(clearInputLine());
       } else {
-        console.log('Error');
+        displaySyntaxErr();
       }
 
     } else {
@@ -1396,11 +1396,11 @@ $(document).ready(function() {
   }
 
   // display syntax error message in the header.
-  function operationSyntaxErr() {
+  function displaySyntaxErr() {
     $headerRow1Right.html("SYNTAX ERROR");
   }
 
-  function clearOperationSyntaxErr() {
+  function clearSyntaxErr() {
     $headerRow1Right.html("");
   }
 
@@ -1438,7 +1438,7 @@ $(document).ready(function() {
       // return reveresed array so arguemnts are in decending stack order.
       return arr.reverse();
     } else {
-      operationSyntaxErr();
+      displaySyntaxErr();
       return false;
     }
 
@@ -1726,7 +1726,7 @@ $(document).ready(function() {
         arg;
 
     //  clear any operation syntax error on screeen.
-    clearOperationSyntaxErr();
+    clearSyntaxErr();
 
     switch(altBtnState) {
       case 'alt1':
@@ -1762,7 +1762,7 @@ $(document).ready(function() {
       e.preventDefault();
 
       //  clear any operation syntax error on screeen.
-      clearOperationSyntaxErr();
+      clearSyntaxErr();
 
       key = keyboardKeyMap[e.key];  // get corresponding calc key
       func = keyMap[key].main.func;  // get calc key function
