@@ -23,7 +23,7 @@ $(document).ready(function() {
     mode = 'deg',
     menuSlots = 6,  // number of menu spaces on screen
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
-    reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\d]+)?$/),
+    reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\-\+]?[\d]+)?$/),
     keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap,
     keyboardKeyMap = {
@@ -1291,36 +1291,67 @@ $(document).ready(function() {
 
   }
 
-  // Take content and return a string with toggled sign
-  function changeSign(lineContent) {
+  // toggles a +/- at the given index of an array.
+  function toggleSignAt(arr, ind) {
+    if(arr[ind] === '+') { //if + make it -
+        arr[ind] = '-';
+    } else if(arr[ind] === '-') { //if - make it +
+        arr[ind] = '+';
+    } else {  //else number is implied positive, make it -
+        arr.splice(ind, 0, '-');
+        cursorPosition++;
+    }
+  }
 
-    if(inputLine) { // if on input line handle the array of chars
-      // get a string from array of chars
-      lineContent = lineContent.join("");
+  // Take content and return a string with toggled sign for the number portion
+  function changeNumberSign(lineContent) {
+    var isArray = Array.isArray(lineContent);
 
-      if(lineContent.charAt(0) === '+') { //if + make it -
-          lineContent = '-' + lineContent.substring(1);
-      } else if(lineContent.charAt(0) === '-') { //if - make it +
-          lineContent = '+' + lineContent.substring(1);
-      } else {  //else number is implied positive, make it -
-          lineContent = '-' + lineContent;
-          cursorPosition++;
-      }
+    if(isArray) { // lineContent will be array on input line
+      toggleSignAt(lineContent, 0);
     } else {
       // other lines contain number, so invert sign
       lineContent *= -1;
     }
 
-    // If on input line return an array of chars, else the new number
-    return inputLine ? lineContent.split("") : lineContent;
+    return lineContent;
   }
+
+  // return the index of 'E' for a given line number.
+  function indexOfE(lineNum) {
+    return screenStack.lineContents[lineNum].indexOf('E');
+  }
+
+  // toggles the sign of the scientific notation exponent.
+  function changeSciSign(lineContent, idxOfE) {
+    var isArray = Array.isArray(lineContent);
+
+    if(!isArray) { // line content won't be array for non-input lines
+      lineContents.split("");
+    }
+
+    toggleSignAt(lineContent, idxOfE + 1);
+
+    return isArray ? lineContent : lineContent.join("");
+}
+
 
   //toggle sign of active line
   function toggleSign() {
-    var lineNum = inputLine ? 0 : 1;
+    var lineNum = inputLine ? 0 : 1,
+        currLineContents = getLineContents(lineNum),
+        idxOfE;
 
-    //replace first line of screen with signed version
-    screenStack.lineContents[0] = changeSign(getLineContents(lineNum));
+    // get index of 'E' in case of sci notation.
+    idxOfE = indexOfE(lineNum);
+
+    // if cursor is in exponential portion, toggle sign there.
+    if(idxOfE > -1 && cursorPosition > idxOfE) {
+      changeSciSign(currLineContents, idxOfE);
+    } else {  // replace first line of screen with signed version
+      screenStack.lineContents[0] = changeNumberSign(currLineContents);
+    }
+
     refreshScreen();
   }
 
