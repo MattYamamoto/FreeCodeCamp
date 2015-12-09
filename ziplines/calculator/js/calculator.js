@@ -17,6 +17,8 @@ $(document).ready(function() {
     cursorPosition = 0,
     maxLineChars = 18,
     maxDispDigits = 9,
+    maxInt = 9007199254740991,
+    minInt = -9007199254740991,
     menu,
     mode = 'deg',
     menuSlots = 6,  // number of menu spaces on screen
@@ -1227,6 +1229,47 @@ $(document).ready(function() {
 
 
   /**
+    *
+    * Number Handling
+    *
+  */
+
+  // returns the number of digits to the right of the decimal.
+  function decimalPlaces(num) {
+    var decDigits,
+        sciDigits,
+        match = (''+num).match(/(?:\.(\d+))?(?:[eE]([+-]?\d+))?$/);
+
+    if (!match) {
+      return 0;
+    }
+
+    // digits to right of the decimal
+    decDigits = match[1] ? match[1].length : 0;
+
+    // decimal places due to scientific notation
+    sciDigits = match[2] ? +match[2] : 0;
+
+    return Math.max(0, decDigits - sciDigits);
+  }
+
+  // return max decimal places from number arbitrary number of numbers
+  function maxDecimalPlaces() {
+    var numArr = Array.prototype.slice.call(arguments);
+
+    return numArr.reduce(function(max, curr) {
+      return decimalPlaces(curr) > max ? decimalPlaces(curr) : max;
+    }, 0);
+  }
+
+  function scaleVal() {
+    var args = Array.prototype.slice.call(arguments),
+        places = maxDecimalPlaces.apply(this, args);
+
+    return Math.pow(10, places);
+  }
+
+  /**
     *Calculation/Operation functions
     *These are assigned to keys in the keyMap object
     *
@@ -1384,11 +1427,15 @@ $(document).ready(function() {
   }
 
   function add(x, y) {
-    return x + y;
+    var scaleFactor = scaleVal(x,y);
+
+    return ( x * scaleFactor + y * scaleFactor ) / scaleFactor;
   }
 
   function subtract(x, y) {
-    return x - y;
+    var scaleFactor = scaleVal(x,y);
+
+    return ( x * scaleFactor - y * scaleFactor ) / scaleFactor;
   }
 
   function multiply(x, y) {
