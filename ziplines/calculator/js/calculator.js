@@ -954,7 +954,7 @@ $(document).ready(function() {
         nodeText[j++] = '<div id="line' + i + '" class="line">';
       }
 
-      nodeText[j++] = '<div class="line-number">';
+      nodeText[j++] = '<div class="line-number left">';
       nodeText[j++] = lineNum;
       nodeText[j++] = '</div>';
       nodeText[j++] = '<div class="line-content">';
