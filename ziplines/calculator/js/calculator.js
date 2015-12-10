@@ -763,12 +763,12 @@ $(document).ready(function() {
           "func": numClick
         },
         "alt1": {
-          "text": "Test",
+          "text": "",
           "arg": "",
           "func": ""
         },
         "alt2": {
-          "text": "Test2",
+          "text": "",
           "arg": "",
           "func": ""
         }
@@ -1118,13 +1118,7 @@ $(document).ready(function() {
               rad: radKey,
               'd->r': degToRad,
               'r->d': radToDeg
-            },
-            men2: "",
-            men3: "",
-            men4: "",
-            men5: "",
-            men6: "",
-            men7: ""
+            }
           }
         };
 
