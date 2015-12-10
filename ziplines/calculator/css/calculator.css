@@ -1,4 +1,12 @@
+
+html {
+  height: 100%;
+}
 body {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAEUlEQVQImWNgYGD4z4AGMAUANfEC/vDaGN0AAAAASUVORK5CYII=) repeat fixed,
+              url(https://c2.staticflickr.com/6/5077/5864814103_710f2f5b70_b.jpg)
+              center center no-repeat;
+  background-size: auto, cover;
 }
 
 .container {
@@ -21,9 +29,10 @@ body {
   margin: auto;
   overflow: hidden;
   transform: rotateX(4deg);
-  box-shadow: 0 0px 2px 2px hsla(0, 0%, 60%, 0.9) inset,
+  box-shadow: 1px 5px 3px 0px hsla(0, 0%, 0%, 1),
+              0 0px 2px 2px hsla(0, 0%, 60%, 0.9) inset,
               0 0px 0px 8px hsla(0, 0%, 0%, 1) inset;
-              padding: 8px;
+  padding: 8px;
 }
 
 /*                     */
