@@ -1786,6 +1786,12 @@ $(document).ready(function() {
     $modal.removeClass('modal-show');
   });
 
+  // highlight the logo to call attention to modal.
+  function logoFlash(delay) {
+    setTimeout(function() {
+      $logo.addClass('flash');
+    }, delay);
+  }
 
   /**
     *
@@ -1797,6 +1803,7 @@ $(document).ready(function() {
     setKeyMap();
     setKeys();
     refreshScreen();
+    logoFlash(1000);
   })();
 
 
