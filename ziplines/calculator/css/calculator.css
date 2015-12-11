@@ -6,7 +6,7 @@ html {
 body {
   background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAADCAYAAABWKLW/AAAAEUlEQVQImWNgYGD4z4AGMAUANfEC/vDaGN0AAAAASUVORK5CYII=) repeat fixed,
               url(https://c2.staticflickr.com/6/5077/5864814103_710f2f5b70_b.jpg)
-              center center no-repeat;
+              center center no-repeat fixed;
   background-size: auto, cover;
 }
 
@@ -442,4 +442,28 @@ sup {
   width: 100%;
   color: white;
   font-size: 12px;
+}
+
+#attribution-container {
+  position: absolute;
+  top: 700px;
+  bottom: 0px;
+  right: 0px;
+  min-height: 100px;
+  width: 300px;
+}
+
+.attribution {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  margin-top: 20px;
+  padding: 5px;
+  background-color: hsla(360, 0%, 0%, 0.4);
+  color: #fff;
+  font-size: 0.8em;
+}
+.attribution a {
+  color: #fff;
+  text-decoration: none;
 }
