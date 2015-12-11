@@ -9,6 +9,10 @@ $(document).ready(function() {
     $headerRow1Right = $('#header-row1 .screen-header-right'),
     $headerRow2 = $('#header-row2 .screen-header-content'),
     $headerRow2Right = $('#header-row2 .screen-header-right'),
+    $logo = $('#logo'),
+    $overlay = $('#overlay'),
+    $modal = $('#modal'),
+    $modalClose = $('#modal-close'),
     $display = $('.screen-main-display-container'),
     altBtnState = '',
     cancelKey = 'k38',
@@ -1768,9 +1772,21 @@ $(document).ready(function() {
     }
 
   });
-/*
 
-*/
+
+  // show modal and overaly on logo click
+  $logo.click(function() {
+    $overlay.addClass('overlay-show');
+    $modal.addClass('modal-show');
+  });
+
+  // hide modal and overylay on model close x click.
+  $modalClose.click(function() {
+    $overlay.removeClass('overlay-show');
+    $modal.removeClass('modal-show');
+  });
+
+
   /**
     *
     *Lets' Go!: Initialize the calculator

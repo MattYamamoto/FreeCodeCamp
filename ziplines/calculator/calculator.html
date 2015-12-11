@@ -12,15 +12,27 @@
 </head>
 
 <body>
+  <div id="overlay">
+    <div id="modal">
+      <div class="modal-tab">
+        Info <i id='modal-close' class="fa fa-close"></i>
+      </div>
+      <div class="modal-content">
+        <p>This calculator was inspired by my handy <a href="https://en.wikipedia.org/wiki/HP_48_series" target="_blank">HP 48G</a> calculator.  My high school Calculus teacher rquired every student to uset this calculator (and even sold them to us).  I quickly fell in love with it and relished the reverse polision notation (RPN).  It took years to be able to use a regular, non RPN, calcualtor again without operation errors.</p>
+
+        <a title="By No machine-readable author provided. Heretiq assumed (based on copyright claims). [CC BY-SA 2.5 (http://creativecommons.org/licenses/by-sa/2.5)], via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File%3AHP48G.jpg" target="_blank">
+          <img class="image" width="256" alt="HP48G" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/HP48G.jpg/256px-HP48G.jpg"/>
+        </a>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <div id="calculator">
-
       <div id="screen-container">
         <div id="top-header">
           <span class="left">FCC <span class="large middle">48</span></span>
           <span class="right">
-            <!-- <i class="fa fa-fire blue middle"></i> -->
-            <span class="fa-stack small-fa">
+            <span id="logo" class="fa-stack small-fa">
               <i class="fa fa-clone fa-rotate-90 fa-stack-2x"></i>
               <i class="fa fa-fire fa-stack-1x blue nudge-fa"></i>
             </span>
