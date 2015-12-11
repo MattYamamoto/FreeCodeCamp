@@ -3,8 +3,6 @@ $(document).ready(function() {
     $keyText = $('.key-text'),
     $keyAlt1Text = $('.key-alt-text-1'),
     $keyAlt2Text = $('.key-alt-text-2'),
-    $screenNum = $('.line-number'),
-    $screenContent = $('.content'),
     $headerRow1 = $('#header-row1 .screen-header-content'),
     $headerRow1Right = $('#header-row1 .screen-header-right'),
     $headerRow2 = $('#header-row2 .screen-header-content'),
@@ -21,14 +19,11 @@ $(document).ready(function() {
     cursorPosition = 0,
     maxLineChars = 18,
     maxDispDigits = 9,
-    maxInt = 9007199254740991,
-    minInt = -9007199254740991,
     menu,
     mode = 'deg',
     menuSlots = 6,  // number of menu spaces on screen
     defaultLineNums = ["1:", "2:", "3:", "4:", "5:"],
     reDec = new RegExp(/^([\-\+]?)([\d]*)(\.?)([\d]*)([Ee][\-\+]?[\d]+)?$/),
-    keyState = 0, //0 is main, 1 is alt1, 2 is alt2
     keyMap,
     keyboardKeyMap = {
       '0': 'k39',
@@ -1040,14 +1035,6 @@ $(document).ready(function() {
     return Array.isArray(str) ? str.join("") : str;
   }
 
-  function getLineFloat(lineNum) {
-    return parseFloat(getLineString(lineNum));
-  }
-
-  function formatedParseFloat(str) {
-    var num = parseFloat(str);
-  }
-
   // function clears number of lines specified starting from the bottom of
   // the stack. This occurs irrespective of input line
   function clearLines(num) {
@@ -1325,7 +1312,7 @@ $(document).ready(function() {
     var isArray = Array.isArray(lineContent);
 
     if(!isArray) { // line content won't be array for non-input lines
-      lineContents.split("");
+      lineContent.split("");
     }
 
     toggleSignAt(lineContent, idxOfE + 1);
@@ -1754,7 +1741,7 @@ $(document).ready(function() {
   $('body').keydown(function(e){
     var key,
         func,
-        val;
+        arg;
     // check that key is used
     if(keyboardKeyMap[e.key]) {
       e.preventDefault();
