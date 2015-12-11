@@ -46,13 +46,13 @@ body {
 
 #modal {
   position: absolute;
-  top: 20px;
+  top: 40px;
   width: 275px;
   margin-left: -140px;
   left: 50%;
   z-index: 10;
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-30px);
   transition: all 0.5s ease;
 }
 
