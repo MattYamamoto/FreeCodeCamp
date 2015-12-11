@@ -20,7 +20,7 @@ $(document).ready(function() {
     inputMode = 'dec',
     cursorPosition = 0,
     maxLineChars = 18,
-    maxDispDigits = 10,
+    maxDispDigits = 9,
     maxInt = 9007199254740991,
     minInt = -9007199254740991,
     menu,
@@ -913,9 +913,16 @@ $(document).ready(function() {
 
     // number of chracters in num
     numLen = num.toString().length;
+    whole = Math.floor(num);
+    wholeLen = whole.toString().length;
 
     if(numLen > maxDispDigits) { //num is too large
-      return num.toExponential(maxDispDigits);
+      // whole number protion is too long then put in exponential form
+      if(wholeLen > maxDispDigits ) {
+        return num.toExponential(maxDispDigits);
+      } else {  // decimals take up too  much room so display in fixed form
+        return num.toFixed(maxDispDigits - wholeLen);
+      }
     }
 
     return num;
