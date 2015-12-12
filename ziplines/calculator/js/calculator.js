@@ -1307,7 +1307,25 @@ $(document).ready(function() {
 
   // return the index of 'E' for a given line number.
   function indexOfE(lineNum) {
-    return screenStack.lineContents[lineNum].indexOf('E');
+    var num,
+        type;
+
+    if(!inputLine) {
+      lineNum = lineNum - 1;
+    }
+    // get info at lineNum
+    num = screenStack.lineContents[lineNum];
+    type = typeof num;
+
+    //  Find the index of E
+    if(Array.isArray(num)) { // if it's an array, join it
+      return num.join('').indexOf('E');
+    } else if(type === 'Number'){ // if it's a number, toString it.
+      return screenStack.lineContents[lineNum].toString().indexOf('E');
+    } else if (type === "String") {  // if it's a string, then just find index
+      return screenStack.lineContents[lineNum].indexOf('E');
+    }
+
   }
 
   // toggles the sign of the scientific notation exponent.
@@ -1321,7 +1339,7 @@ $(document).ready(function() {
     toggleSignAt(lineContent, idxOfE + 1);
 
     return isArray ? lineContent : lineContent.join("");
-}
+  }
 
 
   //toggle sign of active line
