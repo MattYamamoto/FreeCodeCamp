@@ -11,7 +11,8 @@ body {
 }
 
 .container {
-  perspective: 1000px;
+  -webkit-perspective: 1000px;
+          perspective: 1000px;
 }
 
 .right {
@@ -36,6 +37,7 @@ body {
   z-index: 9;
   visibility: hidden;
   opacity: 0;
+  -webkit-transition: all 0.75s ease;
   transition: all 0.75s ease;
 }
 
@@ -52,13 +54,16 @@ body {
   left: 50%;
   z-index: 10;
   opacity: 0;
-  transform: translateY(-30px);
+  -webkit-transform: translateY(-30px);
+          transform: translateY(-30px);
+  -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
 
 #modal.modal-show {
   opacity: 1;
-  transform: translateY(0px);
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
 }
 
 .modal-tab {
@@ -95,7 +100,8 @@ body {
   border-radius: 10px;
   margin: auto;
   overflow: hidden;
-  transform: rotateX(4deg);
+  -webkit-transform: rotateX(4deg);
+          transform: rotateX(4deg);
   box-shadow: 1px 5px 3px 0px hsla(0, 0%, 0%, 1),
               0 0px 2px 2px hsla(0, 0%, 60%, 0.9) inset,
               0 0px 0px 8px hsla(0, 0%, 0%, 1) inset;
@@ -107,7 +113,21 @@ body {
 }
 
 .flash {
-  animation: flash 2s;
+  -webkit-animation: flash 2s;
+          animation: flash 2s;
+}
+
+@-webkit-keyframes flash {
+  0% { }
+  30% {
+    background-color: hsla(60, 100%, 75%, 0.5);
+    box-shadow: 0px 0px 20px 5px hsl(60, 100%, 75%);
+  }
+  70% {
+    background-color: hsl(60, 100%, 75%);
+    box-shadow: 0px 0px 20px 5px hsl(60, 100%, 75%);
+  }
+  100% { background-color: none;}
 }
 
 @keyframes flash {
@@ -117,7 +137,7 @@ body {
     box-shadow: 0px 0px 20px 5px hsl(60, 100%, 75%);
   }
   70% {
-    background-color: hsl(60, 100%, 75%)
+    background-color: hsl(60, 100%, 75%);
     box-shadow: 0px 0px 20px 5px hsl(60, 100%, 75%);
   }
   100% { background-color: none;}
@@ -242,7 +262,13 @@ body {
 
 .cursor {
   //font-size: 0.8em;
-  animation: blinker 1000ms linear infinite;
+  -webkit-animation: blinker 1000ms linear infinite;
+          animation: blinker 1000ms linear infinite;
+}
+@-webkit-keyframes blinker {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
 }
 @keyframes blinker {
   0% { opacity: 1.0; }
@@ -308,18 +334,23 @@ body {
   color: #fff;
   border: 1px solid hsl(200, 5%, 5%);
   border-radius: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   box-shadow: 0px 2px black,
               2px 2px 2px 1px hsla(0, 50%, 0%, 0.8),
               -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset,
               0px 0px 4px 1px hsla(200, 5%, 10%, 0.8) inset,
               0px 0px 0px 3px hsl(200, 5%, 20%) inset;
+  -webkit-transition: hover 100ms ease-out;
   transition: hover 100ms ease-out;
   cursor: pointer;
-  user-select: none;
 }
 
 .key-button:active {
-  transform: translateX(2px);
+  -webkit-transform: translateX(2px);
+          transform: translateX(2px);
   box-shadow: 0px 2px black,
               -1px -1px 1px 0px hsla(0, 50%, 0%, 0.4) inset,
               0px 0px 4px 1px hsla(200, 5%, 10%, 0.8) inset,
