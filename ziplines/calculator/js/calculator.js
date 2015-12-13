@@ -32,31 +32,43 @@ $(document).ready(function() {
       };
 
   keyboardKeyMap = {
-    '0': 'k39',
-    '1': 'k34',
-    '2': 'k35',
-    '3': 'k36',
-    '4': 'k29',
-    '5': 'k30',
-    '6': 'k31',
-    '7': 'k24',
-    '8': 'k25',
-    '9': 'k26',
-    '.': 'k40',
-    'Enter': 'k18',
-    '+': 'k42',
-    '-': 'k37',
-    '*': 'k32',
-    '\/': 'k27',
-    'e': 'k41',
-    'E': 'k41',
-    'Backspace': 'k22',
-    'Delete': 'k21',
-    'ArrowLeft': 'k15',
-    'ArrowRight': 'k17',
-    'ArrowUp': 'k10',
-    'ArrowDown': 'k16',
-    'Escape': 'k38'
+    // number pad 0-9 and '.'
+    '96': 'k39',
+    '97': 'k34',
+    '98': 'k35',
+    '99': 'k36',
+    '100': 'k29',
+    '101': 'k30',
+    '102': 'k31',
+    '103': 'k24',
+    '104': 'k25',
+    '105': 'k26',
+    '110': 'k40',
+    // number keys 0-9 and '.'
+    '48': 'k39',
+    '49': 'k34',
+    '50': 'k35',
+    '51': 'k36',
+    '52': 'k29',
+    '53': 'k30',
+    '54': 'k31',
+    '55': 'k24',
+    '56': 'k25',
+    '57': 'k26',
+    '190': 'k40',
+    '13': 'k18',  // etner key
+    '107': 'k42',  // '+' key
+    '109': 'k37',  // '-' key
+    '106': 'k32',  // '*' key
+    '111': 'k27',  // '/' key
+    '69': 'k41',  // 'e' key
+    '8': 'k22',  // backspace key
+    '46': 'k21',  // delete key
+    '37': 'k15',  // ArrowLeft key
+    '39': 'k17',  // ArrowRight key
+    '38': 'k10',  // ArrowUp key
+    '40': 'k16',  // ArrowDown key
+    '27': 'k38'// Escape key
   };
 
 
@@ -1760,19 +1772,24 @@ $(document).ready(function() {
 
   // physicsal keyboard button bindings
   $('body').keydown(function(e){
-    var key,
+    var keyPressed,
+        calcKey,
         func,
         arg;
+
+    // get key pressed.  Attempt cross browser compatability.
+    keyPressed = e.charCode ? e.charCode : e.keyCode ? e.keyCode : 0;
+
     // check that key is used
-    if(keyboardKeyMap[e.key]) {
+    if(keyboardKeyMap[keyPressed]) {
       e.preventDefault();
 
       //  clear any operation syntax error on screeen.
       clearSyntaxErr();
 
-      key = keyboardKeyMap[e.key];  // get corresponding calc key
-      func = keyMap[key].main.func;  // get calc key function
-      arg = keyMap[key].main.arg;  // get calc key value
+      calcKey = keyboardKeyMap[keyPressed];  // get corresponding calc key
+      func = keyMap[calcKey].main.func;  // get calc key function
+      arg = keyMap[calcKey].main.arg;  // get calc key value
 
       // run calc key function
       callWithArgs(func, arg);
