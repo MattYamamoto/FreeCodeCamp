@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title></title>
 
+    <link rel="stylesheet" href="css/camper_news.css">
+
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -11,21 +13,24 @@
     <script src="//code.angularjs.org/1.4.8/angular.min.js"></script>
     <script src="//code.angularjs.org/1.4.8/angular-resource.min.js"></script>
 
-    <script src="js/app.js"></script>
+    <script src="app.js"></script>
   </head>
   <body ng-app="newsApp">
 
     <div ng-controller="mainController">
+        <user-article ng-repeat="article in hotNews" article="article"></user-article>
       
     </div>
 
   </body>
 
   <!-- Controllers -->
-  <script src="js/controllers.js"></script>
+  <script src="controllers.js"></script>
 
   <!-- Services  -->
-  <script src="js/services.js"></script>
+  <script src="services.js"></script>
 
+  <!-- Directives -->
+  <script src="directives/article.js"></script>
 
 </html>

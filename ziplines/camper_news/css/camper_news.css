@@ -1,0 +1,37 @@
+.article-container {
+  display: inline-block;
+  width: 33.333%;
+  height : 33.333%;
+  padding: 5px;
+}
+
+.article-container:link {
+  font-style: none
+}
+
+.article-card {
+  border: 1px solid black;
+}
+
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  overflow: hidden;
+}
+
+
+.article-image {
+  position: absolute;
+    left: -1000%;
+    right: -1000%;
+    top: -1000%;
+    bottom: -1000%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+}
+
+.author-image {
+  width: 50px;
+}
