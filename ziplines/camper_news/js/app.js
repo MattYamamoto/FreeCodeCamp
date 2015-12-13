@@ -1,1 +1,1 @@
-var news = angular.module('news', ['ngResource']);
+var newsApp = angular.module('newsApp', ['ngResource']);

@@ -1,0 +1,3 @@
+newsApp.controller('mainController', [function() {
+  
+}]);
