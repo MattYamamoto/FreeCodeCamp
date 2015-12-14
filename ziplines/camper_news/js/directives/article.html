@@ -1,13 +1,19 @@
-<div class="article-container">
+<div id="article{{$index}}" class="article-container">
   <a ng-href="{{ article.link }}" target="_blank">
-    <div class="article-card">
-      {{ article.headline }}
-      <div class="image-container">
+    <div class="card">
+      <div class="card-header">
+        {{ article.headline }}
+      </div>
+
+      <div class="card-content">
         <img class="article-image" ng-src="{{ article.image }}" alt="">
       </div>
-      Rank: {{ article.rank }}
-      <br /> Posted by: {{ article.author.username }}
-      <img class="author-image img-circle" ng-src="{{ article.author.picture }}" alt="">
+
+      <div class="card-footer">
+        <img class="author-image img-rounded" ng-src="{{ article.author.picture }}" alt="">
+        <span>{{ article.author.username }}</span>
+        <span>+{{ article.rank }}</span>
+      </div>
     </div>
   </a>
 </div>
