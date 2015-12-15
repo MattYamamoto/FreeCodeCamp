@@ -12,9 +12,13 @@
         </div>
       </div>
       <div class="card-footer">
-        <img class="author-image img-rounded" ng-src="{{ article.author.picture }}" alt="">
-        <span>{{ article.author.username }}</span>
-        <span>+{{ article.rank }}</span>
+        <div class="author">
+          <img class="author-image img-rounded" ng-src="{{ article.author.picture }}" alt="">
+          <span>{{ article.author.username }}</span>
+        </div>
+        <div class="upvotes">
+          <i class="fa fa-heart heart"></i> {{ article.rank }}
+        </div>
       </div>
     </div>
   </a>

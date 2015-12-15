@@ -25,7 +25,9 @@ body {
 }
 
 .card-header {
-  padding: 5px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.2em;
+  padding: 5px 10px;
 }
 
 .card-row {
@@ -53,8 +55,23 @@ body {
 }
 
 .card-footer {
-  padding: 5px;
+  position: relative;
+  overflow: hidden;
+  padding: 5px 10px;
 }
+
+.author {
+  float: left;
+}
+
 .author-image {
   width: 35px;
+}
+
+.upvotes {
+  float: right;
+}
+
+.upvotes .heart {
+  color: red;
 }
