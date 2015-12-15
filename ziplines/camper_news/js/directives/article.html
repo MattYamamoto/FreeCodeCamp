@@ -1,14 +1,16 @@
-<div id="article{{$index}}" class="article-container">
+<div class="card-container">
   <a ng-href="{{ article.link }}" target="_blank">
     <div class="card">
       <div class="card-header">
         {{ article.headline }}
       </div>
-
-      <div class="card-content">
-        <img class="article-image" ng-src="{{ article.image }}" alt="">
+      <div class="card-row">
+        <div class="card-content">
+          <div class="image-container">
+            <img class="article-image" ng-src="{{ article.image }}" alt="">
+          </div>
+        </div>
       </div>
-
       <div class="card-footer">
         <img class="author-image img-rounded" ng-src="{{ article.author.picture }}" alt="">
         <span>{{ article.author.username }}</span>
