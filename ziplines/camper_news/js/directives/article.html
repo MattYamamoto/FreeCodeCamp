@@ -7,7 +7,10 @@
       <div class="card-row">
         <div class="card-content">
           <div class="image-container">
-            <img class="article-image" ng-src="{{ article.image }}" alt="">
+            <img class="article-image"
+              ng-src="{{ article.image !== '' &&
+                article.image ||
+                'https://placeholdit.imgix.net/~text?txtsize=33&txt=&w=280&h=200'  }}" alt="">
           </div>
         </div>
       </div>
