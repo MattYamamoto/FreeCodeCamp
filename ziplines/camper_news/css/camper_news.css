@@ -20,14 +20,18 @@ body {
 .card {
   display: table;
   height: 270px;
-  width: 100%;
+  width: 270px;
   background-color: white;
+
 }
 
 .card-header {
   font-family: 'Open Sans', sans-serif;
   font-size: 1.2em;
+  width: 270px;
   padding: 5px 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-row {
