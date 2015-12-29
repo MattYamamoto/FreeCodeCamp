@@ -54,6 +54,7 @@ newsApp.service('imageService', ['$q', '$http', function($q, $http) {
   // ensure that absolute link is used.  Check 'src' url and format
   // as necessary.
   function formatAbsoluteLink(hostname, src) {
+    console.log(hostname, src,/http/.test(src) );
     if (!/http/.test(src)) { //test if relative link, if so make absolute
       if (/^\//.test(src)) {
         src = 'http://' + hostname + src;
@@ -76,6 +77,8 @@ newsApp.service('imageService', ['$q', '$http', function($q, $http) {
     htmlStr = htmlStr.replace(/<header.*?>[\s\S]*?<\/header>/i, "");
     htmlStr = htmlStr.replace(/<script.*?>[\s\S]*?<\/script>/i, "");
     htmlStr = htmlStr.replace(/<aside.*?>[\s\S]*?<\/aside>/i, "");
+    htmlStr = htmlStr.replace(/<video.*?>[\s\S]*?<\/video>/i, "");
+    htmlStr = htmlStr.replace(/<audio.*?>[\s\S]*?<\/audio>/i, "");
     htmlStr = htmlStr.replace(/<img/g, "<img-tag");
 
     return htmlStr;

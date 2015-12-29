@@ -21,9 +21,9 @@
   </head>
   <body ng-app="newsApp">
 
-    <div ng-controller="mainController">
+    <div class="article-container" ng-controller="mainController">
 
-      <user-Article  ng-repeat="article in hotNews" article="article" image-src="getImageSrc(article)">
+      <user-Article  ng-repeat="article in hotNews | limitTo: 12" article="article" image-src="getImageSrc(article)">
       </user-Article>
 
   </div>

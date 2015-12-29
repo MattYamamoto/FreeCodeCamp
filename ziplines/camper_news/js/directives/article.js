@@ -3,8 +3,7 @@ newsApp.directive('userArticle', ['imageService', function(imageService) {
   return {
     restrict: 'E',
     scope: {
-      article: "=",
-      imageSrc: "&"
+      article: "="
     },
     templateUrl: 'js/directives/article.html',
     replace: true,
